@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="pragma" content="no-cache"> 
+
+    
+	<title></title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	<!-- 
+    <link href="css/sb-admin-2.css" rel="stylesheet"/>
+	-->
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+		
+	<!-- 導航列 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
+
+    <!-- 主內容區域 -->
+    <div class="container-fluid">
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<h2 class="page-header">
+				取消訂單商品列表
+				<a href='Order.html' class='btn btn-success pull-right'><i class='glyphicon glyphicon-chevron-left '></i>返回訂單管理</a>
+				</h2>
+				
+            </div>
+		</div>
+		
+		<div class='row search' >
+			<div class="col-lg-12">
+				<form class='form-inline'>
+					<div class='form-group'>
+						<input type='text' name='GetKey' placeholder='請輸入訂單編號查詢' class='form-control' />
+						<input type='hidden' name='GetType' value='4' />
+					</div>
+					<div class='form-group'>
+						<button class='btn btn-primary'>查詢</button>
+					</div>
+				</form>
+            </div>
+		</div>
+		
+		<hr/>
+		
+        <div class="row">
+		
+            <div class="col-md-12" style='padding:0 30px;'>
+                <table class='slist table table-hover'>
+				
+					<thead>
+						<tr>
+							<th width='50'>序號</th>
+							<th width='150'>單號</th>
+							<th width='250'>下單會員</th>
+							<th width='100'>刪除日期</td>
+							<!-- <th >訂單總和</th>
+							<th width='120'>收款</th>
+							<th width='120'>出貨</th> -->
+							<th width='80'>管理</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr dataID="">
+							<td class='ID'></td>
+							<td class='Serial'></td>
+							<td class='UserName'></td>
+							<td class='DeleteTime'></td>
+							<!-- <td class='TotalPV'></td>
+							<td class='IsPay'></td>
+							<td class='IsShipments'></td>-->
+							<td>
+								<a href='OrderView.html' target="_blank" class='preview btn btn-success'>預覽</a>
+							</td> 
+						</tr>
+					</tbody>
+					
+				</table>
+            </div>
+
+        </div>
+		
+		<div class='row fpage'></div>
+    </div>
+    <!-- /.container -->
+
+    <div class="container-fluid footer"></div>
+	
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		xml.msgBox("資料讀取中....", 'msg');
+		var PageCode = "OrderA";
+		var GetType = 3;
+		var GetKey = "";
+		
+		if(GET!=undefined && GET['GetType']!=undefined && GET['GetType'].trim()!='')
+		{
+			GetType = parseInt(GET['GetType']);
+		}
+		if(GET!=undefined && GET['GetKey']!=undefined && GET['GetKey'].trim()!='')
+		{
+			GetKey = GET['GetKey'];
+			$('input[name=GetKey]','.search').val(GetKey);
+		}
+		
+		$(function(){
+
+			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
+			xml.getOrderAList({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
+			
+			
+			if(xml.calldata!=null && xml.calldata!=undefined)
+			{
+				xml.objToTdList(
+					$('.slist'), // 指定容器
+					xml.calldata, // 載入返回資料
+					// 欄位對應內容
+					{
+						ID:['ID'], 
+						Serial:['Serial'], 
+						UserName:['UserName', 'UserUID'], 
+						DeleteTime:['DeleteTime']
+						//TotalPV:['TotalPV', 'TotalPrice'], 
+						//IsPay:['IsPay'], 
+						//IsShipments:['IsShipments']
+					},
+					"ID", // 主鍵值
+					"<br/>", // 內容分隔符號
+					// 指定欄位 前(before)/後(after)加入字串
+					{
+						'TotalPrice':{after:" TWD"},
+						'TotalPV':{after:" PV"},
+						'UserUID':{before:"會員編號 : "}
+					}
+				);
+				
+				var linkstar = "";
+				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
+				// 翻頁
+				$('.fpage').html(linkstar);
+			}
+			else
+			{
+				$('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
+				return false;
+			}
+			
+			// 預覽
+			$('.preview').each(function(){
+				var ID = $(this).parents('tr').attr('dataID');
+				$(this).attr('href', $(this).attr('href')+'?ID='+ID);
+			});
+
+		});
+		
+	</script>
+	
+	<script src="js/btaction.js"></script>
+	
+	</body>
+	
+</html>

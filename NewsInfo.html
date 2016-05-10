@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="pragma" content="no-cache"> 
+
+    
+	<title></title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+		
+	<!-- 導航列 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
+
+    <!-- 主內容區域 -->
+    <div class="container-fluid">
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<h2 class="page-header">
+				商品列表管理
+				<button class='add btn btn-success pull-right'>新增</button>
+				</h2>
+				
+            </div>
+		</div>
+		
+        <div class="row">
+		
+            <div class="col-md-12">
+                <table class='slist table'>
+				
+					<thead>
+						<tr>
+							<th width='200'>分類</td>
+							<th width='150'>商品代號</td>
+							<th>商品名稱</td>
+							<th width='180'>管理</td>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr dataID="">
+							<td class='ClassName'></td>
+							<td class='Serial'></td>
+							<td class='Name'></td>
+							<td>
+								<button class='edit btn btn-primary'>編輯</button>
+								<button class='del btn btn-danger'>刪除</button>
+							</td>
+						</tr>
+					</tbody>
+					
+				</table>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <div class="container-fluid footer"></div>
+	
+	
+	
+	<div class='container-fluid edBox hidden' style='top:50px;position:absolute;background:#ffffff;width:100%;
+	padding:0 50px 0 50px ;border-radius:10px;'>
+		
+		<div class='row'>
+			<h2 class="page-header" style='border:0;'><span class='actName'></span>商品資料</h2>
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						商品分類
+					</label>
+					<div class="col-sm-10">
+						<select name='ClassID' class='form-control input-lg'></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						購物車商品分類
+					</label>
+					<div class="col-sm-10">
+						<select name='PCarID' class='form-control input-lg'></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						商品代號
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Serial' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						商品名稱
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Name' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						條碼
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Barcode' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						單位
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Unit' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						台幣價格
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='PriceTW' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						人民幣價格
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='PriceCN' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						PV
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='PV' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						商品備註
+					</label>
+					<div class="col-sm-10">
+						<textarea name='Memo' class='form-control input-lg'></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<!-- <label for="inputPassword" class="col-sm-2 control-label">
+						商品備註
+					</label> -->
+					<div class="col-sm-12">
+						<button class='success_send btn btn-success'>確認</button>
+					<button class='cancel_send btn btn-danger'>取消</button>
+					<input type="hidden" name='ID' class='form-control' />
+					</div>
+				</div>
+			</form>
+			
+	</div>
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+	
+		var PageCode = "ProductItem";
+		
+		$(function(){
+			
+			
+			// 商品分類
+			xml.getProductClass({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:nowPage});
+			var productClass = xml.calldata;
+			$("select[name=ClassID]").html(xml.objToOption(productClass, 'ID', 'Name'));
+			delete productClass;
+			
+			// 購物車商品分類
+			xml.getProductCar({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:nowPage});
+			var productCar = xml.calldata;
+			$("select[name=PCarID]").html(xml.objToOption(productCar, 'ID', 'CarName'));
+			delete productCar;
+			
+			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
+			xml.getProductItem({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:showNb, CurPage:nowPage});
+			
+			xml.objToTdList(
+				$('.slist'), // 指定容器
+				xml.calldata, // 返回資料
+				{Name:['Name'], ClassName:['ClassName'], Serial:['Serial']},
+				"ID" // 主鍵值
+			);
+			
+		});
+		
+	</script>
+	
+	<script src="js/btaction.js"></script>
+	
+	</body>
+	
+</html>

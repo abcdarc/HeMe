@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="pragma" content="no-cache"> 
+
+    
+	<title></title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	<!-- 
+    <link href="css/sb-admin-2.css" rel="stylesheet"/>
+	-->
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+		
+	<!-- 導航列 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
+
+    <!-- 主內容區域 -->
+    <div class="container-fluid">
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<h2 class="page-header">　
+				
+				<button href='OrderCancel.html' class='btn btn-danger pull-right' onclick="window.close()" title='關閉'><i class='glyphicon glyphicon-remove '></i></button>
+				</h2>
+				
+            </div>
+		</div>
+		
+		
+        <div class="row">
+		
+            <div class="col-md-12">
+                <table class='oview table'>
+				
+					<tr>
+						<td>銷貨日期</td>
+						<td class='CreateTime'></td>
+						<td>會員編號</td>
+						<td class='UserUID'></td>
+						<td>首購</td>
+						<td class='FirstOrder'></td>
+						<td>單號</td>
+						<td class='Serial'></td>
+					</tr>
+					
+					<tr>
+						<td>地址</td>
+						<td colspan='7'  class='Addr'></td>
+					</tr>
+					
+					<tr>
+						<td>收件人</td>
+						<td colspan='7' class='Addressee'></td>
+					</tr>
+					
+					<tr>
+						<td>備註</td>
+						<td colspan='7' class='Memo'></td>
+					</tr>
+					
+					<tr>
+						<td colspan='8' style='padding:0 0 0 50px;'>
+							<table class='table'>
+								<thead>
+								<tr>
+									<td>序號</td>
+									<td>產品編號</td>
+									<td>產品名稱</td>
+									<td>單價</td>
+									<td>PV</td>
+									<td>數量</td>
+									<td>小計</td>
+									<td>PV小計</td>
+								</tr>
+								</thead>
+								<tbody class='pdlist' >
+									<tr>
+										<td class='SN'></td>
+										<td class='Serial'></td>
+										<td class='ProductName'></td>
+										<td class='Price'></td>
+										<td class='PV'></td>
+										<td class='Qty'></td>
+										<td class='TotalPV'></td>
+										<td class='TotalPrice'></td>
+									</tr>
+								</tbody>
+							</table>
+							
+							<div class='row'>
+								<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
+									<label class="col-sm-12 control-label text-right" style='font-size:22px;padding-top:10px;'>
+										共 <span class='itemNb'></span> 件　
+										總計金額 <span class='TotalPrice'></span> 元　
+										<span class='TotalPV'></span> PV
+									</label>
+								</div>
+								
+								<div class="row col-sm-4 col-sm-offset-8" style='padding-bottom:10px;'>
+									<label class="col-sm-12 control-label text-right" style='font-size:30px;padding-top:25px;'>
+										運費　　<span id='Shipment'>120</span>　　元
+									</label>
+									
+								</div>
+								
+								<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
+									<label class="col-sm-12 control-label text-right text-danger" style='font-size:30px;padding-top:10px;'>
+										應付金額 <span class='allPayPrice'></span> 元
+									</label>
+								</div>
+							</div>
+							
+							<div class='container'>
+							<a class='fileDownload hidden' href='#' target='_blank' style='display:block;width:100%;padding: 10px;margin-top:20px;border:1px solid #efefef;text-align:center;background:#eee;'>下載此頁</a>
+							</div>
+						</td>
+					</tr>
+					
+				</table>
+            </div>
+
+        </div>
+		
+    </div>
+    <!-- /.container -->
+
+    <div class="container-fluid footer"></div>
+	
+
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		xml.msgBox("資料讀取中....", 'msg');
+		var PageCode = "OrderA";
+		
+		var GetType = 0;
+		var GetKey = "";
+		
+		$(function(){
+			
+			
+			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
+			xml.getOrderA({AdminKey:USER.AdminKey, ID:GET['ID']});
+			console.dir(xml.calldata);
+			
+			var aname = {'false':"否", 'true':"是"};
+			
+			var temp = $('.pdlist tr').clone();
+			$('.pdlist').html('');
+			
+			if(xml.calldata!=null && xml.calldata!=undefined)
+			{
+				$('.CreateTime', '.oview').text(xml.calldata.CreateTime);
+				$('.Addr', '.oview').text(xml.calldata.Addr);
+				$('.Addressee', '.oview').text(xml.calldata.Addressee);
+				$('.Memo', '.oview').text(xml.calldata.Memo);
+				$('.Serial', '.oview').text(xml.calldata.Serial);
+				$('.FirstOrder', '.oview').text(aname[xml.calldata.FirstOrder]);
+				$('.UserUID', '.oview').text(xml.calldata.UserUID);
+				$('.TotalPV', '.oview').text(xml.calldata.TotalPV);
+				$('.TotalPrice', '.oview').text(xml.calldata.TotalPrice);
+				$('.allPayPrice', '.oview').text(xml.calldata.TotalPrice+xml.calldata.Shipment);
+				$('.itemNb', '.oview').text(xml.calldata.Items.length);
+				for(var i=0;i<xml.calldata.Items.length;i++)
+				{
+					var list = temp.clone();
+					var dt = xml.calldata.Items[i];
+					$('.SN', list).text(i+1);
+					$('.Serial', list).text(dt.Serial);
+					$('.ProductName', list).text(dt.ProductName);
+					$('.Price', list).text(dt.Price);
+					$('.PV', list).text(dt.PV);
+					$('.Qty', list).text(dt.Qty);
+					$('.TotalPrice', list).text(dt.TotalPrice);
+					$('.TotalPV', list).text(dt.TotalPV);
+					
+					$('.pdlist').append(list);
+				}
+				var sh = '0';
+				if(xml.calldata.Shipment){sh=xml.calldata.Shipment;}
+				$('#Shipment').text(sh);
+				//alert(sh);
+			}
+			else
+			{
+				
+				return false;
+			}
+			
+			
+			// 取出下載位址
+			xml.GetOrderExcel({AdminKey:USER.AdminKey, ID:GET['ID']});
+			var fileurl = xml.calldata;
+			$('.fileDownload').attr('href', fileurl);
+			
+			$('.fileDownload').click(function(){window.close();});
+			
+			if(GET['viewtype']!=1)
+			{
+				$('.fileDownload').removeClass('hidden');
+			}
+
+		});
+		
+	</script>
+	
+	<script src="js/btaction.js"></script>
+	
+	</body>
+	
+</html>

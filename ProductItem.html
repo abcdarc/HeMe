@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="pragma" content="no-cache"> 
+
+    
+	<title></title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+		
+	<!-- 導航列 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
+
+    <!-- 主內容區域 -->
+    <div class="container-fluid">
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<h2 class="page-header">
+				商品列表管理
+				<button class='add btn btn-success pull-right'>新增</button>
+				</h2>
+				
+            </div>
+		</div>
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<form class='form-inline search'>
+					<div class='form-group'>
+						<select name='ClassID' class='ClassID form-control hidden'></select>
+						<input type='text' name='GetKey' placeholder='請輸入訂單編號查詢' class='GetKey form-control hidden' />
+					</div>
+					<div class='form-group'>
+						<select name='GetType' class='form-control'>
+							<option value='0' selected>搜尋分類</option>
+							<option value='1'>搜尋商品代號</option>
+							<option value='2'>搜尋商品名稱</option>
+							<option value='3'>搜尋條碼</option>
+						</select>
+					</div>
+					<div class='form-group'>
+						<button class='btn btn-primary'>查詢</button>
+					</div>
+				</form>
+            </div>
+		</div>
+		
+		<hr />
+		
+        <div class="row">
+		
+            <div class="col-md-12">
+                <table class='slist table table-hover'>
+				
+					<thead>
+						<tr>
+							<th width='200'>分類</th>
+							<th width='150'>商品代號</th>
+							<th>商品名稱</th>
+							<th>價格</th>
+							<th>PV</th>
+							<th>庫存</th>
+							<th width='180'>管理</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr dataID="">
+							<td class='ClassName'></td>
+							<td class='Serial'></td>
+							<td class='Name'></td>
+							<td class='PriceTW'></td>
+							<td class='PV'></td>
+							<td class='StockQty'></td>
+							<td>
+								<button class='edit btn btn-primary'>編輯</button>
+								<button class='del btn btn-danger'>刪除</button>
+							</td>
+						</tr>
+					</tbody>
+					
+				</table>
+            </div>
+
+        </div>
+		
+		<div class='row fpage'></div>
+    </div>
+    <!-- /.container -->
+
+    <div class="container-fluid footer"></div>
+	
+	
+	
+	<div class='container-fluid edBox hidden'>
+		
+		<div class='row'>
+		
+			<h2 class="page-header" style='border:0;'>
+			<span class='actName'></span>商品資料
+			<button class='cancel_send btn btn-danger pull-right' title='取消'><i class='glyphicon glyphicon-chevron-left ' ></i></button>
+			</h2>
+			
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						商品分類
+					</label>
+					<div class="col-sm-10">
+						<select name='ClassID' class='form-control input-lg'></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						購物車商品分類
+					</label>
+					<div class="col-sm-10">
+						<select name='PCarID' class='form-control input-lg'></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						商品代號
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Serial' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						商品名稱
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Name' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						條碼
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Barcode' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						單位
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Unit' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						台幣價格
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='PriceTW' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						人民幣價格
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='PriceCN' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						PV
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='PV' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">
+						商品備註
+					</label>
+					<div class="col-sm-10">
+						<textarea name='Memo' class='form-control input-lg'></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<!-- <label for="inputPassword" class="col-sm-2 control-label">
+						商品備註
+					</label> -->
+					<div class="col-sm-12">
+						<button class='success_send btn btn-success btn-lg'>確認</button>
+						<button class='cancel_send btn btn-danger btn-lg'>取消</button>
+						<input type="hidden" name='ID' class='form-control' />
+					</div>
+				</div>
+			</form>
+			
+	</div>
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		xml.msgBox("資料讀取中....", 'msg');
+		var PageCode = "ProductItem";
+		
+		var GetType = 1;
+		var GetKey = "";
+
+		
+		
+		// 自訂
+		function setDefault()
+		{
+			$('input[name=Serial]').val($("select[name=PCarID]", '.edBox').find(':selected').attr('CODE')+'-');
+		}
+		
+		// 連結新增按鈕 : 被點擊時執行
+		var runAdd = function(){
+			setDefault();
+		};
+		
+		// 變更搜尋類別
+		function changeSearchType(val)
+		{
+			//$('.search')[0].reset();
+			if(val=='0')
+			{
+				$('.search').find('.ClassID').removeClass('hidden');
+				$('.search').find('.GetKey').addClass('hidden').val('');
+			}
+			else
+			{
+				$('.search').find('.ClassID').addClass('hidden');
+				$('.search').find('.GetKey').removeClass('hidden');
+			}
+		}
+		
+		$(function(){
+			
+			// 商品分類
+			xml.getProductClass({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:1});
+			var productClass = xml.calldata;
+			$("select[name=ClassID]", '.edBox').html(xml.objToOption(productClass, 'ID', 'Name'));
+			$("select[name=ClassID]", '.search').html(xml.objToOption(productClass, 'ID', 'Name'));
+			delete productClass;
+			
+			// 購物車商品分類
+			xml.getProductCar({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:1});
+			var productCar = xml.calldata;
+			$("select[name=PCarID]", '.edBox').html(xml.objToOption(productCar, 'ID', 'CarName', {CODE:'CarSerial'}));
+			delete productCar;
+			
+			$("select[name=PCarID]", '.edBox').change(function(){
+				var obj = $(this).find(':selected');
+				$('.edBox').find('input[name=Name]').val(obj.text());
+				$('.edBox').find('input[name=Serial]').val(obj.attr('CODE')+'-');
+			});
+			
+			setDefault();
+			
+			// 判斷搜尋值
+			if(GET!=undefined)
+			{
+				// 返回搜尋值
+				if(GET['GetType']!=undefined && GET['GetType'].trim()!='')
+				{
+					GetType = GET['GetType'];
+				}
+				
+				if(GetType=='0' && GET['ClassID']!=undefined)
+				{
+					GetKey= GET['ClassID'];
+					if(GET!=undefined && GET['GetKey']!=undefined && GET['GetKey'].trim()!=''){$('input[name=GetKey]','.search').val(GET['GetKey']);}
+				}
+				
+				if(GET['GetKey']!=undefined && GET['GetKey'].trim()!='')
+				{
+					GetKey = GET['GetKey'];
+					if(GET!=undefined && GET['GetKey']!=undefined && GET['GetKey'].trim()!=''){$('input[name=GetKey]','.search').val(GetKey);}
+				}
+				
+				$('select[name=GetType]','.search').val(GetType);
+			}
+			
+			if(GET!=undefined && GET['ClassID']!=undefined && GET['ClassID'].trim()!='')
+			{
+				$('select[name=ClassID]','.search').val(GET['ClassID']);
+			}
+			
+			changeSearchType(GetType);
+			
+			$('select[name=GetType]','.search').change(function(){
+				changeSearchType($(this).val());
+			});
+			
+			
+			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
+			xml.getProductItem({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
+			//console.dir({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
+			if(xml.calldata!=null && xml.calldata!=undefined)
+			{
+				xml.objToTdList(
+					$('.slist'), // 指定容器
+					xml.calldata, // 返回資料
+					{Name:['Name'], ClassName:['ClassName'], Serial:['Serial'], PriceTW:['PriceTW','PriceCN'], PV:['PV'], StockQty:['StockQty']},
+					"ID", // 主鍵值
+					"<br/>", // 內容分隔符號
+					// 指定欄位 前(before)/後(after)加入字串
+					{
+						'PriceTW':{before:"台　幣："},
+						'PriceCN':{before:"人民幣："}
+					}
+				);
+				
+				var linkstar = "";
+				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
+				// 翻頁
+				$('.fpage').html(linkstar);
+			}
+			else
+			{
+				$('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
+				return false;
+			}
+			
+		});
+		
+	</script>
+	
+	<script src="js/btaction.js"></script>
+	
+	</body>
+	
+</html>

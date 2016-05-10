@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+	<title>HeMeAdmin Manager</title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+	<style>
+	#box td{padding:5px;margin:10px;}
+	</style>
+	 
+	<div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+				<form id='login'>
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">HeMeAdmin Manager</h3>
+                    </div>
+                    <div class="panel-body">
+						<fieldset id='box'>
+						
+							<div class="form-group">
+								<input class="form-control" placeholder="帳號" name="LoginID" type="text" autofocus>
+							</div>
+							
+							<div class="form-group">
+								<input class="form-control" placeholder="密碼" name="Password" type="password" value="">
+							</div>
+							
+							<input type='submit' class="btn btn-lg btn-success btn-block" value='登入'>
+							
+						</fieldset>
+                    </div>
+                </div>
+				</form>
+            </div>
+        </div>
+    </div>
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		function jsonToString(obj)
+		{
+			// JSON轉字串
+			var strarr = [];
+			for(var key in obj)
+			{
+				strarr.push('"'+key+'":"'+obj[key]+'"');
+			}
+			
+			return '{'+strarr.join(',')+'}';
+		}
+		
+		$(function(){
+		
+			$.removeCookie('user'); // 清除cookie
+			
+			$('#login').submit(function(){
+				var id = $('input[name="LoginID"]','#box').val();
+				var pass = $('input[name="Password"]','#box').val();
+				
+				if(id==undefined || pass==undefined || id.trim()=='' || pass.trim()=='')
+				{
+					alert('帳號密碼不得為空!!!');
+					return false;
+				}
+				
+				xml.login({LoginID:id, Password:pass});
+				return false;
+			});
+
+		});
+		
+	</script>
+	
+	</body>
+	
+</html>
