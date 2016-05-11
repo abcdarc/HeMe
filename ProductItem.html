@@ -301,7 +301,7 @@
 				
 				if(GET['GetKey']!=undefined && GET['GetKey'].trim()!='')
 				{
-					GetKey = GET['GetKey'];
+					GetKey = decodeURI(GET['GetKey']);
 					if(GET!=undefined && GET['GetKey']!=undefined && GET['GetKey'].trim()!=''){$('input[name=GetKey]','.search').val(GetKey);}
 				}
 				
