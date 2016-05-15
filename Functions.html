@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="pragma" content="no-cache"> 
+
+    
+	<title>功能項目管理</title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+		
+	<!-- 導航列 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
+
+    <!-- 主內容區域 -->
+    <div class="container-fluid">
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<h2 class="page-header">
+				功能項目管理
+				<button class='add btn btn-success pull-right'>新增</button>
+				</h2>
+				
+            </div>
+		</div>
+		
+        <div class="row">
+		
+            <div class="col-md-12">
+                <table class='slist table table-hover'>
+				
+					<thead>
+						<tr>
+							<th>分類</th>
+							<th width='300'>功能名稱</th>
+							<th>排序</th>
+							<th width='180'>管理</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr dataID="">
+							<td class='ClassName'></td>
+							<td class='Name'></td>
+							<td class='Orders'></td>
+							<td>
+								<button class='edit btn btn-primary'>編輯</button>
+								<button class='del btn btn-danger'>刪除</button>
+							</td>
+						</tr>
+					</tbody>
+					
+				</table>
+            </div>
+
+        </div>
+		
+		<div class='row fpage'></div>
+    </div>
+    <!-- /.container -->
+
+    <div class="container-fluid footer"></div>
+	
+	
+	
+	<div class='container-fluid edBox hidden'>
+		<div class='row'>
+		
+			<h2 class="page-header" style='border:0;'>
+			<span class='actName'></span>功能項目
+			<button class='cancel_send btn btn-danger pull-right'><i class='glyphicon glyphicon-chevron-left '></i></button>
+			</h2>
+			
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						分類
+					</label>
+					<div class="col-sm-10">
+						<select name='ClassID' class='form-control input-lg'></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						功能項目
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Name' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						URL
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Url' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						排序
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Orders' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button class='success_send btn btn-success btn-lg'>確認</button>
+						<button class='cancel_send btn btn-danger btn-lg'>取消</button>
+						<input type="hidden" name='ID' class='form-control' />
+					</div>
+				</div>
+			</form>
+
+	</div>
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		
+		var PageCode = "Functions";
+		
+		$(function(){
+			//xml.debug = true;//
+			xml.msgBox("資料讀取中....", 'msg');
+			
+			// 功能分類
+			xml.getFunctionClass({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:1});
+			var functionClass = xml.calldata.data.Items;
+			var functionOption = xml.objToOption(functionClass, 'ID', 'Name');
+			$("select[name=ClassID]", '.edBox').html(functionOption);
+			//$("select[name=ClassID]", '.search').html(functionOption);
+			delete functionClass;
+			
+			// PageSize:每頁多少筆 / CurPage:目前第幾頁
+			xml.getFunctions({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
+			
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
+			{
+				xml.objToTdList(
+					$('.slist'), // 指定容器
+					xml.calldata.data.Items, // 返回要產生的資料
+					{ClassName:['ClassName'], Name:['Name'], Orders:['Orders']},
+					"ID" // 主鍵值
+				);
+				
+				var linkstar = "";
+				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
+				// 翻頁
+				$('.fpage').html(linkstar);
+			}
+			else
+			{
+				$('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
+				return false;
+			}
+			
+		});
+		
+	</script>
+	
+	<script src="js/btaction.js"></script>
+	
+	</body>
+	
+</html>
