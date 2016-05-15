@@ -118,11 +118,11 @@
     <script src="js/bootstrap.min.js"></script>
 	
 	<script>
-		xml.msgBox("資料讀取中....", 'msg');
+		
 		var PageCode = "ProductClass";
 		
 		$(function(){
-
+			xml.msgBox("資料讀取中....", 'msg');
 			// PageSize:每頁多少筆 / CurPage:目前第幾頁
 			xml.getProductClass({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
 			
@@ -130,11 +130,11 @@
 			{
 				xml.objToTdList(
 					$('.slist'), // 指定容器
-					xml.calldata, // 返回資料
+					xml.calldata.data.Items, // 返回要產生的資料
 					{Name:['Name'], ModifyTime:['ModifyTime']},
 					"ID" // 主鍵值
 				);
-			
+				
 				var linkstar = "";
 				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
 				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}

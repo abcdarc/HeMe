@@ -1,6 +1,6 @@
 var act="", // 目前執行動作
 	editID="", // 目前編輯ID
-	showNb=10, // 每頁顯示多少筆
+	showNb=2, // 每頁顯示多少筆
 	nowPage = 1; // 目前頁面
 
 var dfKey = {AdminKey:'517613'};

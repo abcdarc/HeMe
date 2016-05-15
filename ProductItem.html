@@ -265,14 +265,14 @@
 			
 			// 商品分類
 			xml.getProductClass({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:1});
-			var productClass = xml.calldata;
+			var productClass = xml.calldata.data.Items;
 			$("select[name=ClassID]", '.edBox').html(xml.objToOption(productClass, 'ID', 'Name'));
 			$("select[name=ClassID]", '.search').html(xml.objToOption(productClass, 'ID', 'Name'));
 			delete productClass;
 			
 			// 購物車商品分類
 			xml.getProductCar({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:1});
-			var productCar = xml.calldata;
+			var productCar = xml.calldata.data.Items;
 			$("select[name=PCarID]", '.edBox').html(xml.objToOption(productCar, 'ID', 'CarName', {CODE:'CarSerial'}));
 			delete productCar;
 			
@@ -323,11 +323,12 @@
 			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
 			xml.getProductItem({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
 			//console.dir({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
-			if(xml.calldata!=null && xml.calldata!=undefined)
+			
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
 			{
 				xml.objToTdList(
 					$('.slist'), // 指定容器
-					xml.calldata, // 返回資料
+					xml.calldata.data.Items, // 返回資料
 					{Name:['Name'], ClassName:['ClassName'], Serial:['Serial'], PriceTW:['PriceTW','PriceCN'], PV:['PV'], StockQty:['StockQty']},
 					"ID", // 主鍵值
 					"<br/>", // 內容分隔符號

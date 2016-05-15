@@ -5,8 +5,6 @@ var lxml = function(setting){
 	
 	var _this = this;
 	
-	//console.log('lxml__');console.dir(_this);
-	
 	// XML開頭
 	var startXml = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body>';
 	
@@ -20,22 +18,58 @@ var lxml = function(setting){
 	}
 	
 	// public Object
-	var robj = {
-		calldata:{},
-		totalPage:1,
+	var _public = {
+		calldata: {}, // 回存資料暫存
+		totalPage: 1, // 清單資料總頁數
+		runAction: "", // 目前執行作業
+		runData: {}, // 目前執行的作業的Data值
+		runXml: "", // 當前執行的 XML內容
+		debug:false,
+		// 要檢查的值
+		checkInfoTable:{
+			runAction:"****目前執行動作", 
+			runData:"****執行動作帶入資料", 
+			runXml:"****執行動作產生的XML", 
+			calldata:"****傳送XML後伺服器回傳的資料"
+		},
+		// 確認執行資訊
+		checkInfo:function(){
+			if(this.debug){ console.log("Run checkInfo");_this.checkInfo(this, this.checkInfoTable); }
+		},
 		// 產生XML
 		actXml:function(act, data){
 			//console.log(startXml+'<'+act+' xmlns="http://admin.canaiyi.com">'+_this.objToElements(data)+'</'+act+'>'+endXml);
 			return startXml+'<'+act+' xmlns="'+_this.ini.web+'">'+_this.objToElements(data)+'</'+act+'>'+endXml;
 		},
-		// 登入使用者
-		login:function(data){
+		// 與伺服器溝通
+		linkServer:function(action, data){
+			this.runAction = action;
+			this.runData = data;
+			this.runXml = this.actXml(this.runAction, data);
 			
 			_this.runAjax(
-				this.actXml('Login', data),
+				this.runXml, 
+				function(e){alert('run');
+					var Serverdata = $.parseJSON($(e).find(this.runAction+'Result').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						if( Serverdata.data.TotalPages!=undefined) _public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}
+					else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 登入使用者
+		login:function(data){
+			this.runAction = "login";
+			this.runData = data;
+			this.runXml = this.actXml('Login', data);
+			_this.runAjax(
+				this.runXml,
 				function(e){
 					var data = $.parseJSON($(e).find('LoginResult').text()).data;
-					
 					var cookData = {};
 					cookData.AdminLv = data.AdminLv;
 					cookData.AdminKey = data.AdminKey;
@@ -51,11 +85,13 @@ var lxml = function(setting){
 		},
 		// 登出使用者
 		logout:function(data){
-			
+			this.runAction = "logout";
+			this.runData = data;
+			this.runXml = this.actXml('Logout', data);
 			_this.runAjax(
-				this.actXml('Logout', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('LogoutResult').text()).data;
+					var Serverdata = $.parseJSON($(e).find('LogoutResult').text());
 					
 					_win.location.href = 'index.html';
 				}
@@ -63,244 +99,263 @@ var lxml = function(setting){
 		},
 		// 取得ServerFunction清單
 		getFunction:function(data){
+			this.runAction = "getFunction";
+			this.runData = data;
+			this.runXml = this.actXml('GetFunctions', data);
 			_this.runAjax(
-				this.actXml('GetFunctions', data),
+				this.runXml,
 				function(e){
 					$('.XmsgBox').addClass('hidden');
-					var data = $.parseJSON($(e).find('GetFunctionsResult').text()).data;
-					robj.calldata = data.FunctionList;
-					//console.dir(data.data.FunctionList);
+					var Serverdata = $.parseJSON($(e).find('GetFunctionsResult').text());
+					_public.calldata = Serverdata;
+					_public.checkInfo();
 				}
 			);
 		},
 		// 取得商品分類清單
 		getProductClass:function(data){
 			
+			this.runAction = "getProductClass";
+			this.runData = data;
+			this.runXml = this.actXml('GetProductClass', data);
 			_this.runAjax(
-				this.actXml('GetProductClass', data),
+				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
-					var data = $.parseJSON($(e).find('GetProductClassResult').text()).data;
-					//console.dir(data);
-					if(data!=null && data!=undefined){
-						robj.totalPage = data.TotalPages;
-						robj.calldata = data.Items;
+					var Serverdata = $.parseJSON($(e).find('GetProductClassResult').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
 					}
-					else{robj.calldata=data;}
+					else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
 				}
 			);
 		},
 		// 取得商品分類清單
 		setProductClass:function(data){
-			
+			this.runAction = "setProductClass";
+			this.runData = data;
+			this.runXml = this.actXml('SetProductClass', data);
 			_this.runAjax(
-				this.actXml('SetProductClass', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('SetProductClassResult').text()).data;
-					//console.dir(data);
-					robj.calldata = data.Items;
-					//_win.location.href = 'ProductClass.html';
-					_win.location.reload();
+					var Serverdata = $.parseJSON($(e).find('SetProductClassResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
 				}
 			);
 		},
 		// 刪除商品分類清單
 		delProductClass:function(data){
-			
+			this.runAction = "delProductClass";
+			this.runData = data;
+			this.runXml = this.actXml('DelProductClass', data);
 			_this.runAjax(
-				this.actXml('DelProductClass', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('DelProductClassResult').text()).data;
-					//console.dir(data);
-					robj.calldata = data.Items;
-					_win.location.reload();
+					var Serverdata = $.parseJSON($(e).find('DelProductClassResult').text());
+					_public.calldata = Serverdata;
+					//_win.location.reload();
+					_public.checkInfo();
 				}
 			);
 		},
 		// 取得商品資料
 		getProductItem:function(data){
-			
+			this.runAction = "getProductItem";
+			this.runData = data;
+			this.runXml = this.actXml('GetProductItem', data);
 			_this.runAjax(
-				this.actXml('GetProductItem', data),
+				this.runXml,
 				function(e){
 					$('.XmsgBox').addClass('hidden');
-					var data = $.parseJSON($(e).find('GetProductItemResult').text()).data;
-					console.log('XDDDDD_');console.dir(data);
+					var Serverdata = $.parseJSON($(e).find('GetProductItemResult').text());
 					
-					if(data!=null && data!=undefined){
-						robj.totalPage = data.TotalPages;
-						robj.calldata = data.Items;
+					if(Serverdata!=null && Serverdata!=undefined && Serverdata.data!=null){
+						_public.totalPage = Serverdata.data.TotalPages;
+						_public.calldata = Serverdata;
 					}
-					else{robj.calldata=data;}
+					else{_public.calldata=Serverdata;}
+					_public.checkInfo();
 				}
 			);
 		},
 		// 設定商品資料
 		setProductItem:function(data){
-			//console.log(this.actXml('SetProductItem', data));return false;
-			
+			this.runAction = "setProductItem";
+			this.runData = data;
+			this.runXml = this.actXml('SetProductItem', data);
+			console.log("Run XML : SetProductItem");console.dir(data);console.log(this.runXml);
 			_this.runAjax(
-				this.actXml('SetProductItem', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('SetProductItemResult').text()).data;
-					//console.dir(data);
-					//console.log(data.msg);
-					//console.dir(data);return false;
-					robj.calldata = data;
-					
-					_win.location.reload();
+					var Serverdata = $.parseJSON($(e).find('SetProductItemResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
 				}
 			);
 		},
 		// 刪除商品資料
 		delProductItem:function(data){
-			
+			this.runAction = "delProductItem";
+			this.runData = data;
+			this.runXml = this.actXml('DelProductItem', data);
 			_this.runAjax(
-				this.actXml('DelProductItem', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('DelProductItemResult').text()).data;
-					//console.dir(data);
-					robj.calldata = data.Items;
+					var Serverdata = $.parseJSON($(e).find('DelProductItemResult').text());
+					_public.calldata = Serverdata.Items;
+					_public.checkInfo();
 					_win.location.reload();
 				}
 			);
 		},
 		// 取得購物車商品分類清單
 		getProductCar:function(data){
-			
+			this.runAction = "getProductCar";
+			this.runData = data;
+			this.runXml = this.actXml('GetProductCar', data);
 			_this.runAjax(
-				this.actXml('GetProductCar', data),
+				this.runXml,
 				function(e){
 					$('.XmsgBox').addClass('hidden');
-					var data = $.parseJSON($(e).find('GetProductCarResult').text()).data;
-					//console.dir(data);
+					var Serverdata = $.parseJSON($(e).find('GetProductCarResult').text());
 					if(data!=null){
-						robj.totalPage = data.TotalPages;
-						robj.calldata = data.Items;
+						_public.totalPage = Serverdata.data.TotalPages;
+						_public.calldata = Serverdata;
 					}
-					else{robj.calldata=data;}
+					else{_public.calldata=Serverdata;}
+					_public.checkInfo();
 				}
 			);
 		},
 		// 設定購物車商品分類清單
 		setProductCar:function(data){
+			this.runAction = "setProductCar";
+			this.runData = data;
+			this.runXml = this.actXml('SetProductCar', data);
 			_this.runAjax(
-				this.actXml('SetProductCar', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('SetProductCarResult').text()).data;
-					//console.dir(data);
-					robj.calldata = data.Items;
-					
-					_win.location.reload();
+					var Serverdata = $.parseJSON($(e).find('SetProductCarResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
 				}
 			);
 		},
 		// 刪除購物車商品分類清單
 		delProductCar:function(data){
-			
+			this.runAction = "delProductCar";
+			this.runData = data;
+			this.runXml = this.actXml('DelProductCar', data);
 			_this.runAjax(
-				this.actXml('DelProductCar', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('DelProductCarResult').text()).data;
-					//console.dir(data);
-					robj.calldata = data.Items;
+					var Serverdata = $.parseJSON($(e).find('DelProductCarResult').text());
+					_public.calldata = Serverdata;
 					_win.location.reload();
+					_public.checkInfo();
 				}
 			);
 		},
 		// 取得訂單清單
 		getOrderAList:function(data){
-			
+			this.runAction = "getOrderAList";
+			this.runData = data;
+			this.runXml = this.actXml('GetOrderAList', data);
 			_this.runAjax(
-				this.actXml('GetOrderAList', data),
+				this.runXml,
 				function(e){
-					//console.log($(e).find('GetOrderAListResult').text());
-					var data = $.parseJSON($(e).find('GetOrderAListResult').text()).data;
-					if(data!=null && data!=undefined)
+					var Serverdata = $.parseJSON($(e).find('GetOrderAListResult').text());
+					if(Serverdata!=null && Serverdata!=undefined)
 					{
-						//console.dir(data);
-						robj.totalPage = data.TotalPages;
-						robj.calldata = data.Items;
+						_public.totalPage = Serverdata.data.TotalPages;
+						_public.calldata = Serverdata;
 					}
 					else
 					{
 						console.log('NO DATA!!');
-						robj.calldata = data;
+						_public.calldata = data;
 					}
 					
 					$('.XmsgBox').addClass('hidden');
+					_public.checkInfo();
 					
 				}
 			);
 		},
 		// 取得訂單資料
 		getOrderA:function(data){
-			
+			this.runAction = "getOrderA";
+			this.runData = data;
+			this.runXml = this.actXml('GetOrderA', data);
 			_this.runAjax(
-				this.actXml('GetOrderA', data),
+				this.runXml,
 				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetOrderAResult').text());
+					_public.calldata = Serverdata;
 					$('.XmsgBox').addClass('hidden');
-					//console.log($(e).find('GetOrderAResult').text());
-					var data = $.parseJSON($(e).find('GetOrderAResult').text()).data;
-					//console.log('getOrderA');console.dir(data);
-					robj.calldata = data;
+					_public.checkInfo();
 				}
 			);
 		},
 		// 設定訂單資料
 		setOrderA:function(data){
-			//console.log('setOrderA');console.dir(data);return false;
+			this.runAction = "setOrderA";
+			this.runData = data;
+			this.runXml = this.actXml('SetOrderA', data);
 			_this.runAjax(
-				this.actXml('SetOrderA', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('SetOrderAResult').text()).data;
-					console.log('setOrderA');console.dir(data);
-					robj.calldata = data;
-					
-					//_win.location.reload();
+					var Serverdata = $.parseJSON($(e).find('SetOrderAResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
 				}
 			);
 		},
 		// 刪除訂單
 		delOrderA:function(data){
-			//console.log('DelOrderA');console.dir(data);return false;
+			this.runAction = "delOrderA";
+			this.runData = data;
+			this.runXml = this.actXml('DelOrderA', data);
 			_this.runAjax(
-				this.actXml('DelOrderA', data),
+				this.runXml,
 				function(e){
-					var data = $.parseJSON($(e).find('DelOrderAResult').text()).data;
-					//console.log('DelOrderA');console.dir(data);return false;
-					robj.calldata = data.Items;
-					
+					var Serverdata = $.parseJSON($(e).find('DelOrderAResult').text());
+					_public.calldata = Serverdata;
+					_public.checkInfo();
 					_win.location.reload();
 				}
 			);
 		},
 		// 取EXCE
 		GetOrderExcel:function(data){
-			//console.log('DelOrderA');console.dir(data);return false;
+			this.runAction = "GetOrderExcel";
+			this.runData = data;
+			this.runXml = this.actXml('GetOrderExcel', data);
 			_this.runAjax(
-				this.actXml('GetOrderExcel', data),
+				this.runXml,
 				function(e){
 					$('.XmsgBox').addClass('hidden');
-					var data = $.parseJSON($(e).find('GetOrderExcelResult').text()).data;
-					//console.log('GetOrderExcel');console.dir(data);return false;
-					robj.calldata = data;
+					var Serverdata = $.parseJSON($(e).find('GetOrderExcelResult').text());
+					_public.calldata = Serverdata;
+					_public.checkInfo();
 				}
 			);
 		},
-		
 		// 上傳圖檔
 		uploadImg:function(data){
-			console.log('UploadImg');
-			console.dir(data);
+			this.runAction = "uploadImg";
+			this.runData = data;
+			this.runXml = this.actXml('UploadImg', data);
 			_this.runAjax(
-				this.actXml('UploadImg', data),
+				this.runXml,
 				function(e){
 					$('.XmsgBox').addClass('hidden');
-					console.log(e);
-					var data = $.parseJSON($(e).find('UploadImgResult').text()).data;
-					//console.log('DDDDDDDDDD_');console.dir(data);
-					robj.calldata = data;
+					var data = $.parseJSON($(e).find('UploadImgResult').text());
+					_public.calldata = data;
+					_public.checkInfo();
 				}
 			);
 		},
@@ -329,11 +384,14 @@ var lxml = function(setting){
 		resetForm:function(obj){
 			_this.resetForm(obj);
 		},
-		// 設定物件模式
+		// 設定物件模式 : 綁定Element動作
+		// : (指定Element, 操作動作:click/change..., 要執行函式:function, 帶入要執行function的值:functionRun)
 		setObjAction: _this.setObjAction,
+		// 檢查資料格式是否是array
 		isArray:function(val){
 			return _this.isArray(val);
 		},
+		// 檢查資料格式是否是object
 		isObject:function(val){
 			return _this.isObject(val);
 		},
@@ -344,21 +402,23 @@ var lxml = function(setting){
 		getWeb:function(){
 			return _this.ini.web;
 		},
+		// 快選模組
 		autoComplete:function(obj, valueKey, keyup, listClick){
 			_this.autoComplete(obj, valueKey, keyup, listClick);
 		},
+		// 訊息視窗模組
 		msgBox:function(msg, type){
 			_this.msgBox(msg, type);
 		}
 	};
 	
-	return robj;
+	return _public;
 	
 };
 
 
 lxml.prototype = {
-	// 訊息視窗
+	// 訊息視窗模組 ---------------------------------------------------------------------------
 	msgBox:function(msg, type){
 		if($('.XmsgBox').length==0)
 		{
@@ -457,7 +517,7 @@ lxml.prototype = {
 			var mobj = $(this);
 			var x = mobj.position().left;
 			var y = mobj.position().top + mobj.outerHeight();
-			//console.dir(mobj.position());
+			console.log("on KeyUP : ");console.dir(data);
 			$(this).next().css({
 				top: y,
 				left: x
@@ -533,6 +593,29 @@ lxml.prototype = {
 		});
 	},
 	// 快搜模組 END --------------------------------------------------------------------------------
+	// 檢查特定欄位
+	checkInfo:function(obj, data)
+	{
+		console.log("\n\n/********************************/");
+		console.log("* Check Info START ************* *");
+		console.log("/********************************/\n\n");
+		var i=1;
+		for(var key in data)
+		{
+			var value = obj[key];
+			var actName = data[key];
+			var title = i+". "+actName+" : \n";
+			if(typeof value=="object")
+			{
+				value = JSON.stringify(value);
+			}
+			console.log(title+value+"\n\n");
+			i++;
+		}
+		console.log("/********************************/");
+		console.log("* Check Info End *****************");
+		console.log("/********************************/\n\n");
+	},
 	// 取得字元類別
 	valType:function(val){
 		var tcode = Object.prototype.toString.call( val );
@@ -581,20 +664,23 @@ lxml.prototype = {
 	},
 	//執行AJAX : (傳輸資料, )
 	runAjax : function(data, sueecss, error){
+		var _this = this;
 		if(data==undefined || data==null){return false;}
 		if(sueecss==undefined || sueecss==null){sueecss=function(e){console.log(e);};}
 		
 		var ajaxDt = {
 			'data':data,
 			'async':false,
-			'error':function(e){console.error('ajax Error.');console.dir(e);},
+			'error':function(e){_this.msgBox(" 伺服器[AJAX]通訊失敗!!!", 'alert');console.error('ajax Error.');console.dir(e);},
 			'success':sueecss
 		};
-		$.extend(ajaxDt, this.ini); // 繼承設定物件
-		//console.dir(this.ini);
-		//console.log('runAjax');console.dir(ajaxDt);
+		
+		$.extend(ajaxDt, _this.ini); // 繼承設定物件
+		//console.dir(_this.ini);console.log('runAjax');console.dir(ajaxDt);
+		
 		
 		$.ajax(ajaxDt); // 執行AJAX
+		
 	},
 	// 傳輸設定物件
 	ini:{
@@ -640,29 +726,38 @@ lxml.prototype = {
 		
 		clist.html('');
 		
+		// 批次產生資料清單
 		$(data).each(function(e){
 			var list = template.clone();
 			
 			//alert(keyID);return false;
 			// 設定主鍵值
 			
-			list.attr('dataID', data[e][keyID]);
+			list.attr('dataID', data[e][keyID]); // 載入清單ID值
 			
-			// 設定清單值
+			// 依 指定清單值 設定資料
 			for(var key in set)
 			{
 				var value = [];
-				var before='', after='';
+				var before='', after='',dataBefore='',dataAfter='';
+				
 				
 				for(var i=0; i<set[key].length; i++)
 				{
 					var keyname = set[key][i];
+					// 如果有設定temp
 					if(temp!=undefined && temp[keyname]!=undefined)
 					{
+						// 放在資料前方的字串
 						before = (temp[keyname].before!=undefined) ? temp[keyname].before : '' ;
+						// 放在資料後方的字串
 						after = (temp[keyname].after!=undefined) ? temp[keyname].after : '' ;
+						// 放在資料前方的資料
+						dataBefore = (temp[keyname].dataBefore!=undefined) ? data[e][temp[keyname].dataBefore]+" " : '' ;
+						// 放在資料後方的資料
+						dataAfter = (temp[keyname].dataAfter!=undefined) ? " "+data[e][temp[keyname].dataAfter] : '' ;
 					}
-					value.push(before+data[e][keyname]+after);
+					value.push(dataBefore+before+data[e][keyname]+after+dataAfter);
 				}
 				list.find('.'+key).html(value.join(link));
 			}
@@ -851,15 +946,17 @@ lxml.prototype = {
 				get.page = page.nowPage-1;
 				linkArr.push("<a href='"+GetToURL(get)+"' ><</a>");
 			}
-			
+			//var startPage = page.nowPage;
 			var startPage = page.nowPage-Math.floor(page.linknb/2);
+			console.log("startPage:"+startPage);
 			// 開始頁數不得小於1
 			if(startPage<=0){startPage=1}
 			//取出連結數 如果是偶數
 			if(page.linknb%2==0){page.linknb = page.linknb-1;}
 			
-			for(var i=startPage; i<=page.linknb; i++)
+			for(var i=startPage; i<startPage+page.linknb; i++)
 			{
+				
 				var obj = {};
 				var hover = "";
 				var selected = "";

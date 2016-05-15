@@ -451,7 +451,7 @@
 		
 			// 取出對應資料-清到指定表單
 			var ID = OrderAID = mobj.attr('dataID');
-			var listData = getOrderA(ID);
+			var listData = getOrderA(ID).data;
 			
 			$('.preview_order',obj).attr('href', $('.preview_order',obj).attr('href')+'?ID='+ID);
 			
@@ -475,6 +475,7 @@
 			if($('input[name=IsShipments]',obj).is(':checked')){$('input[name=IsShipments]',obj).attr('disabled','disabled');}
 			else{$('input[name=IsShipments]',obj).attr('disabled',false);}
 			
+			console.dir(listData);
 			// 載入購買商品清單
 			if(listData!=undefined && listData.Items.length>0)
 			{
@@ -543,7 +544,7 @@
 		// 快選keyup輸入值動作 : 
 		var keyup = function(val){
 			xml.getProductItem({AdminKey:USER.AdminKey, Mode:1, Key:val, PageSize:5, CurPage:1});
-			return xml.calldata;
+			return xml.calldata.data.Items;
 		};
 		
 		// 快選點擊動作
@@ -564,7 +565,6 @@
 		
 		// 設定自動比對選擇商品功能
 		var setSelectProduct = function(){
-			//console.log('setSelectProduct');
 			xml.autoComplete($('input[name=Serial]', itemList), ['Serial','Name'], keyup, listclick);
 		};
 		
@@ -687,11 +687,11 @@
 			
 			console.dir(xml.calldata);
 			
-			if(xml.calldata!=null && xml.calldata!=undefined)
+			if(xml.calldata!=null && xml.calldata.data.Items!=undefined)
 			{
 				xml.objToTdList(
 					$('.slist'), // 指定容器
-					xml.calldata, // 載入返回資料
+					xml.calldata.data.Items, // 載入返回資料
 					// 欄位對應內容
 					{
 						ID:['ID'], 
@@ -703,9 +703,10 @@
 					},
 					"ID", // 主鍵值
 					"<br/>", // 內容分隔符號
-					// 指定欄位 前(before)/後(after)加入字串
+					// 指定欄位 前(before)/後(after)加入字串 
+					// getdataBefore:加入指定資料欄位於前方 / getdataAfter:加入指定資料欄位於後方
 					{
-						'TotalPrice':{after:" TWD"},
+						'TotalPrice':{dataAfter:"Coin"},
 						'TotalPV':{after:" PV"},
 						'UserUID':{before:"會員編號 : "}
 					}

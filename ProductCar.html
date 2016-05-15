@@ -179,19 +179,21 @@
 		$(function(){
 			//console.dir(USER);
 			xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
-			//console.log(xml.calldata);
+			xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
+			console.log(xml.calldata.data.Items);
 			
 			if(xml.calldata!=null && xml.calldata!=undefined)
 			{
 				// 產生表格表單
 				xml.objToTdList(
 					$('.slist'), // 指定容器
-					xml.calldata, // 返回資料
+					xml.calldata.data.Items, // 返回資料
 					{CarName:['CarName'], CarSerial:['CarSerial'], ModifyTime:['ModifyTime'], Memo:['Memo']},
 					"ID" // 主鍵值
 				);
 				
 				var linkstar = "";
+				console.dir({total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
 				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
 				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
 				// 翻頁
