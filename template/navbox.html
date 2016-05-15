@@ -2,7 +2,7 @@
 			
 		<div class="container-fluid" style='height:40px;'>
             
-            <div class="navbar-header" style='padding:5px 0 0 0;'>
+            <div class="navbar-header">
 				<!-- 下拉選單-視窗縮小時取代各頁連結 -->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -15,31 +15,31 @@
             </div>
 			
             <!-- 各頁連結 -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
-                <ul class="nav navbar-nav" style='padding:5px 0 0 0;'>
-                    <li>
-                        <a href="ProductClass.html">商品分類</a>
-                    </li>
-                    <li>
-                        <a href="ProductCar.html">購物車商品分類</a>
-                    </li>
-                    <li>
-                        <a href="ProductItem.html">商品列表</a>
+            <div class="_collapse _navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-top-links">
+                    <li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							商品管理  <small class="glyphicon glyphicon-chevron-down"></small>
+						</a>
+						<ul class="dropdown-menu dropdown-messages">
+							<li><a href="ProductClass.html">商品分類</a></li>
+							<li><a href="ProductCar.html">購物車商品分類</a></li>
+							<li><a href="ProductItem.html">商品列表</a></li>
+						</ul>
                     </li>
                     <li>
                         <a href="Order.html">訂單管理</a>
                     </li>
-                    <li>
-                        <a href="FunctionClass.html">權限管理</a>
-                    </li>
-                    <li>
-                        <a href="Functions.html">功能項目</a>
-                    </li>
-                    <li>
-                        <a href="Group.html">群組管理</a>
-                    </li>
-                    <li>
-                        <a href="AdminUser.html">管理員管理</a>
+                    <li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							權限管理  <small class="glyphicon glyphicon-chevron-down"></small>
+						</a>
+						<ul class="dropdown-menu dropdown-messages">
+							<li><a href="FunctionClass.html">功能分類管理</a></li>
+							<li><a href="Functions.html">功能項目管理</a></li>
+							<li><a href="Group.html">管理員群組管理</a></li>
+							<li><a href="AdminUser.html">管理員管理</a></li>
+						</ul>
                     </li>
                 </ul>
 				
