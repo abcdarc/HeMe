@@ -138,11 +138,11 @@
 			xml.getOrderAList({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
 			
 			
-			if(xml.calldata!=null && xml.calldata!=undefined)
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
 			{
 				xml.objToTdList(
 					$('.slist'), // 指定容器
-					xml.calldata, // 載入返回資料
+					xml.calldata.data.Items, // 載入返回資料
 					// 欄位對應內容
 					{
 						ID:['ID'], 

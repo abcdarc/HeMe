@@ -182,7 +182,7 @@
 			xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
 			console.log(xml.calldata.data.Items);
 			
-			if(xml.calldata!=null && xml.calldata!=undefined)
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
 			{
 				// 產生表格表單
 				xml.objToTdList(

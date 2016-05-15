@@ -5,6 +5,8 @@ $(function(){
 	// 新增
 	$('.add').click(function(){
 		
+		$(window).scrollTop(0); // 捲到最上方
+		
 		if(typeof runAdd!='undefined')
 		{
 			runAdd();
@@ -19,6 +21,8 @@ $(function(){
 	
 	// 編輯
 	$('.edit', '.slist').click(function(){
+		
+		$(window).scrollTop(0); // 捲到最上方
 		
 		// 編輯前執行
 		if(typeof runEdit!='undefined')
@@ -68,7 +72,7 @@ $(function(){
 			act= 'del';
 			editID = mobj.attr('dataID');
 			xml['del'+PageCode]({AdminKey:USER.AdminKey, ID:editID});
-			//location.reload();
+			location.reload();
 			return false;
 		}else return false;
 	});
@@ -92,9 +96,13 @@ $(function(){
 				console.log("Is Run runSuccessSend.");
 				if(data.error){alert(data.error);return false;}
 			}
+			console.dir(data);
 			
-			var fs = data.fs;
-			delete data.fs;
+			if(data.fs!=undefined)
+			{
+				var fs = data.fs;
+				delete data.fs;
+			}
 			
 			//$(".edBox form")[0].reset();
 			//console.log('set'+PageCode);
@@ -102,8 +110,8 @@ $(function(){
 			//console.log(xml.actXml('SetProductItem', data));return false;
 			//console.dir(data);console.dir(fs);return false;
 			//xml.setProductCar(data);
+			//console.log("Is Run XML Action : "+'set'+PageCode);return false;
 			xml['set'+PageCode](data); // 執行確認
-			console.log("Is Run XML Action : "+'set'+PageCode);
 			
 			// 結束執行後觸發
 			if(typeof endSuccessSend!='undefined')
@@ -117,7 +125,7 @@ $(function(){
 			}
 			
 			// 接收模組回傳資料
-			console.log("執行:"+PageCode);console.log("返回結果 :");console.dir(xml.calldata); 
+			//console.log("執行:"+PageCode);console.log("返回結果 :");console.dir(xml.calldata); 
 			if(xml.calldata.code==1 && xml.calldata.data==0 && xml.calldata.msg=="SUCCESS"){location.reload();}
 			if(xml.calldata.code<1 && xml.calldata.data==0 ){xml.msgBox(xml.calldata.msg,'alert');return false;}
 			
@@ -130,8 +138,6 @@ $(function(){
 	
 	// 取消
 	$('.cancel_send').click(function(){
-		
-		
 		
 		// 編輯後執行
 		if(typeof runCancel!='undefined')

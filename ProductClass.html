@@ -126,7 +126,7 @@
 			// PageSize:每頁多少筆 / CurPage:目前第幾頁
 			xml.getProductClass({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
 			
-			if(xml.calldata!=null && xml.calldata!=undefined)
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
 			{
 				xml.objToTdList(
 					$('.slist'), // 指定容器

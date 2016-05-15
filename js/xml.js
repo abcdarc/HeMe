@@ -35,6 +35,7 @@ var lxml = function(setting){
 		// 確認執行資訊
 		checkInfo:function(){
 			if(this.debug){ console.log("Run checkInfo");_this.checkInfo(this, this.checkInfoTable); }
+			return false;
 		},
 		// 產生XML
 		actXml:function(act, data){
@@ -45,13 +46,13 @@ var lxml = function(setting){
 		linkServer:function(action, data){
 			this.runAction = action;
 			this.runData = data;
-			this.runXml = this.actXml(this.runAction, data);
+			this.runXml = this.actXml(action, data);
 			
 			_this.runAjax(
 				this.runXml, 
 				function(e){alert('run');
-					var Serverdata = $.parseJSON($(e).find(this.runAction+'Result').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					var Serverdata = $.parseJSON($(e).find(action+'Result').text());
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						if( Serverdata.data.TotalPages!=undefined) _public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}
@@ -97,9 +98,58 @@ var lxml = function(setting){
 				}
 			);
 		},
-		// 取得ServerFunction清單
-		getFunction:function(data){
-			this.runAction = "getFunction";
+		// 取得功能分類清單
+		getFunctionClass:function(data){
+			this.runAction = "GetFunctionClass";
+			this.runData = data;
+			this.runXml = this.actXml('GetFunctionClass', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					$('.XmsgBox').addClass('hidden');
+					var Serverdata = $.parseJSON($(e).find('GetFunctionClassResult').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 設定功能分類清單
+		setFunctionClass:function(data){
+			var act = this.runAction = "SetFunctionClass";
+			this.runData = data;
+			this.runXml = this.actXml(act, data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find(act+'Result').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 刪除功能分類清單
+		delFunctionClass:function(data){
+			this.runAction = "DelFunctionClass";
+			this.runData = data;
+			this.runXml = this.actXml('DelFunctionClass', data);
+			_public.checkInfo();return false;
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('DelFunctionClassResult').text());
+					_public.calldata = Serverdata;
+					_win.location.reload();
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取得功能項目清單
+		getFunctions:function(data){
+			this.runAction = "GetFunctions";
 			this.runData = data;
 			this.runXml = this.actXml('GetFunctions', data);
 			_this.runAjax(
@@ -107,7 +157,158 @@ var lxml = function(setting){
 				function(e){
 					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetFunctionsResult').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 設定功能項目清單
+		setFunctions:function(data){
+			var act = this.runAction = "SetFunctions";
+			this.runData = data;
+			this.runXml = this.actXml("SetFunctions", data);
+			_public.checkInfo();
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetFunctionsResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 刪除功能項目
+		delFunctions:function(data){
+			var act = this.runAction = "DelFunctions";
+			this.runData = data;
+			this.runXml = this.actXml("DelFunctions", data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('DelFunctionsResult').text());
 					_public.calldata = Serverdata;
+					_win.location.reload();
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取得使用者群組清單
+		getGroupList:function(data){
+			this.runAction = "GetGroupList";
+			this.runData = data;
+			this.runXml = this.actXml('GetGroupList', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					$('.XmsgBox').addClass('hidden');
+					var Serverdata = $.parseJSON($(e).find('GetGroupListResult').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 取得使用者群組資料 : 單筆
+		getGroup:function(data){
+			this.runAction = "GetGroup";
+			this.runData = data;
+			this.runXml = this.actXml('GetGroup', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					$('.XmsgBox').addClass('hidden');
+					var Serverdata = $.parseJSON($(e).find('GetGroupResult').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 設定使用者群組清單
+		setGroup:function(data){
+			var act = this.runAction = "SetGroup";
+			this.runData = data;
+			this.runXml = this.actXml(act, data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find(act+'Result').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 刪除使用者群組清單
+		delGroup:function(data){
+			this.runAction = "DelGroup";
+			this.runData = data;
+			this.runXml = this.actXml('DelGroup', data);
+			//_public.checkInfo();return false;
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('DelGroupResult').text());
+					_public.calldata = Serverdata;
+					//_win.location.reload();
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取得管理人員清單
+		getAdminUser:function(data){
+			this.runAction = "GetAdminUser";
+			this.runData = data;
+			this.runXml = this.actXml('GetAdminUser', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					$('.XmsgBox').addClass('hidden');
+					var Serverdata = $.parseJSON($(e).find('GetAdminUserResult').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 取得管理人員
+		setAdminUser:function(data){
+			this.runAction = "SetAdminUser";
+			this.runData = data;
+			this.runXml = this.actXml("SetAdminUser", data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetAdminUserResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 刪除管理人員
+		delAdminUser:function(data){
+			this.runAction = "DelAdminUser";
+			this.runData = data;
+			this.runXml = this.actXml('DelAdminUser', data);
+			_public.checkInfo();return false;
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('DelAdminUserResult').text());
+					_public.calldata = Serverdata;
+					_win.location.reload();
 					_public.checkInfo();
 				}
 			);
@@ -125,8 +326,7 @@ var lxml = function(setting){
 					if(Serverdata!=null && Serverdata!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
-					}
-					else{_public.calldata=Serverdata;}
+					}else{_public.calldata=Serverdata;}
 					_public.checkInfo();
 					$('.XmsgBox').addClass('hidden');
 				}
@@ -156,7 +356,7 @@ var lxml = function(setting){
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('DelProductClassResult').text());
 					_public.calldata = Serverdata;
-					//_win.location.reload();
+					_win.location.reload();
 					_public.checkInfo();
 				}
 			);
