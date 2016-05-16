@@ -455,7 +455,7 @@
 			
 			$('.preview_order',obj).attr('href', $('.preview_order',obj).attr('href')+'?ID='+ID);
 			
-			console.log('editClick');console.dir(listData);
+			//console.log('editClick');console.dir(listData);
 			xml.setFormValue(obj, listData);
 			
 			for(var key in listData)
@@ -475,7 +475,7 @@
 			if($('input[name=IsShipments]',obj).is(':checked')){$('input[name=IsShipments]',obj).attr('disabled','disabled');}
 			else{$('input[name=IsShipments]',obj).attr('disabled',false);}
 			
-			console.dir(listData);
+			//console.dir(listData);
 			// 載入購買商品清單
 			if(listData!=undefined && listData.Items.length>0)
 			{
@@ -570,7 +570,7 @@
 		
 		var setProductListVal = function(obj,data){
 			// ProductName Price PV StockQty
-			console.dir(data);
+			//console.dir(data);
 			obj.find('input[name=OrderAID]').val(OrderAID);
 			obj.find('input[name=ProductName]').val(data.Name);
 			obj.find('.ProductName span:eq(0)').text(data.Name);
@@ -685,7 +685,7 @@
 			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
 			xml.getOrderAList({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
 			
-			console.dir(xml.calldata);
+			//console.dir(xml.calldata);
 			
 			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
 			{

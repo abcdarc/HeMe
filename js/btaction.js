@@ -41,7 +41,7 @@ $(function(){
 			var index = $('.slist tbody tr').index(mobj);
 			var listData = xml.calldata.data.Items[index];
 			
-			xml.setFormValue(obj, listData);
+			xml.setFormValue(obj, listData); // 設定表單資料
 			
 			//console.log('ChangeID : '+mobj.attr('dataID'));
 			
@@ -70,7 +70,7 @@ $(function(){
 		if(confirm('是否要刪除該筆資料!!'))
 		{
 			act= 'del';
-			editID = mobj.attr('dataID');
+			editID = mobj.attr('dataID');console.log('del'+PageCode);
 			xml['del'+PageCode]({AdminKey:USER.AdminKey, ID:editID});
 			location.reload();
 			return false;
@@ -92,11 +92,11 @@ $(function(){
 			// 開始執行前觸發
 			if(typeof runSuccessSend!='undefined')
 			{
-				data = runSuccessSend(data);//return false;
-				console.log("Is Run runSuccessSend.");
+				data = runSuccessSend(data);
+				//console.log("Is Run runSuccessSend.");
 				if(data.error){alert(data.error);return false;}
 			}
-			console.dir(data);
+			//console.dir(data);
 			
 			if(data.fs!=undefined)
 			{

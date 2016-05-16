@@ -106,7 +106,6 @@ var lxml = function(setting){
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetFunctionClassResult').text());
 					if(Serverdata!=null && Serverdata!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
@@ -119,13 +118,13 @@ var lxml = function(setting){
 		},
 		// 設定功能分類清單
 		setFunctionClass:function(data){
-			var act = this.runAction = "SetFunctionClass";
+			this.runAction = "SetFunctionClass";
 			this.runData = data;
-			this.runXml = this.actXml(act, data);
+			this.runXml = this.actXml("SetFunctionClass", data);
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					var Serverdata = $.parseJSON($(e).find(act+'Result').text());
+					var Serverdata = $.parseJSON($(e).find('SetFunctionClassResult').text());
 					_public.calldata = Serverdata; // 回傳資料
 					_public.checkInfo();
 				}
@@ -136,7 +135,7 @@ var lxml = function(setting){
 			this.runAction = "DelFunctionClass";
 			this.runData = data;
 			this.runXml = this.actXml('DelFunctionClass', data);
-			_public.checkInfo();return false;
+			//_public.checkInfo();return false;
 			_this.runAjax(
 				this.runXml,
 				function(e){
@@ -155,7 +154,6 @@ var lxml = function(setting){
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetFunctionsResult').text());
 					if(Serverdata!=null && Serverdata!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
@@ -204,7 +202,6 @@ var lxml = function(setting){
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetGroupListResult').text());
 					if(Serverdata!=null && Serverdata!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
@@ -223,7 +220,6 @@ var lxml = function(setting){
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetGroupResult').text());
 					if(Serverdata!=null && Serverdata!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
@@ -272,7 +268,6 @@ var lxml = function(setting){
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetAdminUserResult').text());
 					if(Serverdata!=null && Serverdata!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
@@ -302,13 +297,61 @@ var lxml = function(setting){
 			this.runAction = "DelAdminUser";
 			this.runData = data;
 			this.runXml = this.actXml('DelAdminUser', data);
-			_public.checkInfo();return false;
+			//_public.checkInfo();return false;
 			_this.runAjax(
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('DelAdminUserResult').text());
 					_public.calldata = Serverdata;
 					_win.location.reload();
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取得公告
+		getNewsInfo:function(data){
+			this.runAction = "GetNewsInfo";
+			this.runData = data;
+			this.runXml = this.actXml('GetNewsInfo', data);
+			console.dir(this.runXml);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetNewsInfoResult').text());
+					if(Serverdata!=null && Serverdata!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 設定公告
+		setNewsInfo:function(data){
+			this.runAction = "SetNewsInfo";
+			this.runData = data;
+			this.runXml = this.actXml("SetNewsInfo", data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetNewsInfoResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 刪除公告
+		delNewsInfo:function(data){
+			this.runAction = "DelNewsInfo";
+			this.runData = data;
+			this.runXml = this.actXml('DelNewsInfo', data);
+			//_public.checkInfo();return false;
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('DelNewsInfoResult').text());
+					_public.calldata = Serverdata;
 					_public.checkInfo();
 				}
 			);
@@ -369,7 +412,6 @@ var lxml = function(setting){
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetProductItemResult').text());
 					
 					if(Serverdata!=null && Serverdata!=undefined && Serverdata.data!=null){
@@ -378,6 +420,7 @@ var lxml = function(setting){
 					}
 					else{_public.calldata=Serverdata;}
 					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
 				}
 			);
 		},
@@ -419,7 +462,6 @@ var lxml = function(setting){
 			_this.runAjax(
 				this.runXml,
 				function(e){
-					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetProductCarResult').text());
 					if(data!=null){
 						_public.totalPage = Serverdata.data.TotalPages;
@@ -427,6 +469,7 @@ var lxml = function(setting){
 					}
 					else{_public.calldata=Serverdata;}
 					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
 				}
 			);
 		},
@@ -479,8 +522,8 @@ var lxml = function(setting){
 						_public.calldata = data;
 					}
 					
-					$('.XmsgBox').addClass('hidden');
 					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
 					
 				}
 			);
@@ -1004,14 +1047,16 @@ lxml.prototype = {
 		_obj.find('input,textarea,select').each(function(e){
 			
 			//if($(this).attr['name']!=undefined && $(this).attr['name']!=''){
-			
+				var name = $(this).attr('name');console.log("Set Form Name : "+name+"/ This Value:"+$(this).val());
 				if($(this).attr('type')!='checkbox' && $(this).attr('type')!='radio')
 				{
-					$(this).val(_data[$(this).attr('name')]);
+					$(this).val(_data[name]);
 				}else{
-					if(_data[$(this).attr('name')]==$(this).val())
+					// 如果值為boolean時轉成字串 再做判斷
+					if(typeof _data[name]=="boolean"){_data[name] = _data[name].toString();}
+					if(_data[name]==$(this).val())
 					{
-						$(this).attr('checked', 'checked');
+						$(this).prop('checked', 'checked');
 					}
 				}
 			//}
@@ -1148,7 +1193,7 @@ lxml.prototype = {
 			}
 			//var startPage = page.nowPage;
 			var startPage = page.nowPage-Math.floor(page.linknb/2);
-			console.log("startPage:"+startPage);
+			//console.log("startPage:"+startPage);
 			// 開始頁數不得小於1
 			if(startPage<=0){startPage=1}
 			//取出連結數 如果是偶數

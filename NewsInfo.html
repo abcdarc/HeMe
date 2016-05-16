@@ -11,7 +11,7 @@
 	<meta http-equiv="pragma" content="no-cache"> 
 
     
-	<title></title>
+	<title>公告管理</title>
 	
 	<link href='css/bootstrap.css' rel="stylesheet"/>
     <link href="css/shop-item.css" rel="stylesheet"/>
@@ -36,7 +36,7 @@
 		<div class='row'>
 			<div class="col-lg-12">
 				<h2 class="page-header">
-				商品列表管理
+				公告管理
 				<button class='add btn btn-success pull-right'>新增</button>
 				</h2>
 				
@@ -50,18 +50,16 @@
 				
 					<thead>
 						<tr>
-							<th width='200'>分類</td>
-							<th width='150'>商品代號</td>
-							<th>商品名稱</td>
+							<th>公告訊息</td>
+							<th width='150'>最後編輯日期</td>
 							<th width='180'>管理</td>
 						</tr>
 					</thead>
 					
 					<tbody>
 						<tr dataID="">
-							<td class='ClassName'></td>
-							<td class='Serial'></td>
-							<td class='Name'></td>
+							<td class='Msg'></td>
+							<td class='NewsDate'></td>
 							<td>
 								<button class='edit btn btn-primary'>編輯</button>
 								<button class='del btn btn-danger'>刪除</button>
@@ -73,7 +71,8 @@
             </div>
 
         </div>
-
+		
+		<div class='row fpage'></div>
     </div>
     <!-- /.container -->
 
@@ -85,78 +84,11 @@
 	padding:0 50px 0 50px ;border-radius:10px;'>
 		
 		<div class='row'>
-			<h2 class="page-header" style='border:0;'><span class='actName'></span>商品資料</h2>
+			<h2 class="page-header" style='border:0;'><span class='actName'></span>公告資料</h2>
 			<form class="form-horizontal" role="form">
 				<div class="form-group">
-					<label class="col-sm-2 control-label">
-						商品分類
-					</label>
-					<div class="col-sm-10">
-						<select name='ClassID' class='form-control input-lg'></select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						購物車商品分類
-					</label>
-					<div class="col-sm-10">
-						<select name='PCarID' class='form-control input-lg'></select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						商品代號
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='Serial' class='form-control input-lg' />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						商品名稱
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='Name' class='form-control input-lg' />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						條碼
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='Barcode' class='form-control input-lg' />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						單位
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='Unit' class='form-control input-lg' />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						台幣價格
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='PriceTW' class='form-control input-lg' />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						人民幣價格
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='PriceCN' class='form-control input-lg' />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword" class="col-sm-2 control-label">
-						PV
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='PV' class='form-control input-lg' />
+					<div class="col-md-offset-2 col-sm-10">
+						<label><input type="checkbox" name='isShowTop' value="true"  no-checked='false' /> 公告置頂</label>
 					</div>
 				</div>
 				<div class="form-group">
@@ -164,7 +96,7 @@
 						商品備註
 					</label>
 					<div class="col-sm-10">
-						<textarea name='Memo' class='form-control input-lg'></textarea>
+						<textarea name='Msg' rows="10" class='form-control input-lg'></textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -192,33 +124,33 @@
 	
 	<script>
 	
-		var PageCode = "ProductItem";
+		var PageCode = "NewsInfo";
 		
 		$(function(){
 			
-			
-			// 商品分類
-			xml.getProductClass({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:nowPage});
-			var productClass = xml.calldata;
-			$("select[name=ClassID]").html(xml.objToOption(productClass, 'ID', 'Name'));
-			delete productClass;
-			
-			// 購物車商品分類
-			xml.getProductCar({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:1000, CurPage:nowPage});
-			var productCar = xml.calldata;
-			$("select[name=PCarID]").html(xml.objToOption(productCar, 'ID', 'CarName'));
-			delete productCar;
-			
 			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
-			xml.getProductItem({AdminKey:USER.AdminKey, Mode:1, Key:'', PageSize:showNb, CurPage:nowPage});
+			xml.getNewsInfo({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
 			
-			xml.objToTdList(
-				$('.slist'), // 指定容器
-				xml.calldata, // 返回資料
-				{Name:['Name'], ClassName:['ClassName'], Serial:['Serial']},
-				"ID" // 主鍵值
-			);
-			
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
+			{
+				xml.objToTdList(
+					$('.slist'), // 指定容器
+					xml.calldata.data.Items, // 返回資料
+					{Msg:['Msg'], NewsDate:['NewsDate']},
+					"ID" // 主鍵值
+				);
+				
+				var linkstar = "";
+				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
+				// 翻頁
+				$('.fpage').html(linkstar);
+			}
+			else
+			{
+				$('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
+				return false;
+			}
 		});
 		
 	</script>

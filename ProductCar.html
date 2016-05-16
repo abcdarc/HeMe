@@ -180,7 +180,7 @@
 			//console.dir(USER);
 			xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
 			xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
-			console.log(xml.calldata.data.Items);
+			//console.log(xml.calldata.data.Items);
 			
 			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
 			{
@@ -193,7 +193,7 @@
 				);
 				
 				var linkstar = "";
-				console.dir({total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				//console.dir({total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
 				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
 				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
 				// 翻頁
