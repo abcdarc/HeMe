@@ -70,7 +70,9 @@
 					
 					<tr>
 						<td>收件人</td>
-						<td colspan='7' class='Addressee'></td>
+						<td colspan='3' class='Addressee'></td>
+						<td>電話</td>
+						<td colspan='3' class='Tel'></td>
 					</tr>
 					
 					<tr>
@@ -181,6 +183,7 @@
 				$('.CreateTime', '.oview').text(xml.calldata.data.CreateTime);
 				$('.Addr', '.oview').text(xml.calldata.data.Addr);
 				$('.Addressee', '.oview').text(xml.calldata.data.Addressee);
+				$('.Tel', '.oview').text(xml.calldata.data.Tel);
 				$('.Memo', '.oview').text(xml.calldata.data.Memo);
 				$('.Serial', '.oview').text(xml.calldata.data.Serial);
 				$('.FirstOrder', '.oview').text(aname[xml.calldata.data.FirstOrder]);

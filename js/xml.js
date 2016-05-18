@@ -736,7 +736,7 @@ lxml.prototype = {
 		
 		// 設定body點擊 : 取消選取時
 		$('body').unbind('click').bind('click', function(){
-			console.log('click');
+			//console.log('click');
 			// 值為空
 			if(_this.autoCompleteNeedClick)
 			{
@@ -1051,7 +1051,7 @@ lxml.prototype = {
 		_obj.find('input,textarea,select').each(function(e){
 			
 			//if($(this).attr['name']!=undefined && $(this).attr['name']!=''){
-				var name = $(this).attr('name');console.log("Set Form Name : "+name+"/ This Value:"+$(this).val());
+				var name = $(this).attr('name');//console.log("Set Form Name : "+name+"/ This Value:"+$(this).val());
 				if($(this).attr('type')!='checkbox' && $(this).attr('type')!='radio')
 				{
 					$(this).val(_data[name]);
