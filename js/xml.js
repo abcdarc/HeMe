@@ -960,10 +960,14 @@ lxml.prototype = {
 	getContentType:function(type){
 		return this.contentTypeList[type]+'; charset=utf-8';
 	},
+	changeCode:function(str, code, changeValue){
+		return str.replace(code, changeValue);
+	},
 	// 資料到表單
 	dataToTdList:function(obj, data, set, keyID, link, temp){
 		var clist = obj.find('tbody');
 		var template = clist.find('tr').clone();
+		var _this = this;
 		
 		if(link==undefined || link.trim()==''){link = ' / ';}
 		
@@ -1002,7 +1006,7 @@ lxml.prototype = {
 					}
 					value.push(dataBefore+before+data[e][keyname]+after+dataAfter);
 				}
-				list.find('.'+key).html(value.join(link));
+				list.find('.'+key).html(_this.changeCode(value.join(link), /\n/ig, "<br/>"));
 			}
 			clist.append(list);
 		});

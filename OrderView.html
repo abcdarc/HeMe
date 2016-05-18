@@ -176,23 +176,23 @@
 			var temp = $('.pdlist tr').clone();
 			$('.pdlist').html('');
 			
-			if(xml.calldata!=null && xml.calldata!=undefined)
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
 			{
-				$('.CreateTime', '.oview').text(xml.calldata.CreateTime);
-				$('.Addr', '.oview').text(xml.calldata.Addr);
-				$('.Addressee', '.oview').text(xml.calldata.Addressee);
-				$('.Memo', '.oview').text(xml.calldata.Memo);
-				$('.Serial', '.oview').text(xml.calldata.Serial);
-				$('.FirstOrder', '.oview').text(aname[xml.calldata.FirstOrder]);
-				$('.UserUID', '.oview').text(xml.calldata.UserUID);
-				$('.TotalPV', '.oview').text(xml.calldata.TotalPV);
-				$('.TotalPrice', '.oview').text(xml.calldata.TotalPrice);
-				$('.allPayPrice', '.oview').text(xml.calldata.TotalPrice+xml.calldata.Shipment);
-				$('.itemNb', '.oview').text(xml.calldata.Items.length);
-				for(var i=0;i<xml.calldata.Items.length;i++)
+				$('.CreateTime', '.oview').text(xml.calldata.data.CreateTime);
+				$('.Addr', '.oview').text(xml.calldata.data.Addr);
+				$('.Addressee', '.oview').text(xml.calldata.data.Addressee);
+				$('.Memo', '.oview').text(xml.calldata.data.Memo);
+				$('.Serial', '.oview').text(xml.calldata.data.Serial);
+				$('.FirstOrder', '.oview').text(aname[xml.calldata.data.FirstOrder]);
+				$('.UserUID', '.oview').text(xml.calldata.data.UserUID);
+				$('.TotalPV', '.oview').text(xml.calldata.data.TotalPV);
+				$('.TotalPrice', '.oview').text(xml.calldata.data.TotalPrice);
+				$('.allPayPrice', '.oview').text(xml.calldata.data.TotalPrice+xml.calldata.data.Shipment);
+				$('.itemNb', '.oview').text(xml.calldata.data.Items.length);
+				for(var i=0;i<xml.calldata.data.Items.length;i++)
 				{
 					var list = temp.clone();
-					var dt = xml.calldata.Items[i];
+					var dt = xml.calldata.data.Items[i];
 					$('.SN', list).text(i+1);
 					$('.Serial', list).text(dt.Serial);
 					$('.ProductName', list).text(dt.ProductName);
@@ -205,7 +205,7 @@
 					$('.pdlist').append(list);
 				}
 				var sh = '0';
-				if(xml.calldata.Shipment){sh=xml.calldata.Shipment;}
+				if(xml.calldata.data.Shipment){sh=xml.calldata.Shipment;}
 				$('#Shipment').text(sh);
 				//alert(sh);
 			}
@@ -218,7 +218,8 @@
 			
 			// 取出下載位址
 			xml.GetOrderExcel({AdminKey:USER.AdminKey, ID:GET['ID']});
-			var fileurl = xml.calldata;
+			var fileurl = xml.calldata.data;
+			
 			$('.fileDownload').attr('href', fileurl);
 			
 			$('.fileDownload').click(function(){window.close();});
