@@ -465,7 +465,8 @@
 			var ID = OrderAID = mobj.attr('dataID');
 			var listData = getOrderA(ID).data;
 			
-			$('.preview_order',obj).attr('href', $('.preview_order',obj).attr('href')+'?ID='+ID);
+			var url = $('.preview_order',obj).attr('href').split("?");
+			$('.preview_order',obj).attr('href', url[0]+'?ID='+ID);
 			
 			//console.log('editClick');console.dir(listData);
 			xml.setFormValue(obj, listData);
