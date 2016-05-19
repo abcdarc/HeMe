@@ -126,7 +126,7 @@ $(function(){
 	Url = window.location.href.split('/');
 	if($.inArray(Url[Url.length-1], TotalLink)<0)
 	{
-		location.href = "NewsInfo.html";
+		location.href = "index.html";
 		return false;
 	}
 	
