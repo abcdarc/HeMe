@@ -6,6 +6,9 @@ var act="", // 目前執行動作
 var dfKey = {AdminKey:'517613'};
 var GET = {};
 var USER = {};
+var TotalLink = [];
+var TopToolBar = {};
+var Url = [];
 
 // 隱藏編輯物件
 function objHide(obj)
@@ -49,7 +52,7 @@ function jsonToString(obj)
 {
 	// JSON轉字串
 	var strarr = [];
-	
+	/*
 	if(xml.isArray(obj))
 	{
 		for(var i=0; i<obj.length; i++)
@@ -63,10 +66,19 @@ function jsonToString(obj)
 	{
 		for(var key in obj)
 		{
-			strarr.push('"'+key+'":"'+obj[key]+'"');
+			if(typeof obj[key]!="object")
+			{
+				strarr.push('"'+key+'":"'+obj[key]+'"');
+			}
+			else
+			{
+				strarr.push('"'+key+'":"'+jsonToString(obj[key])+'"');
+			}
+			
 		}
 		return '{'+strarr.join(',')+'}';
-	}
+	}*/
+	return JSON.stringify(obj);
 	
 	
 }
@@ -99,6 +111,69 @@ $(function(){
 	
 	// 登入檢查
 	if(USER==undefined || USER.AdminKey=='' || USER.AdminKey==undefined){ location.href="index.html"; return false;}
+	
+	// 上方工具列資料
+	if($.cookie('toolbar')!=undefined)
+	{
+		var data = $.parseJSON($.cookie('toolbar'));
+		TotalLink = data.allLink;
+		TopToolBar = data.classLink;
+	}
+	else{TopToolBar=undefined;}
+	
+	
+	// 檢查是否有權限進入該頁面
+	Url = window.location.href.split('/');
+	if($.inArray(Url[Url.length-1], TotalLink)<0)
+	{
+		location.href = "NewsInfo.html";
+		return false;
+	}
+	
+	// 產生上方工具列
+	window.setTimeout(function(){
+		
+		var Toollists = $(".listLink", "#TopToolbar").clone(); // 多筆用
+		var Toollist = $(".oneLink", "#TopToolbar").clone(); // 單筆用
+		$("#TopToolbar").html('');// 清空上方工具列
+		
+		for(var key in TopToolBar)
+		{
+			var obj = TopToolBar[key];
+			
+			if(obj.links.length===1)
+			{
+				var newLink = Toollist.clone();
+				if(obj.links[0].Url!="logout.html")
+				{
+					newLink.find('a').text(obj.links[0].Name).prop("href", obj.links[0].Url);
+					$("#TopToolbar").append(newLink);
+				}
+			}
+			else
+			{
+				console.dir(obj);
+				var newLink = Toollists.clone();
+				var slist = newLink.find('.slist li:eq(0)').clone();
+				newLink.find('.slist').html('');
+				newLink.find('.className').text(obj.ClassName);
+				for(var skey in obj.links)
+				{	
+					var newSlist = slist.clone();
+					newSlist.find('a').text(obj.links[skey].Name).prop("href", obj.links[skey].Url);
+					newLink.find('.slist').append(newSlist);
+				}
+				$("#TopToolbar").append(newLink);
+				
+			}
+		}
+		
+	},100);
+	
+	
+	
+	
+	
 	
 	dfKey.AdminKey = USER.AdminKey;
 	

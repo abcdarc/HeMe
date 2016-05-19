@@ -67,6 +67,7 @@ var lxml = function(setting){
 			this.runAction = "login";
 			this.runData = data;
 			this.runXml = this.actXml('Login', data);
+			
 			_this.runAjax(
 				this.runXml,
 				function(e){
@@ -80,7 +81,40 @@ var lxml = function(setting){
 					
 					$.cookie('user', jsonToString(cookData));
 					
+					// 產生選單 cookie
+					_public.getLoginFunctions({AdminKey:data.AdminKey});
+					
 					_win.location.href = 'NewsInfo.html';
+				}
+			);
+		},
+		// 取登入可用連結
+		getLoginFunctions :function(data){
+			this.runAction = "GetLoginFunctions";
+			this.runData = data;
+			this.runXml = this.actXml('GetLoginFunctions', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var data = $.parseJSON($(e).find('GetLoginFunctionsResult').text()).data.Items;
+					var toolbarData = {};
+					toolbarData.classLink = {}; // 分類連結物件
+					toolbarData.allLink = []; // 全部可用連結
+					for(var list in data)
+					{
+						var obj = data[list];
+						toolbarData.allLink.push(obj.Url);
+						if(toolbarData.classLink["Class"+obj.ClassID]==undefined)
+						{
+							toolbarData.classLink["Class"+obj.ClassID] = {};
+							toolbarData.classLink["Class"+obj.ClassID].ClassName = obj.ClassName;
+							toolbarData.classLink["Class"+obj.ClassID].ClassID = obj.ClassID;
+							toolbarData.classLink["Class"+obj.ClassID].links = [];
+						}
+						toolbarData.classLink["Class"+obj.ClassID].links.push({ID:obj.ID, Name:obj.Name, Orders:obj.Orders, Url:obj.Url});
+					}
+					$.cookie('toolbar', jsonToString(toolbarData));
+					
 				}
 			);
 		},
@@ -1284,8 +1318,6 @@ var xml = new lxml({
 	type:'post',
 	contentType:'xml'
 });
-
-
 
 
 

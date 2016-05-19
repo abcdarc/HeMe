@@ -69,19 +69,13 @@
 	<script>
 		function jsonToString(obj)
 		{
-			// JSON轉字串
-			var strarr = [];
-			for(var key in obj)
-			{
-				strarr.push('"'+key+'":"'+obj[key]+'"');
-			}
-			
-			return '{'+strarr.join(',')+'}';
+			return JSON.stringify(obj);
 		}
 		
 		$(function(){
 		
 			$.removeCookie('user'); // 清除cookie
+			$.removeCookie('toolbar'); // 清除cookie
 			
 			$('#login').submit(function(){
 				var id = $('input[name="LoginID"]','#box').val();
