@@ -124,7 +124,7 @@ $(function(){
 	
 	// 檢查是否有權限進入該頁面
 	Url = window.location.href.split('/');
-	var tryUrl = Url[Url.length-1].sqlit("?");
+	var tryUrl = Url[Url.length-1].split("?");
 	if($.inArray(tryUrl[0], TotalLink)<0)
 	{
 		location.href = "index.html";
