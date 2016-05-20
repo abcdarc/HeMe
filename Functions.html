@@ -51,8 +51,9 @@
 					<thead>
 						<tr>
 							<th>分類</th>
-							<th>排序</th>
 							<th width='300'>功能名稱</th>
+							<th>排序</th>
+							<th>LV</th>
 							<th width='180'>管理</th>
 						</tr>
 					</thead>
@@ -60,8 +61,9 @@
 					<tbody>
 						<tr dataID="">
 							<td class='ClassName'></td>
-							<td class='Orders'></td>
 							<td class='Name'></td>
+							<td class='Orders'></td>
+							<td class='Lv'></td>
 							<td>
 								<button class='edit btn btn-primary'>編輯</button>
 								<button class='del btn btn-danger'>刪除</button>
@@ -167,7 +169,7 @@
 				xml.objToTdList(
 					$('.slist'), // 指定容器
 					xml.calldata.data.Items, // 返回要產生的資料
-					{ClassName:['ClassName'], Name:['Name'], Orders:['Orders']},
+					{ClassName:['ClassName'], Name:['Name'], Orders:['Orders'], Lv:['Lv']},
 					"ID" // 主鍵值
 				);
 				

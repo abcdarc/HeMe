@@ -55,7 +55,8 @@
 					<thead>
 						<tr>
 							<th width='300'>名稱</th>
-							<th>建立時間</th>
+							<th>LV</th>
+							<th>修改時間</th>
 							<th width='180'>管理</th>
 						</tr>
 					</thead>
@@ -63,6 +64,7 @@
 					<tbody>
 						<tr dataID="">
 							<td class='Name'></td>
+							<td class='Lv'></td>
 							<td class='ModifyTime'></td>
 							<td>
 								<button class='edit btn btn-primary'>編輯</button>
@@ -95,7 +97,7 @@
 			<form class="form-horizontal" role="form">
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
-						群組
+						名稱
 					</label>
 					<div class="col-sm-10">
 						<input type="text" name='Name' class='form-control input-lg' />
@@ -274,7 +276,7 @@
 				xml.objToTdList(
 					$('.slist'), // 指定容器
 					xml.calldata.data.Items, // 返回要產生的資料
-					{Name:['Name'], ModifyTime:['ModifyTime']},
+					{Name:['Name'], ModifyTime:['ModifyTime'], Lv:['Lv']},
 					"ID" // 主鍵值
 				);
 				

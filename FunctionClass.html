@@ -51,7 +51,8 @@
 					<thead>
 						<tr>
 							<th width='300'>名稱</th>
-							<th>建立時間</th>
+							<th>排序</th>
+							<th>修改時間</th>
 							<th width='180'>管理</th>
 						</tr>
 					</thead>
@@ -59,6 +60,7 @@
 					<tbody>
 						<tr dataID="">
 							<td class='Name'></td>
+							<td class='Orders'></td>
 							<td class='ModifyTime'></td>
 							<td>
 								<button class='edit btn btn-primary'>編輯</button>
@@ -141,7 +143,7 @@
 				xml.objToTdList(
 					$('.slist'), // 指定容器
 					xml.calldata.data.Items, // 返回要產生的資料
-					{Name:['Name'], ModifyTime:['ModifyTime']},
+					{Name:['Name'], ModifyTime:['ModifyTime'], Orders:['Orders']},
 					"ID" // 主鍵值
 				);
 				

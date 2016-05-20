@@ -111,7 +111,10 @@ var lxml = function(setting){
 							toolbarData.classLink["Class"+obj.ClassID].ClassID = obj.ClassID;
 							toolbarData.classLink["Class"+obj.ClassID].links = [];
 						}
-						toolbarData.classLink["Class"+obj.ClassID].links.push({ID:obj.ID, Name:obj.Name, Orders:obj.Orders, Url:obj.Url});
+						if(obj.Lv!=0)
+						{
+							toolbarData.classLink["Class"+obj.ClassID].links.push({ID:obj.ID, Name:obj.Name, Orders:obj.Orders, Url:obj.Url})
+						};
 					}
 					$.cookie('toolbar', jsonToString(toolbarData));
 					
