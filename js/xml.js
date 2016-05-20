@@ -144,7 +144,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetFunctionClassResult').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}else{_public.calldata=Serverdata;}
@@ -192,7 +192,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetFunctionsResult').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}else{_public.calldata=Serverdata;}
@@ -240,7 +240,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetGroupListResult').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}else{_public.calldata=Serverdata;}
@@ -258,7 +258,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetGroupResult').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}else{_public.calldata=Serverdata;}
@@ -306,7 +306,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetAdminUserResult').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}else{_public.calldata=Serverdata;}
@@ -355,7 +355,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetNewsInfoResult').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}else{_public.calldata=Serverdata;}
@@ -403,7 +403,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetProductClassResult').text());
-					if(Serverdata!=null && Serverdata!=undefined){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
 						_public.calldata = Serverdata;
 					}else{_public.calldata=Serverdata;}
@@ -451,7 +451,7 @@ var lxml = function(setting){
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetProductItemResult').text());
 					
-					if(Serverdata!=null && Serverdata!=undefined && Serverdata.data!=null){
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
 						_public.totalPage = Serverdata.data.TotalPages;
 						_public.calldata = Serverdata;
 					}
@@ -500,7 +500,8 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetProductCarResult').text());
-					if(data!=null){
+					if(Serverdata.data!=null && Serverdata.data!=undefined)
+					{
 						_public.totalPage = Serverdata.data.TotalPages;
 						_public.calldata = Serverdata;
 					}
@@ -548,7 +549,7 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetOrderAListResult').text());
-					if(Serverdata!=null && Serverdata!=undefined)
+					if(Serverdata.data!=null && Serverdata.data!=undefined)
 					{
 						_public.totalPage = Serverdata.data.TotalPages;
 						_public.calldata = Serverdata;
