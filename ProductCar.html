@@ -166,7 +166,7 @@
 		
 		var endEdit = function(obj, mobj){
 			var index = $('.slist tbody tr').index(mobj);
-			var listData = xml.calldata[index];
+			var listData = xml.calldata.data.Items[index];
 			var web = xml.getWeb();
 			$('.pic2_img').attr('src', web+listData.pic2);
 			$('.pic1_img').attr('src', web+listData.pic1);
@@ -179,7 +179,7 @@
 		$(function(){
 			//console.dir(USER);
 			xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
-			xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
+			//xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
 			//console.log(xml.calldata.data.Items);
 			
 			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
