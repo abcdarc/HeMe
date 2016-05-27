@@ -162,4 +162,30 @@ $(function(){
 		return false;
 	});
 	
+	// 檢查有無退貨單按鈕
+	if($('.backOrder').length>0)
+	{
+		//console.log('設定退貨單按鈕...');
+		$('.backOrder').click(function(){
+			//alert('run');
+			var mobj = $(this).parents('.slist');
+			var index = mobj.find('tbody tr').index($(this).parents('tr'));
+			
+			if(confirm("是否進行退貨!!!"))
+			{
+				console.log('退貨');
+				var getData = xml.calldata.data.Items[index];
+				console.dir(getData);
+				xml.getOrderA({AdminKey:USER.AdminKey, ID:getData.ID});
+				console.dir(xml.calldata);
+			}
+			
+			
+			
+			return false;
+		});
+	
+	}
+	
+	
 });

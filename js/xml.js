@@ -610,6 +610,25 @@ var lxml = function(setting){
 				}
 			);
 		},
+		// 取得退貨清單
+		getOrderBackList:function(data){
+			this.runAction = "GetOrderBackList";
+			this.runData = data;
+			this.runXml = this.actXml('GetOrderBackList', data);
+			console.dir(this.runXml);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetOrderBackListResult').text());
+					if(Serverdata.data!=null && Serverdata.data!=undefined){
+						_public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+						_public.calldata = Serverdata;
+					}else{_public.calldata=Serverdata;}
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
 		// 取EXCE
 		GetOrderExcel:function(data){
 			this.runAction = "GetOrderExcel";
