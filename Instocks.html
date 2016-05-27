@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="pragma" content="no-cache"> 
+
+    
+	<title>退貨管理</title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+		
+	<!-- 導航列 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
+
+    <!-- 主內容區域 -->
+    <div class="container-fluid">
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<h2 class="page-header">
+				退貨管理
+				<button class='add btn btn-success pull-right'>新增</button>
+				</h2>
+				
+            </div>
+		</div>
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<form class='form-inline search'>
+					<div class='form-group'>
+						<input type='text' name='GetKey' placeholder='請輸入查詢內容' class='GetKey form-control hidden' />
+					</div>
+					<div class='form-group'>
+						<select name='GetType' class='form-control'>
+							<option value='0' selected>全部列表</option>
+							<option value='1'>搜尋退貨單編號</option>
+							<option value='2'>搜尋會員編號</option>
+							<option value='3'>取消退貨單列表</option>
+							<option value='4'>搜尋取消退貨單編號</option>
+						</select>
+					</div>
+					<div class='form-group'>
+						<button class='btn btn-primary'>查詢</button>
+					</div>
+				</form>
+            </div>
+		</div>
+		
+		<hr />
+		
+        <div class="row">
+		
+            <div class="col-md-12">
+                <table class='slist table table-hover'>
+				
+					<thead>
+						<tr>
+							<th width='300'>名稱</th>
+							<th>建立時間</th>
+							<th width='180'>管理</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr dataID="">
+							<td class='Name'></td>
+							<td class='ModifyTime'></td>
+							<td>
+								<button class='edit btn btn-primary'>編輯</button>
+								<button class='del btn btn-danger'>刪除</button>
+							</td>
+						</tr>
+					</tbody>
+					
+				</table>
+            </div>
+
+        </div>
+		
+		<div class='row fpage'></div>
+    </div>
+    <!-- /.container -->
+
+    <div class="container-fluid footer"></div>
+	
+	
+	
+	<div class='container-fluid edBox hidden'>
+		<div class='row'>
+		
+			<h2 class="page-header" style='border:0;'>
+			<span class='actName'></span>退貨
+			<button class='cancel_send btn btn-danger pull-right'><i class='glyphicon glyphicon-chevron-left '></i></button>
+			</h2>
+			
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						退貨
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='Name' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button class='success_send btn btn-success btn-lg'>確認</button>
+						<button class='cancel_send btn btn-danger btn-lg'>取消</button>
+						<input type="hidden" name='ID' class='form-control' />
+					</div>
+				</div>
+			</form>
+
+	</div>
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		
+		var PageCode = "OrderBackList";
+		
+		// 搜尋值
+		var GetType = 0;
+		var GetKey = "";
+		
+		
+		// 變更搜尋類別
+		function changeSearchType(val)
+		{
+			if(val=='0' || val=='3')
+			{
+				$('.search').find('.GetKey').addClass('hidden').val('');
+			}
+			else
+			{
+				$('.search').find('.GetKey').removeClass('hidden');
+			}
+		}
+		
+		$(function(){
+			xml.debug = true;
+			xml.msgBox("資料讀取中....", 'msg');
+			
+			// 判斷搜尋值
+			if(GET!=undefined)
+			{
+				// 返回搜尋值
+				if(GET['GetType']!=undefined && GET['GetType'].trim()!='')
+				{
+					GetType = GET['GetType'];
+				}
+				
+				// 返回搜尋值
+				if(GET['GetKey']!=undefined && GET['GetKey'].trim()!='')
+				{
+					GetType = GET['GetKey'];
+				}
+				
+			}
+			
+			changeSearchType(GetType); // 變更搜尋類別
+			$('select[name=GetType]','.search').change(function(){
+				changeSearchType($(this).val());
+			});
+			
+			// PageSize:每頁多少筆 / CurPage:目前第幾頁
+			xml.getOrderBackList({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
+			
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
+			{
+				xml.objToTdList(
+					$('.slist'), // 指定容器
+					xml.calldata.data.Items, // 返回要產生的資料
+					{Name:['Name'], ModifyTime:['ModifyTime']},
+					"ID" // 主鍵值
+				);
+				
+				var linkstar = "";
+				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
+				// 翻頁
+				$('.fpage').html(linkstar);
+			}
+			else
+			{
+				$('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
+				return false;
+			}
+			
+		});
+		
+	</script>
+	
+	<script src="js/btaction.js"></script>
+	
+	</body>
+	
+</html>
