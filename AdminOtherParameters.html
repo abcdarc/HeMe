@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="pragma" content="no-cache"> 
+
+    
+	<title>獎金參數設定</title>
+	
+	<link href='css/bootstrap.css' rel="stylesheet"/>
+    <link href="css/shop-item.css" rel="stylesheet"/>
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	</head>
+	
+	<body>
+		
+	<!-- 導航列 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
+
+    <!-- 主內容區域 -->
+    <div class="container-fluid">
+		
+		<div class='row'>
+			<div class="col-lg-12">
+				<h2 class="page-header">
+				獎金參數設定
+				<!-- <button class='add btn btn-success pull-right'>新增</button> -->
+				</h2>
+				
+            </div>
+		</div>
+		
+		<div class="row">
+		
+            <div class="col-md-12">
+                <table class='slist table table-hover'>
+				
+					<thead>
+						<tr>
+							<th width='100'>會員編號</th>
+							<th>姓名</th>
+							<th width='150'>暱稱</th>
+							<th width='100'>左線PV</th>
+							<th width='100'>右線PV</th>
+							<th width='100'>原本等級</th>
+							<th width='100'>適合等級</th>
+							<th width='180'>審核升聘</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr dataID="">
+							<td class='UID'></td>
+							<td class='UserName'></td>
+							<td class='UserNickName'></td>
+							<td class='LPV'></td>
+							<td class='RPV'></td>
+							<td class='Lv'></td>
+							<td class='NextLv'></td>
+							<td>
+								<button class='edit btn btn-primary'>編輯</button>
+								<button class='del btn btn-danger'>刪除</button>
+								<button class='pass btn btn-danger'>通過</button>
+							</td>
+						</tr>
+					</tbody>
+					
+				</table>
+            </div>
+
+        </div>
+		
+		<div class='row fpage'></div>
+    </div> 
+	
+    <!-- /.container -->
+
+    <div class="container-fluid footer"></div>
+	
+
+	<div class='container-fluid edBox'>
+		<div class='row'>
+		
+			<h2 class="page-header" style='border:0;'>
+			<span class='actName'></span>其它參數設定
+			<!-- <button class='cancel_send btn btn-danger pull-right'><i class='glyphicon glyphicon-chevron-left '></i></button> -->
+			</h2>
+			
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<div class="col-sm-12" style='background:#efefef;padding:10px;font-size:20px;'>PV匯率設定</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						PV兌TWD
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='CarName' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						PV兌CNY
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='CarName' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12" style='background:#efefef;padding:10px;font-size:20px;'>雜項設定</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						月結總PV
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='CarName' class='form-control input-lg' />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+						資訊處理費(%)
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name='CarName' class='form-control input-lg' />
+					</div>
+					<div class="col-sm-12" style='color:#f00;font-weight:bold;padding:5px;text-align:center;'>超過設定的月結總PV頻支付資訊處理費用。</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button class='success_send btn btn-success btn-lg'>參數提交</button>
+						<!-- <button class='cancel_send btn btn-danger btn-lg'>取消</button>
+						<input type="hidden" name='ID' class='form-control' /> -->
+					</div>
+				</div>
+			</form>
+			
+		</div>
+	</div>
+	
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/xml.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		xml.msgBox("資料讀取中....", 'msg');
+		var PageCode = "ProductCar";
+		var SelectDate = "2016-05-20";
+		
+		var endEdit = function(obj, mobj){
+			var index = $('.slist tbody tr').index(mobj);
+			var listData = xml.calldata.data.Items[index];
+			var web = xml.getWeb();
+			$('.pic2_img').attr('src', web+listData.pic2);
+			$('.pic1_img').attr('src', web+listData.pic1);
+		};
+		
+		var runCancel = function(){
+			$('.pic2_img,.pic1_img').attr('src','');
+		};
+		
+		$(function(){
+			//console.dir(USER);
+			xml.getUserLvUpgrade({AdminKey:USER.AdminKey, SelectDate:SelectDate});
+			//xml.getProductCar({AdminKey:USER.AdminKey, PageSize:showNb, CurPage:nowPage});
+			console.log(xml.calldata);
+			
+			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
+			{
+				// 產生表格表單
+				xml.objToTdList(
+					$('.slist'), // 指定容器
+					xml.calldata.data.pv, // 返回資料
+					{UID:['UID'], UserName:['UserName'], UserNickName:['UserNickName'], RPV:['RPV'], LPV:['LPV'], Lv:['Lv'], NextLv:['NextLv']},
+					"UserKey" // 主鍵值
+				);
+				
+				var linkstar = "";
+				//console.dir({total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
+				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
+				// 翻頁
+				$('.fpage').html(linkstar);
+			}
+			else
+			{
+				$('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
+				return false;
+			}
+			
+			// 上傳欄位變更執行作業
+			var setFileBt = function (obj, run)
+			{
+				var mobj = obj.parents('div').eq(0);
+				var index = $('.file').index(obj);
+				var data = xml.uploadFile(obj, ['jpg'])[0];
+				//console.dir(data);
+				// 建立檔案讀取物件
+				var reader = new FileReader();
+				// 當讀取檔案
+				reader.addEventListener(
+					"load", 
+					function(e){
+						var url = reader.result;
+						// 顯示圖片
+						mobj.find('.img').attr('src', url).removeClass('hide');
+						
+						//var bytes = [];
+						//for (var i = 0; i < url.length; ++i)
+						//{
+						//	bytes.push(url.charCodeAt(i));
+						//	bytes.push(0);
+						//}
+						
+						// 上傳圖檔
+						xml.uploadImg({fs:url});
+						//console.log('DDDD^^^^');console.dir(xml.calldata);
+						//console.log('DG_'+xml.calldata.Path);return false;
+						mobj.find('input[name^=pic]').val(xml.calldata.Path);
+						//alert(mobj.find('.pic').val());
+					}, 
+					false
+				);
+				
+				// 轉換為網頁傳輸格式
+				if (data.file)
+				{
+					reader.readAsDataURL(data.file);
+					//reader.readAsArrayBuffer(data.file);
+				}
+			}
+			
+			// 設定上傳欄位變更動作 : (物件, 執行動作, 執行作業)
+			//xml.setObjAction($('.file'), 'change', setFileBt);
+			
+			$('.pass', '.slist tbody').click(function(){
+				var index = $('.pass').index($(this));
+				//console.dir(xml.calldata);
+				var data = xml.calldata.data.pv[index];
+				if(confirm("是否確認審核!!"))
+				{
+					//alert($(this).parents('tr').attr('dataID'));
+					console.dir({AdminKey:USER.AdminKey,UserKey: $(this).parents('tr').attr('dataID'), Lv:data.NextLv});
+					//xml.setUserLv({AdminKey:USER.AdminKey,UserKey: $(this).parents('tr').attr('dataID'), Lv:data.NextLv});
+					console.dir(xml.calldata);
+					//location.reload();
+				}
+			});
+			
+			/* 另一種寫法
+			$('.file').change(function(){
+				var mobj = $(this).parents('td');
+				var index = $('.file').index($(this));
+				
+				// 多檔案是 xml.uploadFile($(this), ['jpg'])
+				var data = xml.uploadFile($(this), ['jpg'])[0];
+				
+				mobj.find('.pic').val(data.name);
+				mobj.find('.fs').val(data.result);
+			});
+			*/
+			
+			
+		});
+		
+	</script>
+	
+	<script src="js/btaction.js"></script>
+	
+	</body>
+	
+</html>
