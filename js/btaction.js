@@ -40,7 +40,7 @@ $(function(){
 			// 取出對應資料-清到指定表單
 			var index = $('.slist tbody tr').index(mobj);
 			var listData = xml.calldata.data.Items[index];
-			
+			//console.dir(xml.calldata);
 			xml.setFormValue(obj, listData); // 設定表單資料
 			
 			//console.log('ChangeID : '+mobj.attr('dataID'));
@@ -81,7 +81,7 @@ $(function(){
 	$('.success_send').click(function(){
 		
 		//objHide($('.edBox'));
-		if(act=='edit' || act=='add')
+		if(act=='edit' || act=='add' || act=='backOrder')
 		{
 			var data = xml.getFormValue($('.edBox'), dfKey);
 			
@@ -93,10 +93,11 @@ $(function(){
 			if(typeof runSuccessSend!='undefined')
 			{
 				data = runSuccessSend(data);
+				//console.dir(data);return false;
 				//console.log("Is Run runSuccessSend.");
 				if(data.error){alert(data.error);return false;}
 			}
-			//console.dir(data);
+			//console.dir(data);return false;
 			
 			if(data.fs!=undefined)
 			{
@@ -111,7 +112,13 @@ $(function(){
 			//console.dir(data);console.dir(fs);return false;
 			//xml.setProductCar(data);
 			//console.log("Is Run XML Action : "+'set'+PageCode);return false;
-			xml['set'+PageCode](data); // 執行確認
+			
+			// 是否變更代碼
+			var getPageCode = (changePageCode!='')? changePageCode : PageCode ;
+			
+			xml['set'+getPageCode](data); // 執行確認
+			
+			//console.dir(xml.calldata);return false;
 			
 			// 結束執行後觸發
 			if(typeof endSuccessSend!='undefined')
@@ -167,6 +174,35 @@ $(function(){
 	{
 		//console.log('設定退貨單按鈕...');
 		$('.backOrder').click(function(){
+			
+			$(window).scrollTop(0); // 捲到最上方
+			
+			act = 'backOrder';
+			var obj = $('.edBox');
+			var mobj = $(this).parents('tr');
+			
+			// 預設/自訂編輯點擊
+			if(typeof editClick=='undefined')
+			{
+				// 取出對應資料-清到指定表單
+				var index = $('.slist tbody tr').index(mobj);
+				var listData = xml.calldata.data.Items[index];
+				
+				xml.setFormValue(obj, listData); // 設定表單資料
+				
+				//console.log('ChangeID : '+mobj.attr('dataID'));
+				
+				//editID = mobj.attr('dataID');
+				obj.find('input[name=ID]').val(mobj.attr('dataID'));
+				$('.actName', obj).text('編輯');
+				objShow(obj);
+			}
+			else
+			{
+				editClick(obj, mobj);
+			}
+			//-------------------------------------------------------------
+			/*
 			//alert('run');
 			var mobj = $(this).parents('.slist');
 			var index = mobj.find('tbody tr').index($(this).parents('tr'));
@@ -179,10 +215,10 @@ $(function(){
 				xml.getOrderA({AdminKey:USER.AdminKey, ID:getData.ID});
 				console.dir(xml.calldata);
 			}
+			*/
 			
 			
-			
-			return false;
+			//return false;
 		});
 	
 	}

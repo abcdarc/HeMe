@@ -85,6 +85,7 @@ var lxml = function(setting){
 					_public.getLoginFunctions({AdminKey:data.AdminKey});
 					
 					_win.location.href = 'NewsInfo.html';
+					//_win.location.href = 'Order.html';
 				}
 			);
 		},
@@ -98,26 +99,29 @@ var lxml = function(setting){
 				function(e){
 					var data = $.parseJSON($(e).find('GetLoginFunctionsResult').text()).data.Items;
 					var toolbarData = {};
-					toolbarData.classLink = {}; // 分類連結物件
+					var classLink = {};
+					//toolbarData.classLink = {}; // 分類連結物件
 					toolbarData.allLink = []; // 全部可用連結
 					for(var list in data)
 					{
 						var obj = data[list];
 						toolbarData.allLink.push(obj.Url);
-						if(toolbarData.classLink["Class"+obj.ClassID]==undefined)
+						if(classLink["Class"+obj.ClassID]==undefined)
 						{
-							toolbarData.classLink["Class"+obj.ClassID] = {};
-							toolbarData.classLink["Class"+obj.ClassID].ClassName = obj.ClassName;
-							toolbarData.classLink["Class"+obj.ClassID].ClassID = obj.ClassID;
-							toolbarData.classLink["Class"+obj.ClassID].links = [];
+							classLink["Class"+obj.ClassID] = {};
+							classLink["Class"+obj.ClassID].ClassName = obj.ClassName;
+							classLink["Class"+obj.ClassID].ClassID = obj.ClassID;
+							classLink["Class"+obj.ClassID].links = [];
 						}
 						if(obj.Lv!=0)
 						{
-							toolbarData.classLink["Class"+obj.ClassID].links.push({ID:obj.ID, Name:obj.Name, Orders:obj.Orders, Url:obj.Url})
+							classLink["Class"+obj.ClassID].links.push({ID:obj.ID, Name:obj.Name, Orders:obj.Orders, Url:obj.Url})
 						};
 					}
-					$.cookie('toolbar', jsonToString(toolbarData));
-					
+					//console.dir(toolbarData);
+					if($.cookie('toolbar')==undefined){ $.cookie('toolbar', jsonToString(toolbarData)); }
+					//console.dir($.cookie('toolbar'));
+					_public.calldata = classLink;
 				}
 			);
 		},
@@ -629,6 +633,195 @@ var lxml = function(setting){
 				}
 			);
 		},
+		// 設定訂單資料
+		setOrderBack:function(data){
+			this.runAction = "SetOrderBack";
+			this.runData = data;
+			this.runXml = this.actXml('SetOrderBack', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetOrderBackResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 搜尋會員
+		searchUID:function(data){
+			this.runAction = "SearchUID";
+			this.runData = data;
+			this.runXml = this.actXml('SearchUID', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SearchUIDResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取退貨單
+		getOrderBack:function(data){
+			this.runAction = "GetOrderBack";
+			this.runData = data;
+			this.runXml = this.actXml('GetOrderBack', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetOrderBackResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 取得進貨清單
+		getInStocksList:function(data){
+			this.runAction = "GetInStocksList";
+			this.runData = data;
+			this.runXml = this.actXml('GetInStocksList', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetInStocksListResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 取得進貨資料
+		getInStocks:function(data){
+			this.runAction = "GetInStocks";
+			this.runData = data;
+			this.runXml = this.actXml('GetInStocks', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetInStocksResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 設定進貨單
+		setInStocks:function(data){
+			this.runAction = "SetInStocks";
+			this.runData = data;
+			this.runXml = this.actXml('SetInStocks', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetInStocksResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取得進貨清單
+		getInventoryList:function(data){
+			this.runAction = "GetInventoryList";
+			this.runData = data;
+			this.runXml = this.actXml('GetInventoryList', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetInventoryListResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 取得進貨資料
+		getInventory:function(data){
+			this.runAction = "GetInventory";
+			this.runData = data;
+			this.runXml = this.actXml('GetInventory', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetInventoryResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 設定進貨單
+		setInventory:function(data){
+			this.runAction = "SetInventory";
+			this.runData = data;
+			this.runXml = this.actXml('SetInventory', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetInventoryResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 設定會員等級
+		setUserLv:function(data){
+			this.runAction = "SetUserLv";
+			this.runData = data;
+			this.runXml = this.actXml('SetUserLv', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetUserLvResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取得此會員左右線月PV
+		getUserMonthPV:function(data){
+			this.runAction = "GetUserMonthPV";
+			this.runData = data;
+			this.runXml = this.actXml('GetUserMonthPV', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetUserMonthPVResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取得升級資格的會員列表
+		getUserLvUpgrade:function(data){
+			this.runAction = "GetUserLvUpgrade";
+			this.runData = data;
+			this.runXml = this.actXml('GetUserLvUpgrade', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('GetUserLvUpgradeResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
+		// 設定系統變數獎金資料
+		setSystemInfoBonus:function(data){
+			this.runAction = "SetSystemInfoBonus";
+			this.runData = data;
+			this.runXml = this.actXml('SetSystemInfoBonus', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('SetSystemInfoBonusResult').text());
+					_public.calldata = Serverdata; // 回傳資料
+					_public.checkInfo();
+					$('.XmsgBox').addClass('hidden');
+				}
+			);
+		},
 		// 取EXCE
 		GetOrderExcel:function(data){
 			this.runAction = "GetOrderExcel";
@@ -639,6 +832,51 @@ var lxml = function(setting){
 				function(e){
 					$('.XmsgBox').addClass('hidden');
 					var Serverdata = $.parseJSON($(e).find('GetOrderExcelResult').text());
+					_public.calldata = Serverdata;
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取EXCE
+		GetOrderBackExcel:function(data){
+			this.runAction = "GetOrderBackExcel";
+			this.runData = data;
+			this.runXml = this.actXml('GetOrderBackExcel', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					$('.XmsgBox').addClass('hidden');
+					var Serverdata = $.parseJSON($(e).find('GetOrderBackExcelResult').text());
+					_public.calldata = Serverdata;
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取EXCE
+		GetInStocksExcel:function(data){
+			this.runAction = "GetInStocksExcel";
+			this.runData = data;
+			this.runXml = this.actXml('GetInStocksExcel', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					$('.XmsgBox').addClass('hidden');
+					var Serverdata = $.parseJSON($(e).find('GetInStocksExcelResult').text());
+					_public.calldata = Serverdata;
+					_public.checkInfo();
+				}
+			);
+		},
+		// 取EXCE
+		GetInventoryExcel:function(data){
+			this.runAction = "GetInventoryExcel";
+			this.runData = data;
+			this.runXml = this.actXml('GetInventoryExcel', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					$('.XmsgBox').addClass('hidden');
+					var Serverdata = $.parseJSON($(e).find('GetInventoryExcelResult').text());
 					_public.calldata = Serverdata;
 					_public.checkInfo();
 				}
@@ -800,7 +1038,7 @@ lxml.prototype = {
 				_this.autoCompleteRunList.val('');
 				_this.autoCompleteNeedClick = false;
 			}
-			_this.autoCompleteRunList.next('.XautoComplete').addClass('hidden');
+			//_this.autoCompleteRunList.next('.XautoComplete').addClass('hidden');
 		});
 		
 		obj.unbind('focus').bind('focus',function(){
@@ -817,13 +1055,13 @@ lxml.prototype = {
 			var mobj = $(this);
 			var x = mobj.position().left;
 			var y = mobj.position().top + mobj.outerHeight();
-			console.log("on KeyUP : ");console.dir(data);
+			//console.log("on KeyUP : ");console.dir(data);
 			$(this).next().css({
 				top: y,
 				left: x
 			});
 			
-			if(data.length>0)
+			if(data.length!=undefined && data.length>0)
 			{
 				// 只有一個值時自動填入
 				if(data.length==1)
@@ -858,6 +1096,7 @@ lxml.prototype = {
 			{
 				_this.autoCompleteValue = {};
 				$(this).next().addClass('hidden').html('');
+				listClickFc($(this), data); // 執行回叫函式
 			}
 			
 			//console.log("XautoComplete keyUp END.");

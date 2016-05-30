@@ -221,11 +221,24 @@
 					</div>
 				</div>
 				
+					
 				<div class="form-group row col-xs-12 col-sm-12 col-md-4 col-lg-4 text-right" style=''>
-					<button class='del_order btn btn-warning btn-lg' >取消訂單</button>
+					<label class='group2 hide'>
+						<input type='checkbox' class='form-control input-lg' name="IsOrderBack" value='1' no-checked='0'/> 已退貨
+					</label>
+					<button class='del_order btn btn-warning btn-lg group1' >取消訂單</button>
 					<button class='success_send btn btn-primary btn-lg' >儲存</button>
-					<a href='OrderView.html' target="_blank" class='preview_order btn btn-success btn-lg' >預覽</a>
+					<a href='OrderView.html' target="_blank" class='preview_order btn btn-success btn-lg group1' >預覽</a>
 					<input type="hidden" name='ID' class='form-control' />
+				</div>
+				
+				<div class="form-group row col-xs-12 col-sm-12 col-md-12 col-lg-12 group2 hide">
+					<label for="Memo2" class="col-sm-2 control-label" style='padding-top:10px;'>
+						退貨備註
+					</label>
+					<div class="col-sm-10">
+						<input type='text' id="Memo2" name='Memo2' placeholder='請輸入退貨備註' disabled class='form-control input-lg'/>
+					</div>
 				</div>
 				
 				<hr/>
@@ -326,6 +339,9 @@
 		var GetType = 0;
 		var GetKey = "";
 		var OrderAID = 0; //目前編輯訂單ID
+		var UserKey = 0;
+		
+		var isLock = false; // 是否鎖定清單編輯
 		
 		// 取消編輯前執行
 		var runCancelSend = function(){
@@ -420,6 +436,28 @@
 			//data.OrderDetail = JSON.stringify(newObj);
 			//console.log('GGGGGDDDDD__');console.dir(newObj);
 			//console.dir(data);return false;
+			
+			if(act=='backOrder')
+			{
+				changePageCode = "OrderBack";
+				data.Memo = data.Memo2;
+				data.OrderAID = data.ID;
+				data.OrderBackDetail = data.OrderDetail;
+				data.UserKey = UserKey;
+				data.BackDate = new Date();
+				delete data.Addr;
+				delete data.Addressee;
+				delete data.IsPay;
+				delete data.IsShipments;
+				delete data.Shipment;
+				delete data.Tel;
+				delete data.OrderDetail;
+				delete data.Memo2;
+			}else{
+				delete data.Memo2;
+				delete data.IsOrderBack;
+			}
+			
 			return data;
 		};
 		
@@ -442,6 +480,7 @@
 				$(this).find('.IsShipments').html(IsShipments);
 				
 				if(!IsShipmentsTrue && !isPayTrue){$(this).find('.edit').addClass('disabled');}
+				else{$(this).find('.backOrder').addClass('disabled');}
 				
 			});
 		}
@@ -462,16 +501,17 @@
 		
 		// 自訂編輯點擊作業
 		var editClick = function(obj, mobj){
-		
+			
 			// 取出對應資料-清到指定表單
 			var ID = OrderAID = mobj.attr('dataID');
 			var listData = getOrderA(ID).data;
 			
 			var url = $('.preview_order',obj).attr('href').split("?");
-			$('.preview_order',obj).attr('href', url[0]+'?ID='+ID);
+			$('.preview_order', obj).attr('href', url[0]+'?ID='+ID);
 			
-			//console.log('editClick');console.dir(listData);
+			//console.log('editClick');console.dir(listData);return false;
 			xml.setFormValue(obj, listData);
+			UserKey = listData.UserKey;
 			
 			for(var key in listData)
 			{
@@ -502,14 +542,71 @@
 			setItemListObj();// 重新設定區域動作
 			//console.log('ChangeID : '+mobj.attr('dataID'));
 			
+			// 依狀態設定欄位可否編輯
+			if(act=='backOrder')
+			{
+				obj.find('input[name=Addr]').attr('disabled', true);
+				obj.find('input[name=Addressee]').attr('disabled', true);
+				obj.find('input[name=Tel]').attr('disabled', true);
+				obj.find('input[name=Memo]').attr('disabled', true);
+				obj.find('.group1').attr('disabled',true).addClass('hide');
+				obj.find('.group2').attr('disabled',true).removeClass('hide');
+				obj.find('input[name=IsOrderBack]').click(function(){
+					if($(this).is(':checked'))
+					{
+						isLock = false;
+						lockOrderItem();
+						
+						obj.find('input[name=Memo2]').attr('disabled', false);
+					}
+					else
+					{
+						isLock = true;
+						lockOrderItem('lock');
+						obj.find('input[name=Memo2]').val('').attr('disabled', true);
+					}
+				});
+				lockOrderItem('lock');
+				obj.find('.addItem').addClass('hide');
+				isLock = true;
+			}
+			else
+			{
+				obj.find('input[name=Addr]').attr('disabled', false);
+				obj.find('input[name=Addressee]').attr('disabled', false);
+				obj.find('input[name=Tel]').attr('disabled', false);
+				obj.find('input[name=Memo]').attr('disabled', false);
+				obj.find('.group1').attr('disabled', false).removeClass('hide');
+				obj.find('.group2').attr('disabled',true).addClass('hide');
+				obj.find('input[name=IsOrderBack]').unbind('click');
+				obj.find('.addItem').removeClass('hide');
+				isLock = false;
+				lockOrderItem();
+			}
+			
 			//editID = mobj.attr('dataID');
 			obj.find('input[name=ID]').val(ID);
-			$('.actName', obj).text('編輯');
+			var edboxTitle = (act=='edit') ? '編輯' : '退貨' ;
+			$('.actName', obj).text(edboxTitle);
 			objShow(obj);
+			
 		};
 		
 		var olistTemplate = {};
 		var itemList = {};
+		
+		var lockOrderItem = function(type){
+			if(type=='lock')
+			{
+				$('.edBox').find('input[name=Shipment]').attr('disabled',true);
+				$('.edBox').find('input[name=Serial]').attr('disabled',true);
+				$('.edBox').find('input[name=Qty]').attr('disabled',true);
+			}else{
+				$('.edBox').find('input[name=Shipment]').attr('disabled',false);
+				$('.edBox').find('input[name=Serial]').attr('disabled',false);
+				$('.edBox').find('input[name=Qty]').attr('disabled',false);
+			}
+		}
 		
 		var addItemList = function(obj, template, data){
 			
@@ -528,10 +625,20 @@
 		};
 		
 		var delItemList = function(obj){//console.log('delItemList');
-			var mobj = obj.parents('.orderItem');
-			var listnb = mobj.find('tr').length;//alert(listnb);
-			if(listnb>1){obj.parents('tr').remove();}
-			else{return false;}
+			if(!isLock)
+			{
+				var mobj = obj.parents('.orderItem');
+				var listnb = mobj.find('tr').length;//alert(listnb);
+				// 不能刪到最後一筆
+				if(act!='backOrder')
+				{
+					if(listnb>1){obj.parents('tr').remove();}
+				}
+				else
+				{
+					obj.parents('tr').remove();
+				}
+			}
 		};
 		
 		// 設定清除清單按鈕動作
@@ -678,7 +785,7 @@
 		};
 		
 		$(function(){
-			
+			xml.debug = true;
 			// 返回搜尋值
 			if(GET!=undefined && GET['GetType']!=undefined && GET['GetType'].trim()!='')
 			{

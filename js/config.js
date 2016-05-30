@@ -10,6 +10,8 @@ var TotalLink = [];
 var TopToolBar = {};
 var Url = [];
 
+var changePageCode = '';
+
 // 隱藏編輯物件
 function objHide(obj)
 {
@@ -112,14 +114,18 @@ $(function(){
 	// 登入檢查
 	if(USER==undefined || USER.AdminKey=='' || USER.AdminKey==undefined){ location.href="index.html"; return false;}
 	
-	// 上方工具列資料
+	// 每次讀取都取得工具列
+	xml.getLoginFunctions({AdminKey:USER.AdminKey});
+	TopToolBar = xml.calldata;
+	
+	// 取得權限頁面
 	if($.cookie('toolbar')!=undefined)
 	{
 		var data = $.parseJSON($.cookie('toolbar'));
 		TotalLink = data.allLink;
-		TopToolBar = data.classLink;
+		
 	}
-	else{TopToolBar=undefined;}
+	//else{TopToolBar=undefined;}
 	
 	
 	// 檢查是否有權限進入該頁面
@@ -130,6 +136,7 @@ $(function(){
 		location.href = "index.html";
 		return false;
 	}
+	//console.log(tryUrl); console.dir(TotalLink);
 	
 	// 產生上方工具列
 	window.setTimeout(function(){
@@ -153,7 +160,7 @@ $(function(){
 			}
 			else
 			{
-				console.dir(obj);
+				//console.dir(obj);
 				var newLink = Toollists.clone();
 				var slist = newLink.find('.slist li:eq(0)').clone();
 				newLink.find('.slist').html('');
