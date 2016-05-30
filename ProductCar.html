@@ -233,7 +233,7 @@
 						xml.uploadImg({fs:url});
 						//console.log('DDDD^^^^');console.dir(xml.calldata);
 						//console.log('DG_'+xml.calldata.Path);return false;
-						mobj.find('input[name^=pic]').val(xml.calldata.Path);
+						mobj.find('input[name^=pic]').val(xml.calldata.data.Path);
 						//alert(mobj.find('.pic').val());
 					}, 
 					false
