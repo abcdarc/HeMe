@@ -947,6 +947,11 @@ var lxml = function(setting){
 		// 訊息視窗模組
 		msgBox:function(msg, type){
 			_this.msgBox(msg, type);
+		},
+		// 取得日期
+		GetDate:function(date, ymd)
+		{
+			return _this.GetDate(date, ymd);
 		}
 	};
 	
@@ -956,6 +961,50 @@ var lxml = function(setting){
 
 
 lxml.prototype = {
+	// 日期函式 -----------------------------------------------
+	dateFormat:function(date, fmt){
+		var _DATE = new Date(date);
+		var o = {
+			"M+": _DATE.getMonth() + 1,                 //月份 
+			"d+": _DATE.getDate(),                    //日 
+			"h+": _DATE.getHours(),                   //小时 
+			"m+": _DATE.getMinutes(),                 //分 
+			"s+": _DATE.getSeconds(),                 //秒 
+			"q+": Math.floor((_DATE.getMonth() + 3) / 3), //季度 
+			"S": _DATE.getMilliseconds()             //毫秒 
+		};
+		
+		if (/(y+)/.test(fmt))
+		{
+			fmt = fmt.replace(RegExp.$1, (_DATE.getFullYear() + "").substr(4 - RegExp.$1.length));
+		}
+		
+		for (var k in o)
+		{
+			if (new RegExp("(" + k + ")").test(fmt))
+			{
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			}
+		}
+			
+		return fmt;
+	},
+	// 取已格式化日期
+	GetDate : function (date, ymd)
+	{
+		if(ymd==undefined){ymd="yyyy-MM-dd";}
+		
+		// 檢查日期函式 Format是否被定義
+		if(Date.Format!=undefined)
+		{
+			var _DATE = new Date(date);
+			return _DATE.Format(ymd);
+		}
+		else
+		{
+			return this.dateFormat(date, ymd);
+		}
+	},
 	// 訊息視窗模組 ---------------------------------------------------------------------------
 	msgBox:function(msg, type){
 		if($('.XmsgBox').length==0)

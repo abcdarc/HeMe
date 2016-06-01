@@ -7,6 +7,11 @@ $(function(){
 		
 		$(window).scrollTop(0); // 捲到最上方
 		
+		if(startAdd!=undefined)
+		{
+			startAdd();
+		}
+		
 		if(typeof runAdd!='undefined')
 		{
 			runAdd();

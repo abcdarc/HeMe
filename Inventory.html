@@ -142,9 +142,9 @@
 								<th>產品名稱</th>
 								<th width='80'>單價</th>
 								<!-- <th width='80'>PV值</th> -->
-								<th width='80'>數量</th>
+								<th width='80'>庫存</th>
 								<!-- <th width='80'>庫存</th> -->
-								<th width='100'>小計</th>
+								<th width='100'>盤點後數量</th>
 								<!-- <th width='80'>總PV值</th> -->
 								<th width='50'>
 									<button class='addItem btn btn-default'><i class='glyphicon glyphicon-plus'></i></button>
@@ -233,6 +233,7 @@
 		var GetType = 0;
 		var GetKey = "";
 		
+		function startAdd(){var d = new Date();$('input[name=InDate]','.edBox').val(xml.GetDate(d));$(".TotalShowBox .itemNb").text('0');$(".TotalShowBox .itemTotalPrice").text('0');}
 		
 		// 變更搜尋類別
 		function changeSearchType(val)

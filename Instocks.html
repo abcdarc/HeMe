@@ -119,7 +119,7 @@
 						進貨日期
 					</label>
 					<div class="col-sm-10">
-						<input type="text" name='InDate' class='form-control input-lg' />
+						<input type="text" name='InDate' class='date form-control input-lg' />
 					</div>
 				</div>
 				<div class="form-group">
@@ -127,7 +127,7 @@
 						備註
 					</label>
 					<div class="col-sm-10">
-						<input type="text" name='Memo' class='form-control input-lg' />
+						<textarea name='Memo' class='form-control input-lg' ></textarea>
 					</div>
 				</div>
 				
@@ -140,11 +140,11 @@
 								<th width='50'>序號</th>
 								<th width='150'>產品編號</th>
 								<th>產品名稱</th>
-								<th width='80'>單價</th>
+								<th width='80'>成本價</th>
 								<!-- <th width='80'>PV值</th> -->
 								<th width='80'>數量</th>
 								<!-- <th width='80'>庫存</th> -->
-								<th width='100'>小計</th>
+								<!-- <th width='100'>小計</th> -->
 								<!-- <th width='80'>總PV值</th> -->
 								<th width='50'>
 									<button class='addItem btn btn-default'><i class='glyphicon glyphicon-plus'></i></button>
@@ -164,11 +164,11 @@
 									<input type='text' class='form-control form-lg' name='Serial' />
 								</td>
 								<td class="ProductName"><span></span><input type='hidden' name='ProductName' /></td>
-								<td class="Price" width='80'><span></span><input type='hidden' name='Price' /></td>
+								<td class="Price" width='80'><input type='text' class='form-control' name='Price' value='0' /></td>
 								<!-- <td class="PV" width='80'><span></span><input type='hidden' name='PV' /></td> -->
 								<td class="Qty" width='80'><input type='text' class='form-control form-lg' name='Qty' value='1' /></td>
 								<!-- <td class="StockQty" width='80'><span></span><input type='hidden' name='StockQty' /></td> -->
-								<td class="TotalPrice" width='100'><span></span><input type='hidden' name='TotalPrice' /></td>
+								<!-- <td class="TotalPrice" width='100'><span></span><input type='hidden' name='TotalPrice' /></td> -->
 								<!-- <td class="TotalPV" width='80'><span></span><input type='hidden' name='TotalPV' /></td> -->
 								<td width='50'>
 									<button class='removeItem btn btn-default'>
@@ -183,8 +183,8 @@
 					<div class='form-group TotalShowBox'>
 						<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
 							<label class="col-sm-12 control-label text-right" style='font-size:22px;padding-top:10px;'>
-								共 <span class='itemNb'>5</span> 件　
-								總計金額 <span class='itemTotalPrice'>5000</span> 元　
+								共 <span class='itemNb'>0</span> 件　
+								總計金額 <span class='itemTotalPrice'>0</span> 元　
 								<!-- <span class='itemTotalPV'>50</span> PV -->
 							</label>
 						</div>
@@ -224,6 +224,8 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+	<link href='css/base/jquery-ui-1.9.2.custom.min.css' rel="stylesheet"/>
 	
 	<script>
 		
@@ -233,6 +235,7 @@
 		var GetType = 0;
 		var GetKey = "";
 		
+		function startAdd(){var d = new Date();$('input[name=InDate]','.edBox').val(xml.GetDate(d));$(".TotalShowBox .itemNb").text('0');$(".TotalShowBox .itemTotalPrice").text('0');}
 		
 		// 變更搜尋類別
 		function changeSearchType(val)
@@ -322,7 +325,7 @@
 			//var listData = getOrderA(ID).data;
 			xml.getInStocks({AdminKey:USER.AdminKey, ID:ID});
 			var listData = xml.calldata.data;
-			console.dir(listData);
+			//console.dir(listData);
 			//var url = $('.preview_order',obj).attr('href').split("?");
 			//$('.preview_order', obj).attr('href', url[0]+'?ID='+ID);
 			
@@ -453,8 +456,8 @@
 			obj.find('input[name=OrderAID]').val(OrderAID);
 			obj.find('input[name=ProductName]').val(data.Name);
 			obj.find('.ProductName span:eq(0)').text(data.Name);
-			obj.find('input[name=Price]').val(data.PriceTW);
-			obj.find('.Price span:eq(0)').text(data.PriceTW);
+			//obj.find('input[name=Price]').val(data.PriceTW);
+			//obj.find('.Price span:eq(0)').text(data.PriceTW);
 			obj.find('input[name=PV]').val(data.PV);
 			obj.find('.PV span:eq(0)').text(data.PV);
 			obj.find('input[name=StockQty]').val(data.StockQty);
@@ -467,7 +470,7 @@
 			obj.find('input[name=ProductName]').val('');
 			obj.find('.ProductName span:eq(0)').text('');
 			obj.find('input[name=Price]').val('');
-			obj.find('.Price span:eq(0)').text('');
+			//obj.find('.Price span:eq(0)').text('');
 			obj.find('input[name=PV]').val('');
 			obj.find('.PV span:eq(0)').text('');
 			obj.find('input[name=StockQty]').val('');
@@ -534,16 +537,21 @@
 		
 		// 重新設定區域動作
 		var setItemListObj = function(){
+			
 			setDelItem(); // 設定刪除按鈕動作
 			setChangePrice(); // 
 			setSelectProduct(); // 設定商品清單搜尋
 			runPrice(itemList);
 			inputNotEnter(); // 所有input表單按Enter不能送出
+			$('.orderItem .Price').unbind('change').bind('change',function(){
+				runPrice(itemList);
+			});
 		};
 		
 		$(function(){
 			xml.debug = true;
 			xml.msgBox("資料讀取中....", 'msg');
+			$( ".date" ).datepicker();
 			
 			// 判斷搜尋值
 			if(GET!=undefined)
