@@ -385,8 +385,22 @@
 		var runSuccessSend = function(data){
 			
 			//var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial'];
+<<<<<<< HEAD
 			var remove = ['OrderAID', 'PV','Price','ProductName','Qty','Serial','DiscountPrice','TotalPV','TotalPrice','StockQty'];
+=======
+			var remove = ['OrderAID', 'PV','Price','ProductName','Qty','Serial','DiscountPrice'];
+>>>>>>> bf3d15f... udate
 			var newObj = []; // 記錄新陣列
+			if(act=='backOrder')
+			{
+				//remove.push('OrderBackID');
+			}else{
+				remove.push('TotalPV');
+				remove.push('TotalPrice');
+				remove.push('StockQty');
+			}
+			
+			//console.dir(remove);
 			
 			//console.dir(remove);
 			
@@ -419,10 +433,16 @@
 						if(typeof newObj[j]=='undefined'){newObj[j] = {};}
 						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
 						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
+<<<<<<< HEAD
 						if(act=='backOrder')
 						{
 							if(remove[i]=='OrderAID'){ newObj[j]['OrderBackID'] = 0; }
 							if(remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[j][remove[i]] = data[remove[i]][j];}
+=======
+						if(act=='backOrder' && remove[i]=='OrderAID')
+						{
+							newObj[j]['OrderBackID'] = data['OrderAID'][j];
+>>>>>>> bf3d15f... udate
 						}
 						else
 						{
@@ -472,7 +492,11 @@
 				delete data.Memo2;
 			}else{
 				delete data.Memo2;
+<<<<<<< HEAD
 				delete data.IsBackOrder;
+=======
+				delete data.IsOrderBack;
+>>>>>>> bf3d15f... udate
 				delete data.DiscountPrice;
 			}
 			
@@ -563,7 +587,10 @@
 			// 依狀態設定欄位可否編輯
 			if(act=='backOrder')
 			{
+<<<<<<< HEAD
 				obj.find('.noBack').addClass('hide');
+=======
+>>>>>>> bf3d15f... udate
 				obj.find('.ishide').removeClass('hide');
 				obj.find('input[name=Addr]').attr('disabled', true);
 				obj.find('input[name=Addressee]').attr('disabled', true);
@@ -592,7 +619,10 @@
 			}
 			else
 			{
+<<<<<<< HEAD
 				obj.find('.noBack').removeClass('hide');
+=======
+>>>>>>> bf3d15f... udate
 				obj.find('.ishide').addClass('hide');
 				obj.find('input[name=Addr]').attr('disabled', false);
 				obj.find('input[name=Addressee]').attr('disabled', false);
