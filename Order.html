@@ -385,16 +385,8 @@
 		var runSuccessSend = function(data){
 			
 			//var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial'];
-			var remove = ['OrderAID', 'PV','Price','ProductName','Qty','Serial','DiscountPrice'];
+			var remove = ['OrderAID', 'PV','Price','ProductName','Qty','Serial','DiscountPrice','TotalPV','TotalPrice','StockQty'];
 			var newObj = []; // 記錄新陣列
-			if(act=='backOrder')
-			{
-				//remove.push('OrderBackID');
-			}else{
-				remove.push('TotalPV');
-				remove.push('TotalPrice');
-				remove.push('StockQty');
-			}
 			
 			//console.dir(remove);
 			
@@ -412,6 +404,7 @@
 			
 			var TotalPrice = 0; // 計算全部運費
 			var TotalPV = 0; // 計算全部PV
+			//var test = $.extend({}, data);
 			//console.dir(data);return false;
 			var notVal = false;
 			console.log('ACT:'+act);
@@ -426,9 +419,10 @@
 						if(typeof newObj[j]=='undefined'){newObj[j] = {};}
 						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
 						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
-						if(act=='backOrder' && remove[i]=='OrderAID')
+						if(act=='backOrder')
 						{
-							newObj[j]['OrderBackID'] = data['OrderAID'][j];
+							if(remove[i]=='OrderAID'){ newObj[j]['OrderBackID'] = 0; }
+							if(remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[j][remove[i]] = data[remove[i]][j];}
 						}
 						else
 						{
@@ -463,9 +457,11 @@
 				changePageCode = "OrderBack";
 				data.Memo = data.Memo2;
 				data.OrderAID = data.ID;
+				data.ID = 0;
 				data.OrderBackDetail = data.OrderDetail;
 				data.UserKey = UserKey;
-				data.BackDate = new Date();
+				var today = new Date();
+				data.BackDate = xml.GetDate(today);
 				delete data.Addr;
 				delete data.Addressee;
 				delete data.IsPay;
