@@ -224,7 +224,7 @@
 					
 				<div class="form-group row col-xs-12 col-sm-12 col-md-4 col-lg-4 text-right" style=''>
 					<label class='group2 hide'>
-						<input type='checkbox' class='form-control input-lg' name="IsOrderBack" value='1' no-checked='0'/> 已退貨
+						<input type='checkbox' class='form-control input-lg' name="IsBackOrder" value='1' no-checked='0'/> 已退貨
 					</label>
 					<button class='del_order btn btn-warning btn-lg group1' >取消訂單</button>
 					<button class='success_send btn btn-primary btn-lg' >儲存</button>
@@ -253,6 +253,7 @@
 								<th>產品名稱</th>
 								<th width='80'>單價</th>
 								<th width='80'>PV值</th>
+								<th width='100' class=' ishide hide'>單件折讓</th>
 								<th width='80'>數量</th>
 								<th width='80'>庫存</th>
 								<th width='100'>小計</th>
@@ -277,6 +278,7 @@
 								<td class="ProductName"><span></span><input type='hidden' name='ProductName' /></td>
 								<td class="Price" width='80'><span></span><input type='hidden' name='Price' /></td>
 								<td class="PV" width='80'><span></span><input type='hidden' name='PV' /></td>
+								<td class="DiscountPrice ishide hide" width='80'><input type='input' name='DiscountPrice' class='form-control' value='0' /></td>
 								<td class="Qty" width='80'><input type='text' class='form-control form-lg' name='Qty' value='1' /></td>
 								<td class="StockQty" width='80'><span></span><input type='hidden' name='StockQty' /></td>
 								<td class="TotalPrice" width='100'><span></span><input type='hidden' name='TotalPrice' /></td>
@@ -382,8 +384,19 @@
 		// 送出表單前執行 : 在取得表單資料之後
 		var runSuccessSend = function(data){
 			
-			var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial'];
+			//var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial'];
+			var remove = ['OrderAID', 'PV','Price','ProductName','Qty','Serial','DiscountPrice'];
 			var newObj = []; // 記錄新陣列
+			if(act=='backOrder')
+			{
+				//remove.push('OrderBackID');
+			}else{
+				remove.push('TotalPV');
+				remove.push('TotalPrice');
+				remove.push('StockQty');
+			}
+			
+			//console.dir(remove);
 			
 			// 因為Serial欄位重覆了所以....
 			//data.lSerial = [];
@@ -401,18 +414,26 @@
 			var TotalPV = 0; // 計算全部PV
 			//console.dir(data);return false;
 			var notVal = false;
-			
+			console.log('ACT:'+act);
 			for(var i=0; i<remove.length; i++)
 			{
 				if(typeof data[remove[i]]==='object')
 				{
 					for(var j=0; j<data[remove[i]].length;j++)
 					{
+						
 						if(remove[i]=='Serial' && (data[remove[i]][j]==undefined)){notVal=true;break;}
 						if(typeof newObj[j]=='undefined'){newObj[j] = {};}
 						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
 						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
-						newObj[j][remove[i]] = data[remove[i]][j];
+						if(act=='backOrder' && remove[i]=='OrderAID')
+						{
+							newObj[j]['OrderBackID'] = data['OrderAID'][j];
+						}
+						else
+						{
+							if(remove[i]!='DiscountPrice'){newObj[j][remove[i]] = data[remove[i]][j];}
+						}
 					}
 					if(notVal){break;}
 				}
@@ -455,7 +476,8 @@
 				delete data.Memo2;
 			}else{
 				delete data.Memo2;
-				delete data.IsOrderBack;
+				delete data.IsBackOrder;
+				delete data.DiscountPrice;
 			}
 			
 			return data;
@@ -545,13 +567,14 @@
 			// 依狀態設定欄位可否編輯
 			if(act=='backOrder')
 			{
+				obj.find('.ishide').removeClass('hide');
 				obj.find('input[name=Addr]').attr('disabled', true);
 				obj.find('input[name=Addressee]').attr('disabled', true);
 				obj.find('input[name=Tel]').attr('disabled', true);
 				obj.find('input[name=Memo]').attr('disabled', true);
 				obj.find('.group1').attr('disabled',true).addClass('hide');
 				obj.find('.group2').attr('disabled',true).removeClass('hide');
-				obj.find('input[name=IsOrderBack]').click(function(){
+				obj.find('input[name=IsBackOrder]').click(function(){
 					if($(this).is(':checked'))
 					{
 						isLock = false;
@@ -572,13 +595,14 @@
 			}
 			else
 			{
+				obj.find('.ishide').addClass('hide');
 				obj.find('input[name=Addr]').attr('disabled', false);
 				obj.find('input[name=Addressee]').attr('disabled', false);
 				obj.find('input[name=Tel]').attr('disabled', false);
 				obj.find('input[name=Memo]').attr('disabled', false);
 				obj.find('.group1').attr('disabled', false).removeClass('hide');
 				obj.find('.group2').attr('disabled',true).addClass('hide');
-				obj.find('input[name=IsOrderBack]').unbind('click');
+				obj.find('input[name=IsBackOrder]').unbind('click');
 				obj.find('.addItem').removeClass('hide');
 				isLock = false;
 				lockOrderItem();
@@ -601,10 +625,12 @@
 				$('.edBox').find('input[name=Shipment]').attr('disabled',true);
 				$('.edBox').find('input[name=Serial]').attr('disabled',true);
 				$('.edBox').find('input[name=Qty]').attr('disabled',true);
+				$('.edBox').find('input[name=DiscountPrice]').attr('disabled', true);
 			}else{
 				$('.edBox').find('input[name=Shipment]').attr('disabled',false);
 				$('.edBox').find('input[name=Serial]').attr('disabled',false);
 				$('.edBox').find('input[name=Qty]').attr('disabled',false);
+				$('.edBox').find('input[name=DiscountPrice]').attr('disabled', false);
 			}
 		}
 		
@@ -614,6 +640,7 @@
 			if(data!=undefined)
 			{
 				xml.setFormValue(listObj, data);
+				listObj.find('input[name=DiscountPrice]').val(0);
 				for(var key in data)
 				{
 				
