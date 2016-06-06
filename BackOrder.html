@@ -312,17 +312,19 @@
 		// 送出表單前執行 : 在取得表單資料之後
 		var runSuccessSend = function(data){
 			
-			var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial'];
+			var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial','DiscountPrice'];
 			var newObj = []; // 記錄新陣列
-			
+			var OrderAID = data.OrderAID;
 			
 			var TotalPrice = 0; // 計算全部運費
 			var TotalPV = 0; // 計算全部PV
-			console.dir(data);//return false;
+			//console.log("TT :");console.dir(data);return false;
 			var notVal = false;
 			
 			for(var i=0; i<remove.length; i++)
 			{
+				if(data['ProductName']!=undefined)
+				{
 				if(typeof data[remove[i]]==='object')
 				{
 					for(var j=0; j<data[remove[i]].length;j++)
@@ -345,15 +347,23 @@
 					newObj[0][remove[i]] = data[remove[i]];
 				}
 				delete data[remove[i]];
-			}
-			
+				}
+			}//OrderAID
+			//console.dir(newObj);
 			if(notVal){return {error:'商品序號不得為空!!!!'};}
 			
 			data.TotalPrice = TotalPrice;
 			data.TotalPV = TotalPV;
 			data.OrderBackDetail = jsonToString(newObj);
-			data.ID='0'; // 只新增
-			data.OrderAID='0';
+			if(act=='add')
+			{
+				data.ID='0'; // 只新增
+				data.OrderAID='0';
+			}
+			if(act=='edit')
+			{
+				data.OrderAID = OrderAID;
+			}
 			
 			//data.OrderDetail = JSON.stringify(newObj);
 			//console.log('GGGGGDDDDD__');console.dir(newObj);
@@ -382,15 +392,18 @@
 			//console.log('ChangeID : '+mobj.attr('dataID'));
 			
 			obj.find('.searchUID').addClass('hide');
+			obj.find('.addItem').addClass('hide');
 			
 			//editID = mobj.attr('dataID');
 			obj.find('input[name=ID]').val(mobj.attr('dataID'));
 			$('.actName', obj).text('編輯');
 			objShow(obj);
+			
 		};
 		
 		var startAdd = function(){
 			$('.searchUID','.edBox').removeClass('hide');
+			$('.addItem','.edBox').removeClass('hide');
 		}
 		
 		
