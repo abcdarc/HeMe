@@ -156,18 +156,24 @@
 						退貨日期
 					</label>
 					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg BackDate' />
+						<input type="text" class='form-control input-lg BackDate' disabled />
 						<input type="hidden" name='BackDate' class='form-control input-lg' />
 					</div>
 					<label class="col-sm-1 control-label">
 						收貨人
 					</label>
+					<div class="col-sm-3">
+						<input type="text" name="BackUser" class='form-control input-lg' disabled />
+					</div>
+					<label class="col-sm-1 control-label" for="IsBackOrder">
+						已退貨
+					</label>
 					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg BackUser' />
+						<input type='checkbox' class='form-control' name="IsBackOrder" id="IsBackOrder" value='1' no-checked='0'/> 
 					</div>
 				</div>
 				
-				<div class="form-group">
+				<div class="form-group searchUID">
 					<label class="col-sm-1 control-label">
 						會員編號
 					</label>
@@ -188,15 +194,6 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-2 control-label" for="IsBackOrder">
-						已退貨
-					</label>
-					<div class="col-sm-2">
-						<input type='checkbox' class='form-control' name="IsBackOrder" id="IsBackOrder" value='1' no-checked='0'/> 
-					</div>
-					<div class="col-sm-2">
-						<!-- <a href='BackOrderView.html' target="_blank" class='preview_order btn btn-success btn-lg group1' >預覽</a> -->
-					</div>
 				</div>
 				
 				<div class='col-md-10 col-md-offset-2 col-lg-10 col-lg-offset-2'>
@@ -365,7 +362,7 @@
 			
 			return data;
 		};
-		console.log('GG : ');console.dir(USER);
+		
 		// 自訂編輯動作
 		var editClick = function(obj, mobj){
 			xml.getOrderBack({AdminKey:USER.AdminKey, ID:mobj.attr('dataID')});
@@ -376,16 +373,25 @@
 			obj.find('input.FirstOrder').val(listData.FirstOrder);
 			obj.find('input.SerialOrderA').val(listData.SerialOrderA);
 			obj.find('input.UserName').val(listData.UserName);
+			var today = new Date();
+			var BackDate = xml.GetDate(today);
+			obj.find('input.BackDate').val(BackDate);
+			obj.find('input[name=BackDate]').val(BackDate);
 			obj.find('input[name=BackUser]').val(USER.Name);
 			obj.find('input.Tel').val(listData.Tel);
-			obj.find('input.BackDate').val(listData.BackDate);
 			//console.log('ChangeID : '+mobj.attr('dataID'));
+			
+			obj.find('.searchUID').addClass('hide');
 			
 			//editID = mobj.attr('dataID');
 			obj.find('input[name=ID]').val(mobj.attr('dataID'));
 			$('.actName', obj).text('編輯');
 			objShow(obj);
 		};
+		
+		var startAdd = function(){
+			$('.searchUID','.edBox').removeClass('hide');
+		}
 		
 		
 		// 變更搜尋類別
