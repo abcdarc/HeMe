@@ -303,7 +303,7 @@
 						</label>
 					</div>
 					
-					<div class="row col-sm-4 col-sm-offset-8" style='padding-bottom:10px;'>
+					<div class="row col-sm-4 col-sm-offset-8 noBack" style='padding-bottom:10px;'>
 						<label for="Shipment" class="col-sm-4 control-label" style='padding-top:25px;'>
 							運費
 						</label>
@@ -312,7 +312,7 @@
 						</div>
 					</div>
 					
-					<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
+					<div class="row col-sm-6 col-sm-offset-6 noBack" style='padding-bottom:10px;'>
 						<label class="col-sm-12 control-label text-right text-danger" style='font-size:30px;padding-top:10px;'>
 							應付金額 <span class='allPayPrice'>5000</span> 元
 						</label>
@@ -563,6 +563,7 @@
 			// 依狀態設定欄位可否編輯
 			if(act=='backOrder')
 			{
+				obj.find('.noBack').addClass('hide');
 				obj.find('.ishide').removeClass('hide');
 				obj.find('input[name=Addr]').attr('disabled', true);
 				obj.find('input[name=Addressee]').attr('disabled', true);
@@ -591,6 +592,7 @@
 			}
 			else
 			{
+				obj.find('.noBack').removeClass('hide');
 				obj.find('.ishide').addClass('hide');
 				obj.find('input[name=Addr]').attr('disabled', false);
 				obj.find('input[name=Addressee]').attr('disabled', false);
