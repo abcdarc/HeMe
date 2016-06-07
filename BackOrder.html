@@ -90,8 +90,8 @@
 							<td class='SerialOrderA'></td>
 							<td class='UserName'></td>
 							<td class='TotalPrice'></td>
-							<th class='hide BackDate'></th>
-							<td class='IsBackOrder'></td>
+							<td class='hide IsBackOrder'></td>
+							<th class='BackDate'></th>
 							 
 							<td>
 								<button class='edit btn btn-primary'>編輯</button>
@@ -670,7 +670,7 @@
 				xml.objToTdList(
 					$('.slist'), // 指定容器
 					xml.calldata.data.Items, // 返回要產生的資料
-					{Serial:['Serial'], SerialOrderA:['SerialOrderA'], UserName:['UserName','UserUID'], TotalPrice:['TotalPrice'], BackDate:['BackDate']},
+					{Serial:['Serial'], SerialOrderA:['SerialOrderA'], UserName:['UserName','UserUID'], TotalPrice:['TotalPrice'], BackDate:['BackDate'], IsBackOrder:['IsBackOrder']},
 					"ID", // 主鍵值
 					"<br/>", // 內容分隔符號
 					// 指定欄位 前(before)/後(after)加入字串 
