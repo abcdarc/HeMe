@@ -263,13 +263,13 @@
 							<div class="col-sm-8">
 								<input type='text' id="Shipment" name='Shipment' value='0' class='form-control input-lg'/>
 							</div>
-						</div> -->
+						</div>
 						
 						<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
 							<label class="col-sm-12 control-label text-right text-danger" style='font-size:30px;padding-top:10px;'>
 								應付金額 <span class='allPayPrice'>0</span> 元
 							</label>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				
@@ -394,6 +394,19 @@
 			obj.find('.searchUID').addClass('hide');
 			obj.find('.addItem').addClass('hide');
 			
+			$('.orderItem').html('');
+			
+			//console.dir(listData);
+			// 載入購買商品清單
+			if(listData!=undefined && listData.Items.length>0)
+			{
+				for(var i=0; i<listData.Items.length; i++)
+				{
+					addItemList(itemList, olistTemplate, listData.Items[i]);
+				}
+			}
+			setItemListObj();// 重新設定區域動作
+			
 			//editID = mobj.attr('dataID');
 			obj.find('input[name=ID]').val(mobj.attr('dataID'));
 			$('.actName', obj).text('編輯');
@@ -404,6 +417,7 @@
 		var startAdd = function(){
 			$('.searchUID','.edBox').removeClass('hide');
 			$('.addItem','.edBox').removeClass('hide');
+			$('.orderItem').html('');
 		}
 		
 		
@@ -721,7 +735,7 @@
 			// 返回使用者值
 			var backUser = function(obj, data){
 				obj.prev('input[name=UserKey]').val(data.UserKey);
-				//$('.edBox').find('.Name').text(data.UID+" : "+data.Name+'/'+data.NickName);
+				$('.edBox').find('.Name').text(data.UID+" : "+data.Name+'/'+data.NickName);
 			};
 			
 			// 設定快搜物件 : (物件, 取出值, 搜尋函式:function, 回傳執行函式(接收搜尋函式回傳值):function)
