@@ -551,7 +551,7 @@
 		$(function(){
 			xml.debug = true;
 			xml.msgBox("資料讀取中....", 'msg');
-			$( ".date" ).datepicker();
+			$( ".date" ).datepicker({dateFormat:'yy-mm-dd'});
 			
 			// 判斷搜尋值
 			if(GET!=undefined)
