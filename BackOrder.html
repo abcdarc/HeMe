@@ -175,12 +175,12 @@
 				
 				<div class="form-group searchUID">
 					<label class="col-sm-1 control-label">
-						會員編號
+						搜尋會員編號
 					</label>
 					<div class="col-sm-11">
 						<input type="hidden" name='UserKey' class='form-control input-lg' />
 						<input type="text" class='form-control input-lg UID' />
-						<span class='row Name' style='padding:20px;'>未選擇會員</span>
+						會員資料 : <span class='row Name' style='padding:20px;'>未選擇會員</span>
 					</div>
 				</div>
 				
@@ -325,28 +325,27 @@
 			{
 				if(data['ProductName']!=undefined)
 				{
-				if(typeof data[remove[i]]==='object')
-				{
-					for(var j=0; j<data[remove[i]].length;j++)
+					if(typeof data[remove[i]]==='object')
 					{
-						if(remove[i]=='Serial' && (data[remove[i]][j]==undefined)){notVal=true;break;}
-						if(typeof newObj[j]=='undefined'){newObj[j] = {};}
-						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
-						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
-						newObj[j][remove[i]] = data[remove[i]][j];
+						for(var j=0; j<data[remove[i]].length;j++)
+						{
+							if(remove[i]=='Serial' && (data[remove[i]][j]==undefined)){notVal=true;break;}
+							if(typeof newObj[j]=='undefined'){newObj[j] = {};}
+							if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
+							if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
+							newObj[j][remove[i]] = data[remove[i]][j];
+						}
+						if(notVal){break;}
 					}
-					if(notVal){break;}
-				}
-				else
-				{
-				
-					if(remove[i]=='Serial' && (data[remove[i]][0]==undefined)){notVal=true;break;}
-					if(typeof newObj[0]=='undefined'){newObj[0] = {};}
-					if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
-					if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
-					newObj[0][remove[i]] = data[remove[i]];
-				}
-				delete data[remove[i]];
+					else
+					{
+						if(remove[i]=='Serial' && (data[remove[i]][0]==undefined)){notVal=true;break;}
+						if(typeof newObj[0]=='undefined'){newObj[0] = {};}
+						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
+						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
+						newObj[0][remove[i]] = data[remove[i]];
+					}
+					delete data[remove[i]];
 				}
 			}//OrderAID
 			//console.dir(newObj);
@@ -443,7 +442,9 @@
 				$('.edBox').find('input[name=Shipment]').attr('disabled',true);
 				$('.edBox').find('input[name=Serial]').attr('disabled',true);
 				$('.edBox').find('input[name=Qty]').attr('disabled',true);
-			}else{
+			}
+			else
+			{
 				$('.edBox').find('input[name=Shipment]').attr('disabled',false);
 				$('.edBox').find('input[name=Serial]').attr('disabled',false);
 				$('.edBox').find('input[name=Qty]').attr('disabled',false);
