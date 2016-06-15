@@ -336,8 +336,8 @@
 							//console.log("arr_"+remove[i]+":"+data[remove[i]][j]);
 							if(remove[i]=='Serial' && (data[remove[i]][j]==undefined)){notVal=true;break;}
 							if(typeof newObj[j]=='undefined'){newObj[j] = {};}
-							//if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
-							//if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
+							if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
+							if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
 							if(remove[i]=='OrderAID'){ newObj[j]['OrderBackID'] = 0; }
 							if(remove[i]!='OrderAID' && remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[j][remove[i]] = data[remove[i]][j];}
 							//newObj[j][remove[i]] = data[remove[i]][j];
@@ -348,8 +348,8 @@
 					{
 						if(remove[i]=='Serial' && data[remove[i]]==undefined){notVal=true;break;}
 						if(typeof newObj[0]=='undefined'){newObj[0] = {};}
-						//if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
-						//if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
+						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
+						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
 						if(remove[i]=='OrderAID'){ newObj[0]['OrderBackID'] = 0; }
 						if(remove[i]!='OrderAID' && remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[0][remove[i]] = data[remove[i]];}
 						
