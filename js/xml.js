@@ -601,7 +601,7 @@ var lxml = function(setting){
 		},
 		// 刪除訂單
 		delOrderA:function(data){
-			this.runAction = "delOrderA";
+			this.runAction = "DelOrderA";
 			this.runData = data;
 			this.runXml = this.actXml('DelOrderA', data);
 			_this.runAjax(
@@ -633,7 +633,7 @@ var lxml = function(setting){
 				}
 			);
 		},
-		// 設定訂單資料
+		// 設定退貨單資料
 		setOrderBack:function(data){
 			this.runAction = "SetOrderBack";
 			this.runData = data;
@@ -644,6 +644,21 @@ var lxml = function(setting){
 					var Serverdata = $.parseJSON($(e).find('SetOrderBackResult').text());
 					_public.calldata = Serverdata; // 回傳資料
 					_public.checkInfo();
+				}
+			);
+		},
+		// 刪除退貨單
+		delOrderBack:function(data){
+			this.runAction = "DelOrderBack";
+			this.runData = data;
+			this.runXml = this.actXml('DelOrderBack"', data);
+			_this.runAjax(
+				this.runXml,
+				function(e){
+					var Serverdata = $.parseJSON($(e).find('DelOrderBackResult').text());
+					_public.calldata = Serverdata;
+					_public.checkInfo();
+					_win.location.reload();
 				}
 			);
 		},
@@ -661,7 +676,7 @@ var lxml = function(setting){
 				}
 			);
 		},
-		// 取退貨單
+		// 取得退貨單
 		getOrderBack:function(data){
 			this.runAction = "GetOrderBack";
 			this.runData = data;
