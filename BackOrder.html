@@ -130,7 +130,7 @@
 					</label>
 					<div class="col-sm-2">
 						<input type="text" class='form-control input-lg SerialOrderA' disabled />
-						<input type="hidden" name='OrderAID' class='form-control input-lg' disabled />
+						<input type="hidden" name='OrderBackID' class='form-control input-lg' disabled />
 					</div>
 					<label class="col-sm-1 control-label">
 						首購
@@ -157,13 +157,13 @@
 					</label>
 					<div class="col-sm-2">
 						<input type="text" class='form-control input-lg BackDate' disabled />
-						<input type="hidden" name='BackDate' class='form-control input-lg' />
+						<input type="hidden" _name='BackDate' class='form-control input-lg' />
 					</div>
 					<label class="col-sm-1 control-label">
 						收貨人
 					</label>
 					<div class="col-sm-3">
-						<input type="text" name="BackUser" class='form-control input-lg' disabled />
+						<input type="text" _name="BackUser" class='form-control input-lg' disabled />
 					</div>
 					<label class="col-sm-1 control-label" for="IsBackOrder">
 						已退貨
@@ -183,7 +183,7 @@
 					<div class="col-sm-11">
 						<input type="hidden" name='UserKey' class='form-control input-lg' />
 						<input type="text" class='form-control input-lg UID' />
-						會員資料 : <span class='row Name' style='padding:20px;'>未選擇會員</span>
+						<span style='float:left;'>會員資料 : <span class='row Name' style='padding:20px;'>未選擇會員</span></span>
 					</div>
 				</div>
 				
@@ -315,13 +315,14 @@
 		// 送出表單前執行 : 在取得表單資料之後
 		var runSuccessSend = function(data){
 			
-			var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial','DiscountPrice'];
+			var remove = ['OrderAID','PV','Price','Qty','StockQty','TotalPV','TotalPrice','Serial','DiscountPrice','ProductName'];
 			var newObj = []; // 記錄新陣列
-			var OrderAID = data.OrderAID;
+			var OrderAID = data.OrderBackID;
+			delete data.OrderBackID;
 			
 			var TotalPrice = 0; // 計算全部運費
 			var TotalPV = 0; // 計算全部PV
-			//console.log("TT :");console.dir(data);return false;
+			console.log("TT :");console.dir($.extend({},data));//return false;
 			var notVal = false;
 			
 			for(var i=0; i<remove.length; i++)
@@ -332,22 +333,28 @@
 					{
 						for(var j=0; j<data[remove[i]].length;j++)
 						{
+							//console.log("arr_"+remove[i]+":"+data[remove[i]][j]);
 							if(remove[i]=='Serial' && (data[remove[i]][j]==undefined)){notVal=true;break;}
 							if(typeof newObj[j]=='undefined'){newObj[j] = {};}
-							if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
-							if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
-							newObj[j][remove[i]] = data[remove[i]][j];
+							//if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
+							//if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
+							if(remove[i]=='OrderAID'){ newObj[j]['OrderBackID'] = 0; }
+							if(remove[i]!='OrderAID' && remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[j][remove[i]] = data[remove[i]][j];}
+							//newObj[j][remove[i]] = data[remove[i]][j];
 						}
 						if(notVal){break;}
 					}
 					else
 					{
-						if(remove[i]=='Serial' && (data[remove[i]][0]==undefined)){notVal=true;break;}
+						if(remove[i]=='Serial' && data[remove[i]]==undefined){notVal=true;break;}
 						if(typeof newObj[0]=='undefined'){newObj[0] = {};}
-						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
-						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
-						newObj[0][remove[i]] = data[remove[i]];
+						//if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
+						//if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
+						if(remove[i]=='OrderAID'){ newObj[0]['OrderBackID'] = 0; }
+						if(remove[i]!='OrderAID' && remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[0][remove[i]] = data[remove[i]];}
+						
 					}
+					//console.log('DEL:'+remove[i]);
 					delete data[remove[i]];
 				}
 			}//OrderAID
@@ -357,6 +364,7 @@
 			data.TotalPrice = TotalPrice;
 			data.TotalPV = TotalPV;
 			data.OrderBackDetail = jsonToString(newObj);
+			console.log('View ACT :'+act);
 			if(act=='add')
 			{
 				data.ID='0'; // 只新增
@@ -368,7 +376,7 @@
 			}
 			
 			//data.OrderDetail = JSON.stringify(newObj);
-			//console.log('GGGGGDDDDD__');console.dir(newObj);
+			console.log('GGGGGDDDDD__');console.dir(newObj);
 			//console.dir(data);return false;
 			
 			
@@ -377,9 +385,15 @@
 		
 		// 自訂編輯動作
 		var editClick = function(obj, mobj){
-			xml.getOrderBack({AdminKey:USER.AdminKey, ID:mobj.attr('dataID')});
-			console.log('editClick');console.dir(xml.calldata);
+		
+			
+			var ID = OrderAID = mobj.attr('dataID');
+			
+			xml.getOrderBack({AdminKey:USER.AdminKey, ID:ID});
+			//console.log('editClick');console.dir(xml.calldata);
 			var listData = xml.calldata.data;
+			listData.OrderBackID = listData.OrderAID;
+			delete listData.OrderAID;
 			xml.setFormValue(obj, listData); // 設定表單資料
 			// FirstOrder SerialOrderA UserName Tel BackDate
 			obj.find('input.FirstOrder').val(listData.FirstOrder);
@@ -391,7 +405,7 @@
 			obj.find('input[name=BackDate]').val(BackDate);
 			obj.find('input[name=BackUser]').val(USER.Name);
 			obj.find('input.Tel').val(listData.Tel);
-			//console.log('ChangeID : '+mobj.attr('dataID'));
+			//console.log('ChangeID : '+ID);
 			
 			obj.find('.searchUID').addClass('hide');
 			obj.find('.addItem').addClass('hide');
@@ -409,8 +423,8 @@
 			}
 			setItemListObj();// 重新設定區域動作
 			
-			//editID = mobj.attr('dataID');
-			obj.find('input[name=ID]').val(mobj.attr('dataID'));
+			//editID = ID;
+			obj.find('input[name=ID]').val(ID);
 			$('.actName', obj).text('編輯');
 			objShow(obj);
 			
@@ -751,6 +765,7 @@
 				{
 					var BackOrderID = $('input[name=ID]','.edBox').val();
 					xml.delOrderBack({AdminKey:USER.AdminKey, ID:BackOrderID});
+					return false;
 				}else{ 
 					return false;
 				}

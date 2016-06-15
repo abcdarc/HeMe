@@ -385,7 +385,7 @@
 		var runSuccessSend = function(data){
 			
 			//var remove = ['OrderAID','PV','Price','ProductName','Qty','StockQty','TotalPV','TotalPrice','Serial'];
-			var remove = ['OrderAID', 'PV','Price','ProductName','Qty','Serial','DiscountPrice','TotalPV','TotalPrice','StockQty'];
+			var remove = ['OrderAID', 'PV','Price','Qty','Serial','DiscountPrice','TotalPV','TotalPrice','StockQty','ProductName'];
 			var newObj = []; // 記錄新陣列
 			
 			//console.dir(remove);
@@ -407,7 +407,7 @@
 			//var test = $.extend({}, data);
 			//console.dir(data);return false;
 			var notVal = false;
-			console.log('ACT:'+act);
+			//console.log('ACT:'+act);
 			for(var i=0; i<remove.length; i++)
 			{
 				if(typeof data[remove[i]]==='object')

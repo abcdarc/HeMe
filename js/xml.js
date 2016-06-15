@@ -651,7 +651,8 @@ var lxml = function(setting){
 		delOrderBack:function(data){
 			this.runAction = "DelOrderBack";
 			this.runData = data;
-			this.runXml = this.actXml('DelOrderBack"', data);
+			this.runXml = this.actXml('DelOrderBack', data);
+			console.log(this.runXml);
 			_this.runAjax( 
 				this.runXml,
 				function(e){
