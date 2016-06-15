@@ -438,7 +438,16 @@
 					if(typeof newObj[0]=='undefined'){newObj[0] = {};}
 					if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
 					if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
-					newObj[0][remove[i]] = data[remove[i]];
+					if(act=='backOrder')
+					{
+						if(remove[i]=='OrderAID'){ newObj[0]['OrderBackID'] = 0; }
+						if(remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[0][remove[i]] = data[remove[i]];}
+					}
+					else
+					{
+						if(remove[i]!='DiscountPrice'){newObj[0][remove[i]] = data[remove[i]];}
+					}
+					
 				}
 				delete data[remove[i]];
 			}
@@ -688,6 +697,20 @@
 			});
 		};
 		
+		// 設定變更折價欄位動作
+		var setChangeDiscountPrice = function(){
+			//console.log('setChangeDiscountPrice');
+			$('input[name=DiscountPrice]', itemList).unbind('keyup').bind('keyup', function(){
+				//console.log('Qty');
+				if(act=='backOrder')
+				{
+					if($(this).val()<=0){$(this).val(0);}
+					runPrice(itemList);
+					return false;
+				}
+			});
+		};
+		
 		// 快選keyup輸入值動作 : 
 		var keyup = function(val){
 			xml.getProductItem({AdminKey:USER.AdminKey, Mode:1, Key:val, PageSize:5, CurPage:1});
@@ -760,9 +783,12 @@
 				var Price = parseInt($(this).find('input[name=Price]').val());
 				var PV = parseInt($(this).find('input[name=PV]').val());
 				var Qty = parseInt($(this).find('input[name=Qty]').val());
+				var DiscountPrice = parseInt($(this).find('input[name=DiscountPrice]').val());
 				//var StockQty = $(this).find('input[name=StockQty]').val();
 				
-				var iTprice = Price*Qty;
+				var iTprice = 0;
+				iTprice = (act=='backOrder') ? (Price-DiscountPrice)*Qty : Price*Qty ;
+				
 				var iTpv = PV*Qty;
 				
 				if(isNaN(iTprice)){iTprice=0;}
@@ -803,10 +829,11 @@
 		// 重新設定區域動作
 		var setItemListObj = function(){
 			setDelItem(); // 設定刪除按鈕動作
-			setChangePrice(); // 
+			setChangePrice(); // 金額變更動作
 			setSelectProduct(); // 設定商品清單搜尋
-			runPrice(itemList);
+			runPrice(itemList); // 金額計算
 			inputNotEnter(); // 所有input表單按Enter不能送出
+			setChangeDiscountPrice(); // 折價金額變更動作
 		};
 		
 		$(function(){

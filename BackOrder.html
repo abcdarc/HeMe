@@ -523,6 +523,17 @@
 			});
 		};
 		
+		// 設定變更折價欄位動作
+		var setChangeDiscountPrice = function(){
+			//console.log('setChangeDiscountPrice');
+			$('input[name=DiscountPrice]', itemList).unbind('keyup').bind('keyup', function(){
+				//console.log('Qty');
+				if($(this).val()<=0){$(this).val(0);}
+				runPrice(itemList);
+				return false;
+			});
+		};
+		
 		// 快選keyup輸入值動作 : 
 		var keyup = function(val){
 			xml.getProductItem({AdminKey:USER.AdminKey, Mode:1, Key:val, PageSize:5, CurPage:1});
@@ -595,9 +606,10 @@
 				var Price = parseInt($(this).find('input[name=Price]').val());
 				var PV = parseInt($(this).find('input[name=PV]').val());
 				var Qty = parseInt($(this).find('input[name=Qty]').val());
+				var DiscountPrice = parseInt($(this).find('input[name=DiscountPrice]').val());
 				//var StockQty = $(this).find('input[name=StockQty]').val();
 				
-				var iTprice = Price*Qty;
+				var iTprice = (Price-DiscountPrice)*Qty;
 				var iTpv = PV*Qty;
 				
 				if(isNaN(iTprice)){iTprice=0;}
@@ -642,6 +654,7 @@
 			setSelectProduct(); // 設定商品清單搜尋
 			runPrice(itemList);
 			inputNotEnter(); // 所有input表單按Enter不能送出
+			setChangeDiscountPrice();
 		};
 		
 		// 檢查資料清單
