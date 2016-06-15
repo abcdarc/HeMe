@@ -652,7 +652,7 @@ var lxml = function(setting){
 			this.runAction = "DelOrderBack";
 			this.runData = data;
 			this.runXml = this.actXml('DelOrderBack"', data);
-			_this.runAjax(
+			_this.runAjax( 
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('DelOrderBackResult').text());
