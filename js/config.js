@@ -10,7 +10,8 @@ var TotalLink = [];
 var TopToolBar = {};
 var Url = [];
 
-var changePageCode = '';
+var changePageCode = ''; // 變更操作作業代碼
+var reloadUrl = ""; // 指定轉跳頁面
 
 // 隱藏編輯物件
 function objHide(obj)

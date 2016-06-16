@@ -138,7 +138,10 @@ $(function(){
 			
 			// 接收模組回傳資料
 			//console.log("執行:"+PageCode);console.log("返回結果 :");console.dir(xml.calldata); 
-			if(xml.calldata.code==1 && xml.calldata.data==0 && xml.calldata.msg=="SUCCESS"){location.reload();}
+			if(xml.calldata.code==1 && xml.calldata.data==0 && xml.calldata.msg=="SUCCESS"){
+				if(reloadUrl==undefined || reloadUrl=="") location.reload();
+				else location.href = reloadUrl;
+			}
 			if(xml.calldata.code<1 && xml.calldata.data==0 ){xml.msgBox(xml.calldata.msg,'alert');return false;}
 			
 			
