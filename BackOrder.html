@@ -139,19 +139,26 @@
 						<input type="text" class='form-control input-lg FirstOrder' disabled />
 					</div>
 					<label class="col-sm-1 control-label">
-						會員名稱
+						會員編號
 					</label>
 					<div class="col-sm-2 ">
-						<input type="text" class='form-control input-lg UserName' disabled />
+						<input type="text" class='form-control input-lg UserUID' disabled />
 					</div>
 					<label class="col-sm-1 control-label">
-						電話
+						退貨單號
 					</label>
 					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg Tel' disabled />
+						<input type="text" class='form-control input-lg Serial' disabled />
 					</div>
 				</div>
+				
 				<div class="form-group">
+					<label class="col-sm-1 control-label" for="IsBackOrder">
+						已退貨
+					</label>
+					<div class="col-sm-2">
+						<input type='checkbox' class='form-control' name="IsBackOrder" id="IsBackOrder" value='1' no-checked='0'/>
+					</div>
 					<label class="col-sm-1 control-label">
 						退貨日期
 					</label>
@@ -163,17 +170,29 @@
 						收貨人
 					</label>
 					<div class="col-sm-3">
-						<input type="text" _name="BackUser" class='form-control input-lg' disabled />
-					</div>
-					<label class="col-sm-1 control-label" for="IsBackOrder">
-						已退貨
-					</label>
-					<div class="col-sm-2">
-						<input type='checkbox' class='form-control' name="IsBackOrder" id="IsBackOrder" value='1' no-checked='0'/>
+						<input type="text" _name="BackUser" class='form-control input-lg BackUser' disabled />
 					</div>
 					<div class="col-sm-1">
-						<button class='delOrder btn btn-danger'>刪除退貨單</button>
+						<button class='delOrder btn btn-danger'>取消退貨</button>
 					</div>
+				</div>
+				
+				<div class="form-group">
+					
+					<label class="col-sm-1 control-label">
+						會員名稱
+					</label>
+					<div class="col-sm-2 ">
+						<input type="text" class='form-control input-lg UserName' disabled />
+					</div>
+					
+					<label class="col-sm-1 control-label">
+						電話
+					</label>
+					<div class="col-sm-2">
+						<input type="text" class='form-control input-lg Tel' disabled />
+					</div>
+					
 				</div>
 				
 				<div class="form-group searchUID">
@@ -376,7 +395,7 @@
 			}
 			
 			//data.OrderDetail = JSON.stringify(newObj);
-			console.log('GGGGGDDDDD__');console.dir(newObj);
+			//console.log('GGGGGDDDDD__');console.dir(newObj);
 			//console.dir(data);return false;
 			
 			
@@ -391,21 +410,27 @@
 			
 			xml.getOrderBack({AdminKey:USER.AdminKey, ID:ID});
 			//console.log('editClick');console.dir(xml.calldata);
-			var listData = xml.calldata.data;
+			var listData = xml.calldata.data; console.dir(listData);
 			listData.OrderBackID = listData.OrderAID;
 			delete listData.OrderAID;
 			xml.setFormValue(obj, listData); // 設定表單資料
 			// FirstOrder SerialOrderA UserName Tel BackDate
-			obj.find('input.FirstOrder').val(listData.FirstOrder);
+			obj.find('input.FirstOrder').val((listData.FirstOrder)?'是':'否');
 			obj.find('input.SerialOrderA').val(listData.SerialOrderA);
 			obj.find('input.UserName').val(listData.UserName);
 			var today = new Date();
 			var BackDate = xml.GetDate(today);
 			obj.find('input.BackDate').val(BackDate);
 			obj.find('input[name=BackDate]').val(BackDate);
-			obj.find('input[name=BackUser]').val(USER.Name);
+			//obj.find('input[name=BackUser]').val(USER.Name);
 			obj.find('input.Tel').val(listData.Tel);
 			//console.log('ChangeID : '+ID);
+			
+			
+			obj.find('input.Serial').val(listData.Serial);
+			obj.find('input.UserUID').val(listData.UserUID);
+			obj.find('input.BackUser').val(listData.BackUser);
+			obj.find('input.SerialOrderA').val(listData.SerialOrderA);
 			
 			obj.find('.searchUID').addClass('hide');
 			obj.find('.addItem').addClass('hide');
