@@ -40,7 +40,8 @@ var lxml = function(setting){
 		// 產生XML
 		actXml:function(act, data){
 			//console.log(startXml+'<'+act+' xmlns="http://admin.canaiyi.com">'+_this.objToElements(data)+'</'+act+'>'+endXml);
-			return startXml+'<'+act+' xmlns="'+_this.ini.web+'">'+_this.objToElements(data)+'</'+act+'>'+endXml;
+		    //return startXml+'<'+act+' xmlns="'+_this.ini.web+'">'+_this.objToElements(data)+'</'+act+'>'+endXml;		    
+		    return startXml + '<' + act + ' xmlns="' + _this.ini.web + '">' + '<arg>' + JSON.stringify(data) + '</arg>' + '</' + act + '>' + endXml;
 		},
 		// 與伺服器溝通
 		linkServer:function(action, data){
