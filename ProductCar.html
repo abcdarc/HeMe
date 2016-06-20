@@ -210,7 +210,7 @@
 			{
 				var mobj = obj.parents('div').eq(0);
 				var index = $('.file').index(obj);
-				var data = xml.uploadFile(obj, ['jpg'])[0];
+				var data = xml.uploadFile(obj, ['jpg','png','gif'])[0];
 				//console.dir(data);
 				// 建立檔案讀取物件
 				var reader = new FileReader();

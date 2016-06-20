@@ -74,7 +74,7 @@
 									<td>序號</td>
 									<td>產品編號</td>
 									<td>產品名稱</td>
-									<td>庫存</td>
+									<td>盤前庫存</td>
 									<!-- <td>PV</td> -->
 									<td>盤點後數量</td>
 									<!-- <td>小計</td> -->
@@ -86,7 +86,7 @@
 										<td class='SN'></td>
 										<td class='Serial'></td>
 										<td class='ProductName'></td>
-										<td class='Price'></td>
+										<td class='StockQty'></td>
 										<!-- <td class='PV'></td> -->
 										<td class='Qty'></td>
 										<!-- <td class='TotalPV'></td> -->
@@ -98,7 +98,7 @@
 							<div class='row'>
 								<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
 									<label class="col-sm-12 control-label text-right" style='font-size:22px;padding-top:10px;'>
-										共 <span class='itemNb'></span> 件　
+										共 <span class='itemNb'></span> 項商品    　
 										<!--總計金額 <span class='TotalPrice'></span> 元　
 										 <span class='TotalPV'></span> PV -->
 									</label>
@@ -146,77 +146,74 @@
     <script src="js/bootstrap.min.js"></script>
 	
 	<script>
-		xml.msgBox("資料讀取中....", 'msg');
-		var PageCode = "OrderA";
-		
-		var GetType = 0;
-		var GetKey = "";
-		
-		$(function(){
-			xml.debug = true;
-			
-			// Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
-			xml.getInventory({AdminKey:USER.AdminKey, ID:GET['ID']});
-			console.dir(xml.calldata);
-			
-			var aname = {'false':"否", 'true':"是"};
-			
-			var temp = $('.pdlist tr').clone();
-			$('.pdlist').html('');
-			
-			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
-			{
-				$('.Memo', '.oview').text(xml.calldata.data.Memo);
-				$('.Serial', '.oview').text(xml.calldata.data.Serial);
-				$('.CheckUser', '.oview').text(xml.calldata.data.CheckUser);
-				$('.CheckDate', '.oview').text(xml.calldata.data.CheckDate);
-				
-				$('.TotalPV', '.oview').text(xml.calldata.data.TotalPV);
-				$('.TotalPrice', '.oview').text(xml.calldata.data.TotalPrice);
-				$('.allPayPrice', '.oview').text(xml.calldata.data.TotalPrice+xml.calldata.data.Shipment);
-				$('.itemNb', '.oview').text(xml.calldata.data.Items.length);
-				for(var i=0;i<xml.calldata.data.Items.length;i++)
-				{
-					var list = temp.clone();
-					var dt = xml.calldata.data.Items[i];
-					$('.SN', list).text(i+1);
-					$('.Serial', list).text(dt.Serial);
-					$('.ProductName', list).text(dt.ProductName);
-					$('.Price', list).text(dt.Price);
-					$('.PV', list).text(dt.PV);
-					$('.Qty', list).text(dt.Qty);
-					$('.TotalPrice', list).text(dt.TotalPrice);
-					$('.TotalPV', list).text(dt.TotalPV);
-					
-					$('.pdlist').append(list);
-				}
-				var sh = '0';
-				if(xml.calldata.data.Shipment){sh=xml.calldata.Shipment;}
-				$('#Shipment').text(sh);
-				//alert(sh);
-			}
-			else
-			{
-				
-				return false;
-			}
-			
-			
-			// 取出下載位址
-			xml.GetInventoryExcel({AdminKey:USER.AdminKey, ID:GET['ID']});
-			var fileurl = xml.calldata.data;
-			
-			$('.fileDownload').attr('href', fileurl);
-			
-			$('.fileDownload').click(function(){window.close();});
-			
-			if(GET['viewtype']!=1)
-			{
-				$('.fileDownload').removeClass('hidden');
-			}
+	    xml.msgBox("資料讀取中....", 'msg');
+	    var PageCode = "Inventory";
 
-		});
-		
+	    var GetType = 0;
+	    var GetKey = "";
+
+	    $(function () {
+	        xml.debug = true;
+
+	        // Mode:模式, Key:鍵值, 每頁顯示筆數, 目前頁面
+	        xml.getInventory({ AdminKey: USER.AdminKey, ID: GET['ID'] });
+	        console.dir(xml.calldata);
+
+	        var aname = { 'false': "否", 'true': "是" };
+
+	        var temp = $('.pdlist tr').clone();
+	        $('.pdlist').html('');
+
+	        if (xml.calldata.data != null && xml.calldata.data != undefined) {
+	            $('.Memo', '.oview').text(xml.calldata.data.Memo);
+	            $('.Serial', '.oview').text(xml.calldata.data.Serial);
+	            $('.CheckUser', '.oview').text(xml.calldata.data.CheckUser);
+	            $('.CheckDate', '.oview').text(xml.calldata.data.CheckDate);
+
+	            //$('.TotalPV', '.oview').text(xml.calldata.data.TotalPV);
+	            //$('.TotalPrice', '.oview').text(xml.calldata.data.TotalPrice);
+	            //$('.allPayPrice', '.oview').text(xml.calldata.data.TotalPrice+xml.calldata.data.Shipment);
+	            $('.itemNb', '.oview').text(xml.calldata.data.Items.length);
+	            for (var i = 0; i < xml.calldata.data.Items.length; i++) {
+	                var list = temp.clone();
+	                var dt = xml.calldata.data.Items[i];
+	                $('.SN', list).text(i + 1);
+	                $('.Serial', list).text(dt.Serial);
+	                $('.ProductName', list).text(dt.ProductName);
+	                //$('.Price', list).text(dt.Price);
+	                //$('.PV', list).text(dt.PV);
+	                $('.StockQty', list).text(dt.StockQty);
+	                $('.Qty', list).text(dt.Qty);
+	                //$('.TotalPrice', list).text(dt.TotalPrice);
+	                //$('.TotalPV', list).text(dt.TotalPV);
+
+	                $('.pdlist').append(list);
+	            }
+	            var sh = '0';
+	            if (xml.calldata.data.Shipment) { sh = xml.calldata.Shipment; }
+	            $('#Shipment').text(sh);
+	            //alert(sh);
+	        }
+	        else {
+
+	            return false;
+	        }
+
+
+	        // 取出下載位址
+	        xml.GetInventoryExcel({ AdminKey: USER.AdminKey, ID: GET['ID'] });
+	        var fileurl = xml.calldata.data;
+
+	        $('.fileDownload').attr('href', fileurl);
+
+	        $('.fileDownload').click(function () { window.close(); });
+
+	        if (GET['viewtype'] != 1) {
+	            $('.fileDownload').removeClass('hidden');
+	        }
+
+	    });
+
 	</script>
 	
 	<script src="js/btaction.js"></script>

@@ -297,7 +297,7 @@
 				<div class='form-group TotalShowBox'>
 					<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
 						<label class="col-sm-12 control-label text-right" style='font-size:22px;padding-top:10px;'>
-							共 <span class='itemNb'>5</span> 件　
+							共 <span class='itemNb'>5</span> 項商品    
 							總計金額 <span class='itemTotalPrice'>5000</span> 元　
 							<span class='itemTotalPV'>50</span> PV
 						</label>
@@ -586,19 +586,22 @@
 					{
 						isLock = false;
 						lockOrderItem();
-						
 						obj.find('input[name=Memo2]').attr('disabled', false);
 					}
 					else
 					{
 						isLock = true;
-						lockOrderItem('lock');
-						obj.find('input[name=Memo2]').val('').attr('disabled', true);
+						//lockOrderItem('lock');
+						//obj.find('input[name=Memo2]').val('').attr('disabled', true);
 					}
 				});
-				lockOrderItem('lock');
+				//lockOrderItem('lock');
 				obj.find('.addItem').addClass('hide');
-				isLock = true;
+			    //isLock = true;
+
+				lockOrderItem();
+				isLock = false;
+				obj.find('input[name=Memo2]').attr('disabled', false);
 			}
 			else
 			{
@@ -809,7 +812,8 @@
 			
 			mbox.find('.itemTotalPrice').text(itemTotalPrice);
 			mbox.find('.itemTotalPV').text(itemTotalPV);
-			mbox.find('.itemNb').text(totalNb);
+		    //mbox.find('.itemNb').text(totalNb);
+			mbox.find('.itemNb').text(itemNb); //共幾項
 			//console.log(jump);
 			// 滿5000運費為0
 			if(itemTotalPrice>=5000)

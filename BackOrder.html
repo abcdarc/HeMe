@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
-	<meta http-equiv="pragma" content="no-cache"> 
+    <meta http-equiv="pragma" content="no-cache">
 
-    
-	<title>退貨管理</title>
-	
-	<link href='css/bootstrap.css' rel="stylesheet"/>
-    <link href="css/shop-item.css" rel="stylesheet"/>
-	
+
+    <title>退貨管理</title>
+
+    <link href='css/bootstrap.css' rel="stylesheet" />
+    <link href="css/shop-item.css" rel="stylesheet" />
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -23,262 +23,269 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-	</head>
-	
-	<body>
-		
-	<!-- 導航列 -->
+</head>
+
+<body>
+
+    <!-- 導航列 -->
     <nav class="navbar navbar-inverse navbar-fixed-top navbox" role="navigation"></nav>
 
     <!-- 主內容區域 -->
     <div class="container-fluid">
-		
-		<div class='row'>
-			<div class="col-lg-12">
-				<h2 class="page-header">
-				退貨管理
+
+        <div class='row'>
+            <div class="col-lg-12">
+                <h2 class="page-header">退貨管理
 				<button class='add btn btn-success pull-right'>新增</button>
-				</h2>
-				
+                </h2>
+
             </div>
-		</div>
-		
-		<div class='row'>
-			<div class="col-lg-12">
-				<form class='form-inline search'>
-					<div class='form-group'>
-						<input type='text' name='GetKey' placeholder='請輸入查詢內容' class='GetKey form-control hidden' />
-					</div>
-					<div class='form-group'>
-						<select name='GetType' class='form-control'>
-							<option value='0' selected>全部列表</option>
-							<option value='1'>搜尋退貨單編號</option>
-							<option value='2'>搜尋會員編號</option>
-							<option value='3'>取消退貨單列表</option>
-							<option value='4'>搜尋取消退貨單編號</option>
-						</select>
-					</div>
-					<div class='form-group'>
-						<button class='btn btn-primary'>查詢</button>
-					</div>
-				</form>
+        </div>
+
+        <div class='row'>
+            <div class="col-lg-12">
+                <form class='form-inline search'>
+                    <div class='form-group'>
+                        <input type='text' name='GetKey' placeholder='請輸入查詢內容' class='GetKey form-control hidden' />
+                    </div>
+                    <div class='form-group'>
+                        <select name='GetType' class='form-control'>
+                            <option value='0' selected>退貨單列表</option>
+                            <option value='1'>搜尋退貨單編號</option>
+                            <option value='2'>搜尋會員編號</option>
+                            <option value='3'>取消退貨單列表</option>
+                            <option value='4'>搜尋取消退貨單編號</option>
+                        </select>
+                    </div>
+                    <div class='form-group'>
+                        <button class='btn btn-primary'>查詢</button>
+                    </div>
+                </form>
             </div>
-		</div>
-		
-		<hr />
-		
+        </div>
+
+        <hr />
+
         <div class="row">
-		
+
             <div class="col-md-12">
                 <table class='slist table table-hover'>
-				
-					<thead>
-						<tr>
-							<th width='300'>退貨單號</th>
-							<th>訂單編號</th>
-							<th>會員</th>
-							<th>總金額</th>
-							<th class='hide'>已退貨</th>
-							<th>退貨日期</th>
-							<!-- <th width='80'>管理</th> -->
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr dataID="">
-							<td class='Serial'></td>
-							<td class='SerialOrderA'></td>
-							<td class='UserName'></td>
-							<td class='TotalPrice'></td>
-							<td class='hide IsBackOrder'></td>
-							<th class='BackDate'></th>
-							 
-							<td>
-								<button class='edit btn btn-primary'>編輯</button>
-								<!--<button class='del btn btn-danger'>刪除</button>-->
-								<a href="BackOrderView.html" target='_blank' class='preview_order btn btn-danger'>預覽</a>
-							</td>
-						</tr>
-					</tbody>
-					
-				</table>
+
+                    <thead>
+                        <tr>
+                            <th width='300'>退貨單號</th>
+                            <th>訂單編號</th>
+                            <th>會員</th>
+                            <th>總金額</th>
+                            <th class='hide'>已退貨</th>
+                            <th>退貨日期</th>
+                            <!-- <th width='80'>管理</th> -->
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr dataid="">
+                            <td class='Serial'></td>
+                            <td class='SerialOrderA'></td>
+                            <td class='UserName'></td>
+                            <td class='TotalPrice'></td>
+                            <td class='hide IsBackOrder'></td>
+                            <th class='BackDate'></th>
+
+                            <td>
+                                <button class='edit btn btn-primary'>編輯</button>
+                                <!--<button class='del btn btn-danger'>刪除</button>-->
+                                <a href="BackOrderView.html" target='_blank' class='preview_order btn btn-danger'>預覽</a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
             </div>
 
         </div>
-		
-		<div class='row fpage'></div>
+
+        <div class='row fpage'></div>
     </div>
     <!-- /.container -->
 
     <div class="container-fluid footer"></div>
-	
-	
-	
-	<div class='container-fluid edBox hidden'>
-		<div class='row'>
-		
-			<h2 class="page-header" style='border:0;'>
-			<span class='actName'></span>退貨
+
+
+
+    <div class='container-fluid edBox hidden'>
+        <div class='row'>
+
+            <h2 class="page-header" style='border: 0;'>
+                <span class='actName'></span>退貨
 			<button class='cancel_send btn btn-danger pull-right'><i class='glyphicon glyphicon-chevron-left '></i></button>
-			</h2>
-			
-			<form class="form-horizontal" role="form">
-			
-				<div class="form-group">
-					<label class="col-sm-1 control-label">
-						訂單編號
-					</label>
-					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg SerialOrderA' disabled />
-						<input type="hidden" name='OrderBackID' class='form-control input-lg' disabled />
-					</div>
-					<label class="col-sm-1 control-label">
-						首購
-					</label>
-					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg FirstOrder' disabled />
-					</div>
-					<label class="col-sm-1 control-label">
-						會員編號
-					</label>
-					<div class="col-sm-2 ">
-						<input type="text" class='form-control input-lg UserUID' disabled />
-					</div>
-					<label class="col-sm-1 control-label">
-						退貨單號
-					</label>
-					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg Serial' disabled />
-					</div> 
-				</div>
-				
-				<div class="form-group">
-					<label class="col-sm-1 control-label" for="IsBackOrder">
-						已退貨
-					</label>
-					<div class="col-sm-2">
-						<input type='checkbox' class='form-control' name="IsBackOrder" id="IsBackOrder" value='1' no-checked='0'/>
-					</div>
-					<label class="col-sm-1 control-label">
-						退貨日期
-					</label>
-					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg BackDate' disabled />
-						<input type="hidden" _name='BackDate' class='form-control input-lg' />
-					</div>
-					<label class="col-sm-1 control-label">
-						收貨人
-					</label>
-					<div class="col-sm-2">
-						<input type="text" _name="BackUser" class='form-control input-lg BackUser' disabled />
-					</div>
-					<div class="col-sm-1">
-						<button class='delOrder btn btn-danger'>取消退貨</button>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					
-					<label class="col-sm-1 control-label">
-						會員名稱
-					</label>
-					<div class="col-sm-2 ">
-						<input type="text" class='form-control input-lg UserName' disabled />
-					</div>
-					
-					<label class="col-sm-1 control-label">
-						電話
-					</label>
-					<div class="col-sm-2">
-						<input type="text" class='form-control input-lg Tel' disabled />
-					</div>
-					
-				</div>
-				
-				<div class="form-group searchUID">
-					<label class="col-sm-1 control-label">
-						搜尋會員編號
-					</label>
-					<div class="col-sm-11">
-						<input type="hidden" name='UserKey' class='form-control input-lg' />
-						<input type="text" class='form-control input-lg UID' />
-						<span style='float:left;'>會員資料 : <span class='row Name' style='padding:20px;'>未選擇會員</span></span>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-sm-2 control-label">
-						備註
-					</label>
-					<div class="col-sm-10">
-						<input type="text" name='Memo' class='form-control input-lg' />
-					</div>
-				</div>
-				
-				<div class="form-group">
-				</div>
-				
-				<div class='col-md-10 col-md-offset-2 col-lg-10 col-lg-offset-2'>
-					<div style='padding-top:20px;'>
-					<table class='table table-hover'>
-						<thead>
-							<tr>
-								<th width='50'>序號</th>
-								<th width='150'>產品編號</th>
-								<th>產品名稱</th>
-								<th width='80'>單價</th>
-								<th width='80'>PV值</th>
-								<th width='100'>單件折價</th>
-								<th width='80'>數量</th>
-								<th width='80'>庫存</th>
-								<th width='100'>小計</th>
-								<th width='80'>總PV值</th>
-								<th width='50'>
-									<button class='addItem btn btn-default'><i class='glyphicon glyphicon-plus'></i></button>
-								</th>
-							</tr>
-						</thead>
-					</table>
-					</div>
-					
-					<div  style='max-height:300px; min-height:80px; overflow-y:auto;'>
-					<table class='table table-hover'>
-						<tbody class='orderItem'>
-							<tr>
-								<td class="FlowCode" width='50'>1</td>
-								<td class='Serial' width='150'>
-									<input type='hidden' name='OrderAID' />
-									<input type='text' class='form-control form-lg' name='Serial' />
-								</td>
-								<td class="ProductName"><span></span><input type='hidden' name='ProductName' /></td>
-								<td class="Price" width='80'><span></span><input type='hidden' name='Price' /></td>
-								<td class="PV" width='80'><span></span><input type='hidden' name='PV' /></td>
-								<td class="DiscountPrice" width='80'><input type='input' name='DiscountPrice' class='form-control' value='0' /></td>
-								<td class="Qty" width='80'><input type='text' class='form-control form-lg' name='Qty' value='1' /></td>
-								<td class="StockQty" width='80'><span></span><input type='hidden' name='StockQty' /></td>
-								<td class="TotalPrice" width='100'><span></span><input type='hidden' name='TotalPrice' /></td>
-								<td class="TotalPV" width='80'><span></span><input type='hidden' name='TotalPV' /></td>
-								<td width='50'>
-									<button class='removeItem btn btn-default'>
-										<i class='glyphicon glyphicon-remove'></i>
-									</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					</div>
-					
-				
-					<div class='form-group TotalShowBox'>
-						<div class="row col-sm-6 col-sm-offset-6" style='padding-bottom:10px;'>
-							<label class="col-sm-12 control-label text-right" style='font-size:22px;padding-top:10px;'>
-								共 <span class='itemNb'>0</span> 件　
+            </h2>
+
+            <form class="form-horizontal" role="form">
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">
+                        訂單編號
+                    </label>
+                    <div class="col-sm-2">
+                        <input type="text" class='form-control input-lg SerialOrderA' disabled />
+                        <input type="hidden" name='OrderBackID' class='form-control input-lg' disabled />
+                    </div>
+                    <label class="col-sm-1 control-label">
+                        首購
+                    </label>
+                    <div class="col-sm-2">
+                        <input type="text" class='form-control input-lg FirstOrder' disabled />
+                    </div>
+                    <label class="col-sm-1 control-label">
+                        會員編號
+                    </label>
+                    <div class="col-sm-2 ">
+                        <input type="text" class='form-control input-lg UserUID' disabled />
+                    </div>
+                    <label class="col-sm-1 control-label">
+                        退貨單號
+                    </label>
+                    <div class="col-sm-2">
+                        <input type="text" class='form-control input-lg Serial' disabled />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" for="IsBackOrder">
+                        已退貨
+                    </label>
+                    <div class="col-sm-2">
+                        <input type='checkbox' class='form-control' name="IsBackOrder" id="IsBackOrder" value='1' no-checked='0' />
+                    </div>
+                    <label class="col-sm-1 control-label">
+                        退貨日期
+                    </label>
+                    <div class="col-sm-2">
+                        <input type="text" class='form-control input-lg BackDate' disabled />
+                        <input type="hidden" _name='BackDate' class='form-control input-lg' />
+                    </div>
+                    <label class="col-sm-1 control-label">
+                        收貨人
+                    </label>
+                    <div class="col-sm-2">
+                        <input type="text" _name="BackUser" class='form-control input-lg BackUser' disabled />
+                    </div>
+                    <div class="col-sm-1">
+                        <button class='delOrder btn btn-danger'>取消退貨</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-sm-1 control-label">
+                        會員名稱
+                    </label>
+                    <div class="col-sm-2 ">
+                        <input type="text" class='form-control input-lg UserName' disabled />
+                    </div>
+
+                    <label class="col-sm-1 control-label">
+                        電話
+                    </label>
+                    <div class="col-sm-2">
+                        <input type="text" class='form-control input-lg Tel' disabled />
+                    </div>
+
+                </div>
+
+                <div class="form-group searchUID">
+                    <label class="col-sm-1 control-label">
+                        搜尋會員
+                    </label>
+                    <div class="col-sm-11">
+                        <input type="hidden" name='UserKey' class='form-control input-lg' />
+                        <input type="text" class='form-control input-lg UID' />
+                        <span style='float: left;'>會員資料 : <span class='row Name' style='padding: 20px;'>未選擇會員</span></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        備註
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" name='Memo' class='form-control input-lg' />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                </div>
+
+                <div class='col-md-10 col-md-offset-2 col-lg-10 col-lg-offset-2'>
+                    <div style='padding-top: 20px;'>
+                        <table class='table table-hover'>
+                            <thead>
+                                <tr>
+                                    <th width='50'>序號</th>
+                                    <th width='150'>產品編號</th>
+                                    <th>產品名稱</th>
+                                    <th width='80'>單價</th>
+                                    <th width='80'>PV值</th>
+                                    <th width='100'>單件折價</th>
+                                    <th width='80'>數量</th>
+                                    <th width='80'>庫存</th>
+                                    <th width='100'>小計</th>
+                                    <th width='80'>總PV值</th>
+                                    <th width='50'>
+                                        <button class='addItem btn btn-default'><i class='glyphicon glyphicon-plus'></i></button>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div style='max-height: 300px; min-height: 80px; overflow-y: auto;'>
+                        <table class='table table-hover'>
+                            <tbody class='orderItem'>
+                                <tr>
+                                    <td class="FlowCode" width='50'>1</td>
+                                    <td class='Serial' width='150'>
+                                        <input type='hidden' name='OrderAID' />
+                                        <input type='text' class='form-control form-lg' name='Serial' />
+                                    </td>
+                                    <td class="ProductName"><span></span>
+                                        <input type='hidden' name='ProductName' /></td>
+                                    <td class="Price" width='80'><span></span>
+                                        <input type='hidden' name='Price' /></td>
+                                    <td class="PV" width='80'><span></span>
+                                        <input type='hidden' name='PV' /></td>
+                                    <td class="DiscountPrice" width='80'>
+                                        <input type='input' name='DiscountPrice' class='form-control' value='0' /></td>
+                                    <td class="Qty" width='80'>
+                                        <input type='text' class='form-control form-lg' name='Qty' value='1' /></td>
+                                    <td class="StockQty" width='80'><span></span>
+                                        <input type='hidden' name='StockQty' /></td>
+                                    <td class="TotalPrice" width='100'><span></span>
+                                        <input type='hidden' name='TotalPrice' /></td>
+                                    <td class="TotalPV" width='80'><span></span>
+                                        <input type='hidden' name='TotalPV' /></td>
+                                    <td width='50'>
+                                        <button class='removeItem btn btn-default'>
+                                            <i class='glyphicon glyphicon-remove'></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class='form-group TotalShowBox'>
+                        <div class="row col-sm-6 col-sm-offset-6" style='padding-bottom: 10px;'>
+                            <label class="col-sm-12 control-label text-right" style='font-size: 22px; padding-top: 10px;'>
+                                共 <span class='itemNb'>0</span> 項商品　
 								總計金額 <span class='itemTotalPrice'>0</span> 元　
 								<span class='itemTotalPV'>0</span> PV
-							</label>
-						</div>
-						
-						<!-- <div class="row col-sm-4 col-sm-offset-8" style='padding-bottom:10px;'>
+                            </label>
+                        </div>
+
+                        <!-- <div class="row col-sm-4 col-sm-offset-8" style='padding-bottom:10px;'>
 							<label for="Shipment" class="col-sm-4 control-label" style='padding-top:25px;'>
 								運費
 							</label>
@@ -292,529 +299,505 @@
 								應付金額 <span class='allPayPrice'>0</span> 元
 							</label>
 						</div> -->
-					</div>
-				</div>
-				
-				
-				
-				<div class="form-group">
-					<div class="col-sm-12">
-						<button class='success_send btn btn-success btn-lg'>確認</button>
-						<button class='cancel_send btn btn-danger btn-lg'>取消</button>
-						<input type="hidden" name='ID' class='form-control' />
-					</div>
-				</div>
-			</form>
+                    </div>
+                </div>
 
-	</div>
-	
-	<!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <script src="js/jquery.cookie.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/xml.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-	
-	<script>
-		
-		var PageCode = "OrderBack";
-		
-		// 搜尋值
-		var GetType = 0;
-		var GetKey = "";
-		
-		
-		var OrderAID = 0; //目前編輯訂單ID
-		var UserKey = 0;
-		
-		var isLock = false; // 是否鎖定清單編輯
-		
-		// 送出表單前執行 : 在取得表單資料之後
-		var runSuccessSend = function(data){
-			
-			var remove = ['OrderAID','PV','Price','Qty','StockQty','TotalPV','TotalPrice','Serial','DiscountPrice','ProductName'];
-			var newObj = []; // 記錄新陣列
-			var OrderAID = data.OrderBackID;
-			delete data.OrderBackID;
-			
-			var TotalPrice = 0; // 計算全部運費
-			var TotalPV = 0; // 計算全部PV
-			console.log("TT :");console.dir($.extend({},data));//return false;
-			var notVal = false;
-			
-			for(var i=0; i<remove.length; i++)
-			{
-				if(data['ProductName']!=undefined)
-				{
-					if(typeof data[remove[i]]==='object')
-					{
-						for(var j=0; j<data[remove[i]].length;j++)
-						{
-							//console.log("arr_"+remove[i]+":"+data[remove[i]][j]);
-							if(remove[i]=='Serial' && (data[remove[i]][j]==undefined)){notVal=true;break;}
-							if(typeof newObj[j]=='undefined'){newObj[j] = {};}
-							if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]][j]);}
-							if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]][j]);}
-							if(remove[i]=='OrderAID'){ newObj[j]['OrderBackID'] = 0; }
-							if(remove[i]!='OrderAID' && remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[j][remove[i]] = data[remove[i]][j];}
-							//newObj[j][remove[i]] = data[remove[i]][j];
-						}
-						if(notVal){break;}
-					}
-					else
-					{
-						if(remove[i]=='Serial' && data[remove[i]]==undefined){notVal=true;break;}
-						if(typeof newObj[0]=='undefined'){newObj[0] = {};}
-						if(remove[i]=='TotalPrice'){TotalPrice+=parseInt(data[remove[i]]);}
-						if(remove[i]=='TotalPV'){TotalPV+=parseInt(data[remove[i]]);}
-						if(remove[i]=='OrderAID'){ newObj[0]['OrderBackID'] = 0; }
-						if(remove[i]!='OrderAID' && remove[i]!='TotalPV' && remove[i]!='TotalPrice' && remove[i]!='StockQty'){newObj[0][remove[i]] = data[remove[i]];}
-						
-					}
-					//console.log('DEL:'+remove[i]);
-					delete data[remove[i]];
-				}
-			}//OrderAID
-			//console.dir(newObj);
-			if(notVal){return {error:'商品序號不得為空!!!!'};}
-			
-			data.TotalPrice = TotalPrice;
-			data.TotalPV = TotalPV;
-			data.OrderBackDetail = jsonToString(newObj);
-			console.log('View ACT :'+act);
-			if(act=='add')
-			{
-				data.ID='0'; // 只新增
-				data.OrderAID='0';
-			}
-			if(act=='edit')
-			{
-				data.OrderAID = OrderAID;
-			}
-			
-			//data.OrderDetail = JSON.stringify(newObj);
-			//console.log('GGGGGDDDDD__');console.dir(newObj);
-			//console.dir(data);return false;
-			
-			
-			return data;
-		};
-		
-		// 自訂編輯動作
-		var editClick = function(obj, mobj){
-		
-			
-			var ID = OrderAID = mobj.attr('dataID');
-			
-			xml.getOrderBack({AdminKey:USER.AdminKey, ID:ID});
-			//console.log('editClick');console.dir(xml.calldata);
-			var listData = xml.calldata.data; console.dir(listData);
-			listData.OrderBackID = listData.OrderAID;
-			delete listData.OrderAID;
-			xml.setFormValue(obj, listData); // 設定表單資料
-			// FirstOrder SerialOrderA UserName Tel BackDate
-			obj.find('input.FirstOrder').val((listData.FirstOrder)?'是':'否');
-			obj.find('input.SerialOrderA').val(listData.SerialOrderA);
-			obj.find('input.UserName').val(listData.UserName);
-			var today = new Date();
-			var BackDate = xml.GetDate(today);
-			obj.find('input.BackDate').val(BackDate);
-			obj.find('input[name=BackDate]').val(BackDate);
-			//obj.find('input[name=BackUser]').val(USER.Name);
-			obj.find('input.Tel').val(listData.Tel);
-			//console.log('ChangeID : '+ID);
-			
-			
-			obj.find('input.Serial').val(listData.Serial);
-			obj.find('input.UserUID').val(listData.UserUID);
-			obj.find('input.BackUser').val(listData.BackUser);
-			obj.find('input.SerialOrderA').val(listData.SerialOrderA);
-			
-			obj.find('.searchUID').addClass('hide');
-			obj.find('.addItem').addClass('hide');
-			
-			$('.orderItem').html('');
-			
-			//console.dir(listData);
-			// 載入購買商品清單
-			if(listData!=undefined && listData.Items.length>0)
-			{
-				for(var i=0; i<listData.Items.length; i++)
-				{
-					addItemList(itemList, olistTemplate, listData.Items[i]);
-				}
-			}
-			setItemListObj();// 重新設定區域動作
-			
-			//editID = ID;
-			obj.find('input[name=ID]').val(ID);
-			$('.actName', obj).text('編輯');
-			objShow(obj);
-			
-		};
-		
-		var startAdd = function(){
-			$('.searchUID','.edBox').removeClass('hide');
-			$('.addItem','.edBox').removeClass('hide');
-			$('.orderItem').html('');
-		}
-		
-		
-		// 變更搜尋類別
-		function changeSearchType(val)
-		{
-			if(val=='0' || val=='3')
-			{
-				$('.search').find('.GetKey').addClass('hidden').val('');
-			}
-			else
-			{
-				$('.search').find('.GetKey').removeClass('hidden');
-			}
-		}
-		
-		var olistTemplate = {};
-		var itemList = {};
-		
-		var lockOrderItem = function(type){
-			if(type=='lock')
-			{
-				$('.edBox').find('input[name=Shipment]').attr('disabled',true);
-				$('.edBox').find('input[name=Serial]').attr('disabled',true);
-				$('.edBox').find('input[name=Qty]').attr('disabled',true);
-			}
-			else
-			{
-				$('.edBox').find('input[name=Shipment]').attr('disabled',false);
-				$('.edBox').find('input[name=Serial]').attr('disabled',false);
-				$('.edBox').find('input[name=Qty]').attr('disabled',false);
-			}
-		}
-		
-		var addItemList = function(obj, template, data){
-			
-			var listObj = template.clone();
-			if(data!=undefined)
-			{
-				xml.setFormValue(listObj, data);
-				for(var key in data)
-				{
-				
-					listObj.find('.'+key+" span").text(data[key]);
-				
-				}
-			}
-			obj.append(listObj);
-		};
-		
-		var delItemList = function(obj){//console.log('delItemList');
-			if(!isLock)
-			{
-				var mobj = obj.parents('.orderItem');
-				var listnb = mobj.find('tr').length;//alert(listnb);
-				// 不能刪到最後一筆
-				if(act!='backOrder')
-				{
-					if(listnb>1){obj.parents('tr').remove();}
-				}
-				else
-				{
-					obj.parents('tr').remove();
-				}
-			}
-		};
-		
-		// 設定清除清單按鈕動作
-		var setDelItem = function(){
-			//console.log('setDelItem');
-			$('.removeItem', itemList).unbind('click').bind('click', function(){
-				delItemList($(this));
-				runPrice(itemList);
-				return false;
-			});
-			
-		};
-		
-		// 設定變更價格欄位動作
-		var setChangePrice = function(){
-			//console.log('setChangePrice');
-			$('input[name=Qty]', itemList).unbind('keyup').bind('keyup', function(){
-				//console.log('Qty');
-				if($(this).val()<=0){$(this).val(0);}
-				runPrice(itemList);
-				return false;
-			});
-		};
-		
-		// 設定變更折價欄位動作
-		var setChangeDiscountPrice = function(){
-			//console.log('setChangeDiscountPrice');
-			$('input[name=DiscountPrice]', itemList).unbind('keyup').bind('keyup', function(){
-				//console.log('Qty');
-				if($(this).val()<=0){$(this).val(0);}
-				runPrice(itemList);
-				return false;
-			});
-		};
-		
-		// 快選keyup輸入值動作 : 
-		var keyup = function(val){
-			xml.getProductItem({AdminKey:USER.AdminKey, Mode:1, Key:val, PageSize:5, CurPage:1});
-			return xml.calldata.data.Items;
-		};
-		
-		// 快選點擊動作
-		var listclick = function(obj, data){
-			//console.log('run click');console.dir(data);
-			if(data!=undefined)
-			{
-				obj.val(data.Serial);
-				setProductListVal(obj.parents('tr'), data);
-			}
-			else
-			{
-				clrProductListVal(obj.parents('tr'));
-			}
-			runPrice(itemList);
-			return false;
-		};
-		
-		// 設定自動比對選擇商品功能
-		var setSelectProduct = function(){
-			xml.autoComplete($('input[name=Serial]', itemList), ['Serial','Name'], keyup, listclick);
-		};
-		
-		var setProductListVal = function(obj,data){
-			// ProductName Price PV StockQty
-			//console.dir(data);
-			obj.find('input[name=OrderAID]').val(OrderAID);
-			obj.find('input[name=ProductName]').val(data.Name);
-			obj.find('.ProductName span:eq(0)').text(data.Name);
-			obj.find('input[name=Price]').val(data.PriceTW);
-			obj.find('.Price span:eq(0)').text(data.PriceTW);
-			obj.find('input[name=PV]').val(data.PV);
-			obj.find('.PV span:eq(0)').text(data.PV);
-			obj.find('input[name=StockQty]').val(data.StockQty);
-			obj.find('.StockQty span:eq(0)').text(data.StockQty);
-		};
-		
-		var clrProductListVal = function(obj){
-			// ProductName Price PV StockQty
-			obj.find('input[name=OrderAID]').val('');
-			obj.find('input[name=ProductName]').val('');
-			obj.find('.ProductName span:eq(0)').text('');
-			obj.find('input[name=Price]').val('');
-			obj.find('.Price span:eq(0)').text('');
-			obj.find('input[name=PV]').val('');
-			obj.find('.PV span:eq(0)').text('');
-			obj.find('input[name=StockQty]').val('');
-			obj.find('.StockQty span:eq(0)').text('');
-		};
-		
-		// 計算費用 - 並分配
-		var runPrice = function(obj, jump){
-			//console.log('jump:'+jump);
-			if(jump==undefined){jump=false;}//跳過運費認證
-			
-			//alert(obj.find('tbody tr').length);
-			//console.log('runPrice');return false;
-			//console.dir(obj);
-			var mbox = $('.TotalShowBox');
-			var itemNb = 0;
-			var itemTotalPrice = 0 ;
-			var itemTotalPV = 0 ;
-			var totalNb = 0;
-			obj.find('tr').each(function(e){
-				$(this).find('.FlowCode').text(e+1); // 重新填入鍵值
-				var Price = parseInt($(this).find('input[name=Price]').val());
-				var PV = parseInt($(this).find('input[name=PV]').val());
-				var Qty = parseInt($(this).find('input[name=Qty]').val());
-				var DiscountPrice = parseInt($(this).find('input[name=DiscountPrice]').val());
-				//var StockQty = $(this).find('input[name=StockQty]').val();
-				
-				var iTprice = (Price-DiscountPrice)*Qty;
-				var iTpv = PV*Qty;
-				
-				if(isNaN(iTprice)){iTprice=0;}
-				if(isNaN(iTpv)){iTpv=0;}
-				if(isNaN(Qty)){Qty=0;}
-				
-				itemTotalPrice += (iTprice);
-				itemTotalPV += (iTpv);
-				totalNb += Qty;
-				
-				$(this).find('input[name=TotalPrice]').val(iTprice);
-				$(this).find('.TotalPrice span:eq(0)').text(iTprice);
-				$(this).find('input[name=TotalPV]').val(iTpv);
-				$(this).find('.TotalPV span:eq(0)').text(iTpv);
-				itemNb++;
-			});
-			
-			mbox.find('.itemTotalPrice').text(itemTotalPrice);
-			mbox.find('.itemTotalPV').text(itemTotalPV);
-			mbox.find('.itemNb').text(totalNb);
-			//console.log(jump);
-			// 滿5000運費為0
-			if(itemTotalPrice>=5000)
-			{
-				if(!jump){$('input[name=Shipment]', mbox).val(0);}
-			}
-			else
-			{
-				if(!jump){$('input[name=Shipment]', mbox).val(120);}
-			}
-			
-			//運費
-			var Shipment = parseInt($('input[name=Shipment]', mbox).val());
-			$('.allPayPrice', mbox).text(Shipment+itemTotalPrice);
-			//console.log('runPrice END');
-		};
-		
-		// 重新設定區域動作
-		var setItemListObj = function(){
-			setDelItem(); // 設定刪除按鈕動作
-			setChangePrice(); // 
-			setSelectProduct(); // 設定商品清單搜尋
-			runPrice(itemList);
-			inputNotEnter(); // 所有input表單按Enter不能送出
-			setChangeDiscountPrice();
-		};
-		
-		// 檢查資料清單
-		function checkList()
-		{
-			$('.slist tr').each(function(){
-				// preview_order edit
-				var isBack = "";
-				var isBackTrue = false;
-				
-				isBackTrue = ($(this).find('.IsBackOrder').text()=='1');
-				//console.log('isBackTrue : '+isBackTrue);
-				if(isBackTrue){$(this).find('.edit').addClass('disabled');}
-				else{$(this).find('.preview_order').addClass('disabled');}
-				
-			});
-		}
-		
-		$(function(){
-			xml.debug = true;
-			xml.msgBox("資料讀取中....", 'msg');
-			
 
-			
-			// 判斷搜尋值
-			if(GET!=undefined)
-			{
-				// 返回搜尋值
-				if(GET['GetType']!=undefined && GET['GetType'].trim()!='')
-				{
-					GetType = GET['GetType'];
-					$('select[name=GetType]', '.search').val(GetType);
-				}
-				
-				// 返回搜尋值
-				if(GET['GetKey']!=undefined && GET['GetKey'].trim()!='')
-				{
-					GetKey = decodeURI(GET['GetKey']);
-					$('input[name=GetKey]', '.search').val(GetKey);
-				}
-				
-			}
-			
-			changeSearchType(GetType); // 變更搜尋類別
-			$('select[name=GetType]','.search').change(function(){
-				changeSearchType($(this).val());
-			});
-			
-			itemList = $('.orderItem');
-			olistTemplate = $('.orderItem tr', '.edBox').clone(); // 儲存模版
-			itemList.html(''); // 清空內容
-			
-			// PageSize:每頁多少筆 / CurPage:目前第幾頁
-			xml.getOrderBackList({AdminKey:USER.AdminKey, Mode:GetType, Key:GetKey, PageSize:showNb, CurPage:nowPage});
-			
-			if(xml.calldata.data!=null && xml.calldata.data!=undefined)
-			{
-				xml.objToTdList(
-					$('.slist'), // 指定容器
-					xml.calldata.data.Items, // 返回要產生的資料
-					{Serial:['Serial'], SerialOrderA:['SerialOrderA'], UserName:['UserName','UserUID'], TotalPrice:['TotalPrice'], BackDate:['BackDate'], IsBackOrder:['IsBackOrder']},
-					"ID", // 主鍵值
-					"<br/>", // 內容分隔符號
-					// 指定欄位 前(before)/後(after)加入字串 
-					// getdataBefore:加入指定資料欄位於前方 / getdataAfter:加入指定資料欄位於後方
-					{
-						'TotalPrice':{dataAfter:"Coin"}
-					}
-				);
-				
-				$('.preview_order').each(function(){
-					$(this).attr('href', $(this).attr('href')+"?ID="+$(this).parents('tr').attr('dataID'))
-				});
-				
-				var linkstar = "";
-				var pageObj = xml.getFlipPage(GET, {total:500, show:showNb, totalPage:xml.totalPage, linknb:5, nowPage:nowPage});
-				if(pageObj!=undefined && pageObj.linkstr!=undefined && pageObj.linkstr.trim()!=''){linkstar=pageObj.linkstr;}
-				// 翻頁
-				$('.fpage').html(linkstar);
-			}
-			else
-			{
-				$('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
-				return false;
-			}
-			
-			checkList(); // 檢查清單行
-			
-			$('.addItem', '.edBox').click(function(){
-				//alert('addItem');return false;
-				addItemList(itemList, olistTemplate);
-				setItemListObj(); // 重新設定區域動作
-				return false;
-			});
-			
-			
-			$('input[name=Shipment]').bind('keyup',function(){
-				runPrice(itemList, true);
-			});
-			
-			//------------------------------------------------------------------------------------------------
-			// 搜尋使用者
-			var searchUIDdb = function(val){
-				xml.searchUID({UID:val});
-				console.log('jj:');console.dir(xml.calldata);
-				return xml.calldata.data;
-			};
-			
-			// 返回使用者值
-			var backUser = function(obj, data){
-				obj.prev('input[name=UserKey]').val(data.UserKey);
-				$('.edBox').find('.Name').text(data.UID+" : "+data.Name+'/'+data.NickName);
-			};
-			
-			// 設定快搜物件 : (物件, 取出值, 搜尋函式:function, 回傳執行函式(接收搜尋函式回傳值):function)
-			xml.autoComplete($('.UID', '.edBox'), ['UserKey', 'Name'], searchUIDdb, backUser);
-			
-			// 刪除退貨單
-			$('.delOrder').click(function(){
-				if(confirm("是否確定刪除退貨單!!"))
-				{
-					var BackOrderID = $('input[name=ID]','.edBox').val();
-					xml.delOrderBack({AdminKey:USER.AdminKey, ID:BackOrderID});
-					return false;
-				}else{ 
-					return false;
-				}
-			});
-			
-		});
-		
-	</script>
-	
-	<script src="js/btaction.js"></script>
-	
-	</body>
-	
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button class='success_send btn btn-success btn-lg'>確認</button>
+                        <button class='cancel_send btn btn-danger btn-lg'>取消</button>
+                        <input type="hidden" name='ID' class='form-control' />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/xml.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+
+        <script>
+
+            var PageCode = "OrderBack";
+
+            // 搜尋值
+            var GetType = 0;
+            var GetKey = "";
+
+
+            var OrderAID = 0; //目前編輯訂單ID
+            var UserKey = 0;
+
+            var isLock = false; // 是否鎖定清單編輯
+
+            // 送出表單前執行 : 在取得表單資料之後
+            var runSuccessSend = function (data) {
+
+                var remove = ['OrderAID', 'PV', 'Price', 'Qty', 'StockQty', 'TotalPV', 'TotalPrice', 'Serial', 'DiscountPrice', 'ProductName'];
+                var newObj = []; // 記錄新陣列
+                var OrderAID = data.OrderBackID;
+                delete data.OrderBackID;
+
+                var TotalPrice = 0; // 計算全部運費
+                var TotalPV = 0; // 計算全部PV
+                console.log("TT :"); console.dir($.extend({}, data));//return false;
+                var notVal = false;
+
+                for (var i = 0; i < remove.length; i++) {
+                    if (data['ProductName'] != undefined) {
+                        if (typeof data[remove[i]] === 'object') {
+                            for (var j = 0; j < data[remove[i]].length; j++) {
+                                //console.log("arr_"+remove[i]+":"+data[remove[i]][j]);
+                                if (remove[i] == 'Serial' && (data[remove[i]][j] == undefined)) { notVal = true; break; }
+                                if (typeof newObj[j] == 'undefined') { newObj[j] = {}; }
+                                if (remove[i] == 'TotalPrice') { TotalPrice += parseInt(data[remove[i]][j]); }
+                                if (remove[i] == 'TotalPV') { TotalPV += parseInt(data[remove[i]][j]); }
+                                if (remove[i] == 'OrderAID') { newObj[j]['OrderBackID'] = 0; }
+                                if (remove[i] != 'OrderAID' && remove[i] != 'TotalPV' && remove[i] != 'TotalPrice' && remove[i] != 'StockQty') { newObj[j][remove[i]] = data[remove[i]][j]; }
+                                //newObj[j][remove[i]] = data[remove[i]][j];
+                            }
+                            if (notVal) { break; }
+                        }
+                        else {
+                            if (remove[i] == 'Serial' && data[remove[i]] == undefined) { notVal = true; break; }
+                            if (typeof newObj[0] == 'undefined') { newObj[0] = {}; }
+                            if (remove[i] == 'TotalPrice') { TotalPrice += parseInt(data[remove[i]]); }
+                            if (remove[i] == 'TotalPV') { TotalPV += parseInt(data[remove[i]]); }
+                            if (remove[i] == 'OrderAID') { newObj[0]['OrderBackID'] = 0; }
+                            if (remove[i] != 'OrderAID' && remove[i] != 'TotalPV' && remove[i] != 'TotalPrice' && remove[i] != 'StockQty') { newObj[0][remove[i]] = data[remove[i]]; }
+
+                        }
+                        //console.log('DEL:'+remove[i]);
+                        delete data[remove[i]];
+                    }
+                }//OrderAID
+                //console.dir(newObj);
+                if (notVal) { return { error: '商品序號不得為空!!!!' }; }
+
+                data.TotalPrice = TotalPrice;
+                data.TotalPV = TotalPV;
+                data.OrderBackDetail = jsonToString(newObj);
+                console.log('View ACT :' + act);
+                if (act == 'add') {
+                    data.ID = '0'; // 只新增
+                    data.OrderAID = '0';
+                }
+                if (act == 'edit') {
+                    data.OrderAID = OrderAID;
+                }
+
+                //data.OrderDetail = JSON.stringify(newObj);
+                //console.log('GGGGGDDDDD__');console.dir(newObj);
+                //console.dir(data);return false;
+
+
+                return data;
+            };
+
+            // 自訂編輯動作
+            var editClick = function (obj, mobj) {
+
+
+                var ID = OrderAID = mobj.attr('dataID');
+
+                xml.getOrderBack({ AdminKey: USER.AdminKey, ID: ID });
+                //console.log('editClick');console.dir(xml.calldata);
+                var listData = xml.calldata.data; console.dir(listData);
+                listData.OrderBackID = listData.OrderAID;
+                delete listData.OrderAID;
+                xml.setFormValue(obj, listData); // 設定表單資料
+                // FirstOrder SerialOrderA UserName Tel BackDate
+                obj.find('input.FirstOrder').val((listData.FirstOrder) ? '是' : '否');
+                obj.find('input.SerialOrderA').val(listData.SerialOrderA);
+                obj.find('input.UserName').val(listData.UserName);
+                var today = new Date();
+
+
+                var BackDate = xml.GetDate(today); //先空白
+                obj.find('input.BackDate').val(BackDate);
+                obj.find('input[name=BackDate]').val(BackDate);
+
+                //obj.find('input[name=BackUser]').val(USER.Name);
+                obj.find('input.Tel').val(listData.Tel);
+                //console.log('ChangeID : '+ID);
+
+
+                obj.find('input.Serial').val(listData.Serial);
+                obj.find('input.UserUID').val(listData.UserUID);
+                obj.find('input.BackUser').val(listData.BackUser);
+                obj.find('input.SerialOrderA').val(listData.SerialOrderA);
+
+                obj.find('.searchUID').addClass('hide');
+                obj.find('.addItem').addClass('hide');
+
+                $('.orderItem').html('');
+
+                //console.dir(listData);
+                // 載入購買商品清單
+                if (listData != undefined && listData.Items.length > 0) {
+                    for (var i = 0; i < listData.Items.length; i++) {
+                        addItemList(itemList, olistTemplate, listData.Items[i]);
+                    }
+                }
+                setItemListObj();// 重新設定區域動作
+
+                //editID = ID;
+                obj.find('input[name=ID]').val(ID);
+                $('.actName', obj).text('編輯');
+                objShow(obj);
+
+            };
+
+            var startAdd = function () {
+                $('.searchUID', '.edBox').removeClass('hide');
+                $('.addItem', '.edBox').removeClass('hide');
+                $('.orderItem').html('');
+                $('.itemNb').html('0');
+                $('.itemTotalPrice').html('0');
+                $('.itemTotalPV').html('0');                
+            }
+
+
+            // 變更搜尋類別
+            function changeSearchType(val) {
+                if (val == '0' || val == '3') {
+                    $('.search').find('.GetKey').addClass('hidden').val('');
+                }
+                else {
+                    $('.search').find('.GetKey').removeClass('hidden');
+                }
+            }
+
+            var olistTemplate = {};
+            var itemList = {};
+
+            var lockOrderItem = function (type) {
+                if (type == 'lock') {
+                    $('.edBox').find('input[name=Shipment]').attr('disabled', true);
+                    $('.edBox').find('input[name=Serial]').attr('disabled', true);
+                    $('.edBox').find('input[name=Qty]').attr('disabled', true);
+                }
+                else {
+                    $('.edBox').find('input[name=Shipment]').attr('disabled', false);
+                    $('.edBox').find('input[name=Serial]').attr('disabled', false);
+                    $('.edBox').find('input[name=Qty]').attr('disabled', false);
+                }
+            }
+
+            var addItemList = function (obj, template, data) {
+
+                var listObj = template.clone();
+                if (data != undefined) {
+                    xml.setFormValue(listObj, data);
+                    for (var key in data) {
+
+                        listObj.find('.' + key + " span").text(data[key]);
+
+                    }
+                }
+                obj.append(listObj);
+            };
+
+            var delItemList = function (obj) {//console.log('delItemList');
+                if (!isLock) {
+                    var mobj = obj.parents('.orderItem');
+                    var listnb = mobj.find('tr').length;//alert(listnb);
+                    // 不能刪到最後一筆
+                    if (act != 'backOrder') {
+                        if (listnb > 1) { obj.parents('tr').remove(); }
+                    }
+                    else {
+                        obj.parents('tr').remove();
+                    }
+                }
+            };
+
+            // 設定清除清單按鈕動作
+            var setDelItem = function () {
+                //console.log('setDelItem');
+                $('.removeItem', itemList).unbind('click').bind('click', function () {
+                    delItemList($(this));
+                    runPrice(itemList);
+                    return false;
+                });
+
+            };
+
+            // 設定變更價格欄位動作
+            var setChangePrice = function () {
+                //console.log('setChangePrice');
+                $('input[name=Qty]', itemList).unbind('keyup').bind('keyup', function () {
+                    //console.log('Qty');
+                    if ($(this).val() <= 0) { $(this).val(0); }
+                    runPrice(itemList);
+                    return false;
+                });
+            };
+
+            // 設定變更折價欄位動作
+            var setChangeDiscountPrice = function () {
+                //console.log('setChangeDiscountPrice');
+                $('input[name=DiscountPrice]', itemList).unbind('keyup').bind('keyup', function () {
+                    //console.log('Qty');
+                    if ($(this).val() <= 0) { $(this).val(0); }
+                    runPrice(itemList);
+                    return false;
+                });
+            };
+
+            // 快選keyup輸入值動作 : 
+            var keyup = function (val) {
+                xml.getProductItem({ AdminKey: USER.AdminKey, Mode: 1, Key: val, PageSize: 5, CurPage: 1 });
+                return xml.calldata.data.Items;
+            };
+
+            // 快選點擊動作
+            var listclick = function (obj, data) {
+                //console.log('run click');console.dir(data);
+                if (data != undefined) {
+                    obj.val(data.Serial);
+                    setProductListVal(obj.parents('tr'), data);
+                }
+                else {
+                    clrProductListVal(obj.parents('tr'));
+                }
+                runPrice(itemList);
+                return false;
+            };
+
+            // 設定自動比對選擇商品功能
+            var setSelectProduct = function () {
+                xml.autoComplete($('input[name=Serial]', itemList), ['Serial', 'Name'], keyup, listclick);
+            };
+
+            var setProductListVal = function (obj, data) {
+                // ProductName Price PV StockQty
+                //console.dir(data);
+                obj.find('input[name=OrderAID]').val(OrderAID);
+                obj.find('input[name=ProductName]').val(data.Name);
+                obj.find('.ProductName span:eq(0)').text(data.Name);
+                obj.find('input[name=Price]').val(data.PriceTW);
+                obj.find('.Price span:eq(0)').text(data.PriceTW);
+                obj.find('input[name=PV]').val(data.PV);
+                obj.find('.PV span:eq(0)').text(data.PV);
+                obj.find('input[name=StockQty]').val(data.StockQty);
+                obj.find('.StockQty span:eq(0)').text(data.StockQty);
+            };
+
+            var clrProductListVal = function (obj) {
+                // ProductName Price PV StockQty
+                obj.find('input[name=OrderAID]').val('');
+                obj.find('input[name=ProductName]').val('');
+                obj.find('.ProductName span:eq(0)').text('');
+                obj.find('input[name=Price]').val('');
+                obj.find('.Price span:eq(0)').text('');
+                obj.find('input[name=PV]').val('');
+                obj.find('.PV span:eq(0)').text('');
+                obj.find('input[name=StockQty]').val('');
+                obj.find('.StockQty span:eq(0)').text('');
+            };
+
+            // 計算費用 - 並分配
+            var runPrice = function (obj, jump) {
+                //console.log('jump:'+jump);
+                if (jump == undefined) { jump = false; }//跳過運費認證
+
+                //alert(obj.find('tbody tr').length);
+                //console.log('runPrice');return false;
+                //console.dir(obj);
+                var mbox = $('.TotalShowBox');
+                var itemNb = 0;
+                var itemTotalPrice = 0;
+                var itemTotalPV = 0;
+                var totalNb = 0;
+                obj.find('tr').each(function (e) {
+                    $(this).find('.FlowCode').text(e + 1); // 重新填入鍵值
+                    var Price = parseInt($(this).find('input[name=Price]').val());
+                    var PV = parseInt($(this).find('input[name=PV]').val());
+                    var Qty = parseInt($(this).find('input[name=Qty]').val());
+                    var DiscountPrice = parseInt($(this).find('input[name=DiscountPrice]').val());
+                    //var StockQty = $(this).find('input[name=StockQty]').val();
+
+                    var iTprice = (Price - DiscountPrice) * Qty;
+                    var iTpv = PV * Qty;
+
+                    if (isNaN(iTprice)) { iTprice = 0; }
+                    if (isNaN(iTpv)) { iTpv = 0; }
+                    if (isNaN(Qty)) { Qty = 0; }
+
+                    itemTotalPrice += (iTprice);
+                    itemTotalPV += (iTpv);
+                    totalNb += Qty;
+
+                    $(this).find('input[name=TotalPrice]').val(iTprice);
+                    $(this).find('.TotalPrice span:eq(0)').text(iTprice);
+                    $(this).find('input[name=TotalPV]').val(iTpv);
+                    $(this).find('.TotalPV span:eq(0)').text(iTpv);
+                    itemNb++;
+                });
+
+                mbox.find('.itemTotalPrice').text(itemTotalPrice);
+                mbox.find('.itemTotalPV').text(itemTotalPV);
+                //mbox.find('.itemNb').text(totalNb);
+                mbox.find('.itemNb').text(itemNb);
+                //console.log(jump);
+                // 滿5000運費為0
+                if (itemTotalPrice >= 5000) {
+                    if (!jump) { $('input[name=Shipment]', mbox).val(0); }
+                }
+                else {
+                    if (!jump) { $('input[name=Shipment]', mbox).val(120); }
+                }
+
+                //運費
+                var Shipment = parseInt($('input[name=Shipment]', mbox).val());
+                $('.allPayPrice', mbox).text(Shipment + itemTotalPrice);
+                //console.log('runPrice END');
+            };
+
+            // 重新設定區域動作
+            var setItemListObj = function () {
+                setDelItem(); // 設定刪除按鈕動作
+                setChangePrice(); // 
+                setSelectProduct(); // 設定商品清單搜尋
+                runPrice(itemList);
+                inputNotEnter(); // 所有input表單按Enter不能送出
+                setChangeDiscountPrice();
+            };
+
+            // 檢查資料清單
+            function checkList() {
+                $('.slist tr').each(function () {
+                    // preview_order edit
+                    var isBack = "";
+                    var isBackTrue = false;
+
+                    isBackTrue = ($(this).find('.IsBackOrder').text() == '1');
+                    //console.log('isBackTrue : '+isBackTrue);
+                    if (isBackTrue) { $(this).find('.edit').addClass('disabled'); }
+                    else { $(this).find('.preview_order').addClass('disabled'); }
+
+                });
+            }
+
+            $(function () {
+                xml.debug = true;
+                xml.msgBox("資料讀取中....", 'msg');
+
+
+
+                // 判斷搜尋值
+                if (GET != undefined) {
+                    // 返回搜尋值
+                    if (GET['GetType'] != undefined && GET['GetType'].trim() != '') {
+                        GetType = GET['GetType'];
+                        $('select[name=GetType]', '.search').val(GetType);
+                    }
+
+                    // 返回搜尋值
+                    if (GET['GetKey'] != undefined && GET['GetKey'].trim() != '') {
+                        GetKey = decodeURI(GET['GetKey']);
+                        $('input[name=GetKey]', '.search').val(GetKey);
+                    }
+
+                }
+
+                changeSearchType(GetType); // 變更搜尋類別
+                $('select[name=GetType]', '.search').change(function () {
+                    changeSearchType($(this).val());
+                });
+
+                itemList = $('.orderItem');
+                olistTemplate = $('.orderItem tr', '.edBox').clone(); // 儲存模版
+                itemList.html(''); // 清空內容
+
+                // PageSize:每頁多少筆 / CurPage:目前第幾頁
+                xml.getOrderBackList({ AdminKey: USER.AdminKey, Mode: GetType, Key: GetKey, PageSize: showNb, CurPage: nowPage });
+
+                if (xml.calldata.data != null && xml.calldata.data != undefined) {
+                    xml.objToTdList(
+                        $('.slist'), // 指定容器
+                        xml.calldata.data.Items, // 返回要產生的資料
+                        { Serial: ['Serial'], SerialOrderA: ['SerialOrderA'], UserName: ['UserName', 'UserUID'], TotalPrice: ['TotalPrice'], BackDate: ['BackDate'], IsBackOrder: ['IsBackOrder'] },
+                        "ID", // 主鍵值
+                        "<br/>", // 內容分隔符號
+                        // 指定欄位 前(before)/後(after)加入字串 
+                        // getdataBefore:加入指定資料欄位於前方 / getdataAfter:加入指定資料欄位於後方
+                        {
+                            'TotalPrice': { dataAfter: "Coin" }
+                        }
+                    );
+
+                    $('.preview_order').each(function () {
+                        $(this).attr('href', $(this).attr('href') + "?ID=" + $(this).parents('tr').attr('dataID'))
+                    });
+
+                    var linkstar = "";
+                    var pageObj = xml.getFlipPage(GET, { total: 500, show: showNb, totalPage: xml.totalPage, linknb: 5, nowPage: nowPage });
+                    if (pageObj != undefined && pageObj.linkstr != undefined && pageObj.linkstr.trim() != '') { linkstar = pageObj.linkstr; }
+                    // 翻頁
+                    $('.fpage').html(linkstar);
+                }
+                else {
+                    $('.slist tbody').html('<tr><td class="text-danger text-center" style="padding:30px;" colspan="7">目前無任何資料!!!</td></tr>');
+                    return false;
+                }
+
+                checkList(); // 檢查清單行
+
+                $('.addItem', '.edBox').click(function () {
+                    //alert('addItem');return false;
+                    addItemList(itemList, olistTemplate);
+                    setItemListObj(); // 重新設定區域動作
+                    return false;
+                });
+
+
+                $('input[name=Shipment]').bind('keyup', function () {
+                    runPrice(itemList, true);
+                });
+
+                //------------------------------------------------------------------------------------------------
+                // 搜尋使用者
+                var searchUIDdb = function (val) {
+                    xml.searchUID({ UID: val });
+                    console.log('jj:'); console.dir(xml.calldata);
+                    return xml.calldata.data;
+                };
+
+                // 返回使用者值
+                var backUser = function (obj, data) {
+                    obj.prev('input[name=UserKey]').val(data.UserKey);
+                    $('.edBox').find('.Name').text(data.UID + " : " + data.Name + '/' + data.NickName);
+                };
+
+                // 設定快搜物件 : (物件, 取出值, 搜尋函式:function, 回傳執行函式(接收搜尋函式回傳值):function)
+                xml.autoComplete($('.UID', '.edBox'), ['UserKey', 'Name'], searchUIDdb, backUser);
+
+                // 刪除退貨單
+                $('.delOrder').click(function () {
+                    if (confirm("是否確定刪除退貨單!!")) {
+                        var BackOrderID = $('input[name=ID]', '.edBox').val();
+                        xml.delOrderBack({ AdminKey: USER.AdminKey, ID: BackOrderID });
+                        return false;
+                    } else {
+                        return false;
+                    }
+                });
+
+            });
+
+        </script>
+
+        <script src="js/btaction.js"></script>
+</body>
+
 </html>

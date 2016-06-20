@@ -41,7 +41,8 @@
 		$(function(){
 			var key = USER.AdminKey;
 			$.removeCookie('user'); // 清除cookie
-			xml.login({LoginID:key});
+		    //xml.login({LoginID:key});
+			xml.logout({ AdminKey: key });
 			location.href = "index.html";
 		});
 		
