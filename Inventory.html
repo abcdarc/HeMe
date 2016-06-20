@@ -71,7 +71,8 @@
 				
 					<thead>
 						<tr>
-							<th width='300'>貨號</th>
+                            <th width='50'>序號</th>
+							<th width='300'>盤點單號</th>
 							<th>盤點日期</th>
 							<th>盤點人</th>
 							<th width='180'>管理</th>
@@ -80,6 +81,7 @@
 					
 					<tbody>
 						<tr dataID="">
+                            <td class='ID'></td>
 							<td class='Serial'></td>
 							<td class='CheckDate'></td>
 							<td class='CheckUser'></td>
@@ -566,7 +568,7 @@
 	            xml.objToTdList(
 					$('.slist'), // 指定容器
 					xml.calldata.data.Items, // 返回要產生的資料
-					{ Serial: ['Serial'], CheckDate: ['CheckDate'], CheckUser: ['CheckUser'] },
+					{ ID: ['ID'], Serial: ['Serial'], CheckDate: ['CheckDate'], CheckUser: ['CheckUser'] },
 					"ID" // 主鍵值
 				);
 

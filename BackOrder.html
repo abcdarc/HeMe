@@ -53,8 +53,8 @@
                             <option value='0' selected>退貨單列表</option>
                             <option value='1'>搜尋退貨單編號</option>
                             <option value='2'>搜尋會員編號</option>
-                            <option value='3'>取消退貨單列表</option>
-                            <option value='4'>搜尋取消退貨單編號</option>
+                            <!-- <option value='3'>取消退貨單列表</option>
+                            <option value='4'>搜尋取消退貨單編號</option>-->
                         </select>
                     </div>
                     <div class='form-group'>
@@ -73,25 +73,26 @@
 
                     <thead>
                         <tr>
+                            <th width='50'>序號</th>
                             <th width='300'>退貨單號</th>
                             <th>訂單編號</th>
                             <th>會員</th>
                             <th>總金額</th>
                             <th class='hide'>已退貨</th>
                             <th>退貨日期</th>
-                            <!-- <th width='80'>管理</th> -->
+                            <th>管理</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr dataid="">
+                            <td class='ID'></td>
                             <td class='Serial'></td>
                             <td class='SerialOrderA'></td>
                             <td class='UserName'></td>
                             <td class='TotalPrice'></td>
                             <td class='hide IsBackOrder'></td>
                             <th class='BackDate'></th>
-
                             <td>
                                 <button class='edit btn btn-primary'>編輯</button>
                                 <!--<button class='del btn btn-danger'>刪除</button>-->
@@ -130,6 +131,7 @@
                     <div class="col-sm-2">
                         <input type="text" class='form-control input-lg SerialOrderA' disabled />
                         <input type="hidden" name='OrderBackID' class='form-control input-lg' disabled />
+                        <input type="hidden" name='Coin' />
                     </div>
                     <label class="col-sm-1 control-label">
                         首購
@@ -337,6 +339,7 @@
             var UserKey = 0;
 
             var isLock = false; // 是否鎖定清單編輯
+            var isTWUser = true; //是否為台灣用戶
 
             // 送出表單前執行 : 在取得表單資料之後
             var runSuccessSend = function (data) {
@@ -405,9 +408,9 @@
             // 自訂編輯動作
             var editClick = function (obj, mobj) {
 
+                $('.delOrder', '.edBox').removeClass('hide'); // 移除隱藏
 
                 var ID = OrderAID = mobj.attr('dataID');
-
                 xml.getOrderBack({ AdminKey: USER.AdminKey, ID: ID });
                 //console.log('editClick');console.dir(xml.calldata);
                 var listData = xml.calldata.data; console.dir(listData);
@@ -418,6 +421,8 @@
                 obj.find('input.FirstOrder').val((listData.FirstOrder) ? '是' : '否');
                 obj.find('input.SerialOrderA').val(listData.SerialOrderA);
                 obj.find('input.UserName').val(listData.UserName);
+                isTWUser = obj.find('input[name=Coin]').val() == "TWD";
+
                 var today = new Date();
 
 
@@ -439,6 +444,9 @@
                 obj.find('.addItem').addClass('hide');
 
                 $('.orderItem').html('');
+                
+
+
 
                 //console.dir(listData);
                 // 載入購買商品清單
@@ -456,13 +464,16 @@
 
             };
 
-            var startAdd = function () {
+            var startAdd = function () { //按下新增時
                 $('.searchUID', '.edBox').removeClass('hide');
                 $('.addItem', '.edBox').removeClass('hide');
                 $('.orderItem').html('');
                 $('.itemNb').html('0');
                 $('.itemTotalPrice').html('0');
-                $('.itemTotalPV').html('0');                
+                $('.itemTotalPV').html('0');
+                $('.delOrder', '.edBox').addClass('hide');
+                isTWUser = true;
+                
             }
 
 
@@ -584,8 +595,15 @@
                 obj.find('input[name=OrderAID]').val(OrderAID);
                 obj.find('input[name=ProductName]').val(data.Name);
                 obj.find('.ProductName span:eq(0)').text(data.Name);
-                obj.find('input[name=Price]').val(data.PriceTW);
-                obj.find('.Price span:eq(0)').text(data.PriceTW);
+
+                if (isTWUser) {
+                    obj.find('input[name=Price]').val(data.PriceTW);
+                    obj.find('.Price span:eq(0)').text(data.PriceTW);
+                } else {
+                    obj.find('input[name=Price]').val(data.PriceCN);
+                    obj.find('.Price span:eq(0)').text(data.PriceCN);
+                }
+
                 obj.find('input[name=PV]').val(data.PV);
                 obj.find('.PV span:eq(0)').text(data.PV);
                 obj.find('input[name=StockQty]').val(data.StockQty);
@@ -726,7 +744,15 @@
                     xml.objToTdList(
                         $('.slist'), // 指定容器
                         xml.calldata.data.Items, // 返回要產生的資料
-                        { Serial: ['Serial'], SerialOrderA: ['SerialOrderA'], UserName: ['UserName', 'UserUID'], TotalPrice: ['TotalPrice'], BackDate: ['BackDate'], IsBackOrder: ['IsBackOrder'] },
+                        {
+                            ID: ['ID'],
+                            Serial: ['Serial', 'Coin'],
+                            SerialOrderA: ['SerialOrderA'],
+                            UserName: ['UserName', 'UserUID'],
+                            TotalPrice: ['TotalPrice'],
+                            BackDate: ['BackDate'],
+                            IsBackOrder: ['IsBackOrder']
+                        },
                         "ID", // 主鍵值
                         "<br/>", // 內容分隔符號
                         // 指定欄位 前(before)/後(after)加入字串 
@@ -774,13 +800,14 @@
                 };
 
                 // 返回使用者值
-                var backUser = function (obj, data) {
+                var backMember = function (obj, data) {
                     obj.prev('input[name=UserKey]').val(data.UserKey);
                     $('.edBox').find('.Name').text(data.UID + " : " + data.Name + '/' + data.NickName);
+                    isTWUser = (data.Coin == "TWD");                    
                 };
 
                 // 設定快搜物件 : (物件, 取出值, 搜尋函式:function, 回傳執行函式(接收搜尋函式回傳值):function)
-                xml.autoComplete($('.UID', '.edBox'), ['UserKey', 'Name'], searchUIDdb, backUser);
+                xml.autoComplete($('.UID', '.edBox'), ['UserKey', 'Name'], searchUIDdb, backMember);
 
                 // 刪除退貨單
                 $('.delOrder').click(function () {

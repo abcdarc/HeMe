@@ -74,13 +74,13 @@
 				
 					<thead>
 						<tr>
-							<td width='50'>序號</td>
-							<td width='150'>單號</td>
-							<td width='250'>下單會員</td>
-							<td>訂單總和</td>
-							<td width='120'>收款</td>
-							<td width='120'>出貨</td>
-							<td width='200'>管理</td>
+							<th width='50'>序號</th>
+							<th width='150'>訂單編號</th>
+							<th width='250'>下單會員</th>
+							<th>訂單總和</th>
+							<th width='120'>收款</th>
+							<th width='120'>出貨</th>
+							<th width='200'>管理</th>
 						</tr>
 					</thead>
 					
@@ -142,7 +142,7 @@
 					</label>
 					<div class='col-xs-12 col-sm-8 col-md-8 col-lg-8 text-left'>
 						<span><input type='text' class='UserUID form-control input-lg' disabled/></span>
-						<!-- <input type='hidden' name='UserUID' /> -->
+						 <input type='hidden' name='Coin' /> 
 					</div>
 				</div>
 				
@@ -344,7 +344,8 @@
 		var UserKey = 0;
 		
 		var isLock = false; // 是否鎖定清單編輯
-		
+		var isTWUser = true; //是否為台灣用戶
+
 		// 取消編輯前執行
 		var runCancelSend = function(){
 			itemList.html('');
@@ -508,7 +509,7 @@
 				$(this).find('.IsShipments').html(IsShipments);
 				
 				if(!IsShipmentsTrue && !isPayTrue){$(this).find('.edit').addClass('disabled');}
-				else{$(this).find('.backOrder').addClass('disabled');}
+				else { $(this).find('.backOrder').addClass('disabled'); }
 				
 			});
 		}
@@ -551,7 +552,10 @@
 			obj.find('.FirstOrder').val(aname[obj.find('.FirstOrder').val()]);
 			
 			//console.log('IsPay : '+$('input[name=IsPay]',obj).is(':checked'));
-			// 鎖定已付款
+		    // 鎖定已付款
+
+			isTWUser = obj.find('input[name=Coin]').val() == "TWD";
+			//console.log("isTWUser----------------------------------", isTWUser);
 			
 			if($('input[name=IsPay]',obj).is(':checked')){$('input[name=IsPay]',obj).attr('disabled','disabled');}
 			else{$('input[name=IsPay]',obj).attr('disabled',false);}
@@ -744,12 +748,21 @@
 		
 		var setProductListVal = function(obj,data){
 			// ProductName Price PV StockQty
-			//console.dir(data);
+		    //console.dir(data);
+		    //console.log("isTWUser----------------------------------", isTWUser);
+
 			obj.find('input[name=OrderAID]').val(OrderAID);
 			obj.find('input[name=ProductName]').val(data.Name);
 			obj.find('.ProductName span:eq(0)').text(data.Name);
-			obj.find('input[name=Price]').val(data.PriceTW);
-			obj.find('.Price span:eq(0)').text(data.PriceTW);
+			if (isTWUser) {
+			    obj.find('input[name=Price]').val(data.PriceTW);
+			    obj.find('.Price span:eq(0)').text(data.PriceTW);
+			} else {
+			    obj.find('input[name=Price]').val(data.PriceCN);
+			    obj.find('.Price span:eq(0)').text(data.PriceCN);
+            }			
+			//obj.find('input[name=Price]').val(data.PriceTW);
+			//obj.find('.Price span:eq(0)').text(data.PriceTW);
 			obj.find('input[name=PV]').val(data.PV);
 			obj.find('.PV span:eq(0)').text(data.PV);
 			obj.find('input[name=StockQty]').val(data.StockQty);
@@ -875,7 +888,7 @@
 					{
 						ID:['ID'], 
 						Serial:['Serial'], 
-						UserName:['UserName', 'UserUID'], 
+						UserName: ['UserName', 'UserUID', 'Coin'],
 						TotalPV:['TotalPV', 'TotalPrice'], 
 						IsPay:['IsPay'], 
 						IsShipments:['IsShipments']
