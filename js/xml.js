@@ -702,7 +702,10 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetInStocksListResult').text());
-					_public.calldata = Serverdata; // 回傳資料
+					if (Serverdata.data != null && Serverdata.data != undefined) {
+					    _public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+					    _public.calldata = Serverdata;
+					} else { _public.calldata = Serverdata; }
 					_public.checkInfo();
 					$('.XmsgBox').addClass('hidden');
 				}
@@ -746,7 +749,11 @@ var lxml = function(setting){
 				this.runXml,
 				function(e){
 					var Serverdata = $.parseJSON($(e).find('GetInventoryListResult').text());
-					_public.calldata = Serverdata; // 回傳資料
+					if (Serverdata.data != null && Serverdata.data != undefined) {
+					    _public.totalPage = Serverdata.data.TotalPages; // 設定翻頁
+					    _public.calldata = Serverdata;
+					} else { _public.calldata = Serverdata; }
+
 					_public.checkInfo();
 					$('.XmsgBox').addClass('hidden');
 				}
