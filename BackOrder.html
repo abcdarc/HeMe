@@ -474,6 +474,11 @@
                 $('.delOrder', '.edBox').addClass('hide');
                 isTWUser = true;
                 
+                // 修正搜尋會員bug
+                $('.edBox').find('input[name=UserKey]').val(UserKey);
+                //var aaa = $('.edBox').find('input[name=UserKey]').val();
+                //console.log('UserKey----------', aaa);
+                $('.edBox').find('.Name').text('');
             }
 
 
