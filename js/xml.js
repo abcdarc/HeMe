@@ -1,4 +1,4 @@
-var _win = window;
+﻿var _win = window;
 
 // xml連線函式
 var lxml = function(setting){
@@ -1645,11 +1645,11 @@ lxml.prototype = {
 	}
 };
 
-//http://admin.canaiyi.com/svc/HeMeWebService.asmx
+//http://admin.canaiyi.com/svc/AdminWebService.asmx
 
 var xml = new lxml({
 	web:'http://headmin.stk.tw',
-	url:'http://headmin.stk.tw/svc/HeMeWebService.asmx',
+	url:'http://headmin.stk.tw/svc/AdminWebService.asmx',
 	type:'post',
 	contentType:'xml'
 });
